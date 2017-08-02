@@ -1,0 +1,397 @@
+* {
+    padding: 0;
+    margin: 0;
+    cursor: default;
+}
+
+html, body {
+    height: 100%;
+    overflow-y: hidden;
+    /*background: #000000;*/
+}
+
+.stub {
+    height: 100%;
+    color: #ffffee;
+    font-family: Verdana;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.loader {
+    position: relative;
+    height: 100%;
+    color: #ffffee;
+    font-family: Verdana;
+    text-align: center;
+    vertical-align: middle;
+    top: 40%;
+}
+
+.excercise {
+    width: 480px;
+    height: 100%;
+
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid;
+    border-radius: 1em;
+    background: #000000;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+.upper {
+    height: 19%;
+    font-family: Verdana;
+    line-height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#444433), to(#000000));
+    background: -moz-linear-gradient(top, #444433, #000000);
+    background-image: -o-linear-gradient(-90deg, #444433, #000000);
+    color: #aaaa88;
+    border-radius: 1em;
+}
+
+.lower {
+    height: 31%;
+    /*font-family: Verdana;*/
+    /*position: relative;*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#444433), to(#000000));
+    background: -moz-linear-gradient(top, #444433, #000000);
+    background-image: -o-linear-gradient(-90deg, #444433, #000000);
+    color: #aaaa88;
+    border-radius: 1em;
+}
+
+.chord_types_lower {
+    height: 21%;
+    /*font-family: Verdana;*/
+    /*position: relative;*/
+    background: -webkit-gradient(linear, left top, left bottom, from(#444433), to(#000000));
+    background: -moz-linear-gradient(top, #444433, #000000);
+    background-image: -o-linear-gradient(-90deg, #444433, #000000);
+    color: #aaaa88;
+    border-radius: 1em;
+}
+
+button {
+    height: 62%;
+    padding: 0px 0.25em 0px 0.25em;
+    /*background-color: #ffffdd;*/
+    border: 0px solid;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    display: inline-block;
+    float: none;
+    background-color: #444433;
+    background: -webkit-gradient(linear, left top, left bottom, from(#555544), to(#222211));
+    background: -moz-linear-gradient(top, #555544, #222211);
+    background-image: -o-linear-gradient(-90deg, #555544, #222211);
+    color: #aaaa88;
+}
+
+button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#888877), to(#222211));
+    background: -moz-linear-gradient(top, #888877, #222211);
+    background-image: -o-linear-gradient(-90deg, #888877, #222211);
+    background-color: #666655;
+    color: #ddddcc;
+}
+
+button:disabled {
+    background: -webkit-gradient(linear, left top, left bottom, from(#222211), to(#222211));
+    background: -moz-linear-gradient(top, #222211, #222211);
+    background-image: -o-linear-gradient(-90deg, #222211, #222211);
+
+    color: #555533;
+    background-color: #222211;
+}
+
+button[disabled]:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#222211), to(#222211));
+    background: -moz-linear-gradient(top, #222211, #222211);
+    background-image: -o-linear-gradient(-90deg, #222211, #222211);
+
+    color: #555533;
+    background-color: #222211;
+}
+
+button:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#555544), to(#222211));
+    background: -moz-linear-gradient(top, #555544, #222211);
+    background-image: -o-linear-gradient(-90deg, #555544, #222211);
+    color: #333322;
+    background-color: #222211;
+}
+
+.selectortitle {
+    margin-left: 10px;
+}
+
+.levelselector {
+    height: 62%;
+    /*float: left;*/
+}
+
+/*.levelname {
+  width:10px;
+  text-align: center;
+}*/
+
+.keyselector {
+    height: 100%;
+    float: right;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.selectorvalue {
+    display: inline-block;
+    width: 1.25em;
+    text-align: center;
+    padding: 0.5em;
+
+}
+
+.playbtn {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-size: 1.15em;
+    /*border: 1px solid black;*/
+
+    border-radius: 0 0 0 1em;
+    /*  background:-webkit-gradient(linear, left top, left bottom, from(#000000), to(#333322));
+      background:-moz-linear-gradient(bottom, #000000, #333322);
+      background-image:-o-linear-gradient(-90deg, #000000, #333322);*/
+    color: #aaaa88;
+}
+
+.dummy {
+    position: relative;
+    /*  padding: 0px, 0px, 0px, 0px;
+      margin: 0px, 0px, 0px, 0px;*/
+}
+
+.roottext {
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+
+    font-family: Verdana;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #eeeedd;
+}
+
+.octavetext {
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+
+    font-family: Verdana;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #000000;
+}
+
+.playbtndiv {
+    float: left;
+    width: 19%;
+    height: 100%;
+}
+
+.infozonediv {
+    display: table;
+    position: relative;
+    float: right;
+    width: 81%;
+    font-family: Verdana;
+    font-size: 0.9em;
+    height: 100%;
+    color: #aaaa88;
+    vertical-align: middle;
+    border-radius: 0 0 1em 0;
+    margin: 0;
+    border: 0px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#333322), to(#000000));
+    background: -moz-linear-gradient(top, #333322, #000000);
+    background-image: -o-linear-gradient(-90deg, #333322, #000000);
+}
+
+.infozone {
+
+    display: table-cell;
+    /*position:absolute;*/
+    /*top: 40%;*/
+    width: 100%;
+    /*height: 100%;*/
+
+    color: #aaaa88;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div {
+    border: 0px;
+}
+
+canvas {
+    background: #000000;
+    border: 0px;
+    float: left;
+}
+
+/* ========================================================
+   Progress bars
+   ===================================================== */
+.progress {
+    position: relative;
+    background: #ccccbb;
+    color: #444433;
+
+    vertical-align: bottom;
+    height: 38%;
+
+    border-top: 1px solid black;
+    border-bottom: 3px solid black;
+}
+
+.progress_hisc {
+    position: absolute;
+    /*top:0;*/
+    height: 100%;
+    background: #222222;
+    border-top-right-radius: 0.2em;
+    border-bottom-right-radius: 0.2em;
+
+    background-color: #ffffee;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffee), color-stop(70%, #f0f0c7), color-stop(100%, #ffffee));
+    background-image: -webkit-linear-gradient(top, #ffffee 0%, #f0f0c7 70%, #ffffee 100%);
+    background-image: -moz-linear-gradient(top, #ffffee 0%, #f0f0c7 70%, #ffffee 100%);
+    background-image: -ms-linear-gradient(top, #ffffee 0%, #f0f0c7 70%, #ffffee 100%);
+    background-image: -o-linear-gradient(top, #ffffee 0%, #f0f0c7 70%, #ffffee 100%);
+    /*background-image: linear-gradient(top, #97bc6e 0%, #79ae3f 70%, #85c440 100%);*/
+
+    border: 0px;
+}
+
+.progress_current {
+    position: absolute;
+    height: 100%;
+    background: #666666;
+    border-top-right-radius: 0.2em;
+    border-bottom-right-radius: 0.2em;
+    border-color: #78b337 #6ba031 #568128;
+
+    border-color: #78b337 #6ba031 #568128;
+    background-color: #6bcc7e;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c9ffd3), color-stop(70%, #b9ee7f), color-stop(100%, #6aff87));
+    background-image: -webkit-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
+    background-image: -moz-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
+    background-image: -ms-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
+    background-image: -o-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
+    background-image: linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
+
+    border: 0px;
+}
+
+.correct_text {
+    position: absolute;
+    bottom: 0.1em;
+    text-align: left;
+    float: left;
+    margin-left: 2%;
+    width: 98%;
+}
+
+.hiscore_text {
+    position: absolute;
+    bottom: 0.1em;
+    text-align: right;
+    float: right;
+
+    margin-right: 2%;
+    width: 98%;
+}
+
+/*chord types excercise*/
+.chord_types {
+    background: #000000;
+    width: 100%;
+    height: 60%;
+}
+
+.chord_types_row {
+    background: #000000;
+    height: 18%;
+    padding-left: 2%;
+    padding-top: 0.5%;
+    /*padding: 0px 0px 0px 10px;*/
+}
+
+.chord_btn {
+    height: 100%;
+    width: 32%;
+}
+
+.chord_progression_btn {
+    position: absolute;
+}
+
+.chords {
+    height: 50%;
+    position: relative;
+}
+
+/*main menu*/
+.excercises_menu {
+    background: #000000;
+    width: 100%;
+    height: 80%;
+}
+
+.excercises_row {
+    background: #000000;
+    height: 25%;
+    padding-left: 2%;
+    padding-top: 2%;
+    /*padding: 0px 0px 0px 10px;*/
+}
+
+.excercise_btn {
+    height: 100%;
+    width: 49%;
+}
+
+.menu_footer {
+    background: #000000;
+    color: #aaaa88;
+    height: 21%;
+    width: 100%;
+    /*position: absolute;*/
+    text-align: center;
+}
+
+.menuad {
+    background: #000000;
+    color: #aaaa88;
+    height: 21%;
+    width: 100%;
+    float: bottom;
+    vertical-align: bottom;
+    /*position: absolute;*/
+    /*text-align: center;*/
+}
+
+.ad {
+    float: bottom;
+    vertical-align: bottom;
+    left: 100px;
+    /*bottom: 0px;*/
+    /*text-align: center;*/
+}
