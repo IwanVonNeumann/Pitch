@@ -1,76 +1,67 @@
 "use strict";
 
 var ResourceLoader = {
-   pgsounds: null,
-   images: null,
-   numloaded: 0,
-   imgloaded: 0,
 
-   addImage: function(path)
-   {
-    //console.log("added image: " + path);
-     if(this.images === null)
-       this.images = [];
+    pgsounds: null,
+    images: null,
+    numloaded: 0,
+    imgloaded: 0,
 
-     this.images.push(path);
-   },
+    addImage: function (path) {
+        //console.log("added image: " + path);
+        if (this.images === null)
+            this.images = [];
 
-   addSound: function(path)
-   {
-     if(this.sounds === null)
-       this.sounds = [];
+        this.images.push(path);
+    },
 
-     this.sounds.push(path);
-   },
+    addSound: function (path) {
+        if (this.sounds === null)
+            this.sounds = [];
 
-  loadAll: function(iloadProgress, icallback)
-  {
-    this.callback = icallback;
-    this.loadProgress = iloadProgress;
+        this.sounds.push(path);
+    },
 
-    if(this.images != null)
-    for(var i = 0; i < this.images.length; ++i)
-    {
-      var path = this.images[i];
-      this.images[i] = new Image();
-      this.images[i].onload = ResourceLoader.resourceLoaded;
-      this.images[i].onerror = this.aborted;
-      this.images[i].onabort = this.errorr;
-      this.images[i].src = path;
+    loadAll: function (iloadProgress, icallback) {
+        this.callback = icallback;
+        this.loadProgress = iloadProgress;
+
+        if (this.images !== null)
+            for (var i = 0; i < this.images.length; ++i) {
+                var path = this.images[i];
+                this.images[i] = new Image();
+                this.images[i].onload = ResourceLoader.resourceLoaded;
+                this.images[i].onerror = this.aborted;
+                this.images[i].onabort = this.errorr;
+                this.images[i].src = path;
+            }
+
+        if (this.sounds !== null)
+            for (i = 0; i < this.sounds.length; ++i) {
+                path = this.sounds[i];
+                this.sounds[i] = new Audio(path);
+                this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded(), false);
+            }
+    },
+
+
+    resourceLoaded: function () {
+        ++ResourceLoader.numloaded;
+        var total = (ResourceLoader.images === null ? 0 : ResourceLoader.images.length)
+            + (ResourceLoader.sounds === null ? 0 : ResourceLoader.sounds.length);
+
+        if (ResourceLoader.numloaded === total) {
+            ResourceLoader.callback();
+        }
+        else
+            ResourceLoader.loadProgress(Math.floor((ResourceLoader.numloaded * 100) / total));
+    },
+
+    aborted: function () {
+        console.log("resource abortion");
+    },
+
+    errorr: function (error) {
+        console.log("resource error");
     }
-
-    if(this.sounds != null)
-    for(var i = 0; i < this.sounds.length; ++i)
-    {
-      var path = this.sounds[i];
-      this.sounds[i] = new Audio(path);
-      this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded(), false);
-    }
-  },
-
-
-
-  resourceLoaded: function()
-  {
-    ++ResourceLoader.numloaded;
-    var total = (ResourceLoader.images == null ? 0 : ResourceLoader.images.length)
-              + (ResourceLoader.sounds == null ? 0 : ResourceLoader.sounds.length);
-
-    if(ResourceLoader.numloaded == total)
-    {
-      ResourceLoader.callback();
-    }
-    else
-      ResourceLoader.loadProgress(Math.floor((ResourceLoader.numloaded*100)/total));
-  },
-
-  aborted: function()
-  {
-    console.log("resource abortion");
-  },
-
-  errorr: function(error)
-  {
-    console.log("resource error");
-  }
-}
+};
