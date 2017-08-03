@@ -32,8 +32,8 @@ html, body {
     width: 480px;
     height: 100%;
 
-    padding: 10px;
-    margin: 10px;
+    padding: 10px, 10px, 10px, 10px;
+    margin: 10px, 10px, 10px, 10px;
     border: 1px solid;
     border-radius: 1em;
     background: #000000;
@@ -84,7 +84,7 @@ button {
     border-left: 1px solid black;
     border-right: 1px solid black;
     display: inline-block;
-    float: none;
+    float: center;
     background-color: #444433;
     background: -webkit-gradient(linear, left top, left bottom, from(#555544), to(#222211));
     background: -moz-linear-gradient(top, #555544, #222211);
