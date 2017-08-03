@@ -1,8 +1,3 @@
-html, body {
-    height: 100%;
-    overflow-y: hidden;
-    /*background: #000000;*/
-}
 
 .stub {
     height: 100%;
@@ -26,8 +21,6 @@ html, body {
     width: 480px;
     height: 100%;
 
-    /*padding: 10px, 10px, 10px, 10px;*/
-    /*margin: 10px, 10px, 10px, 10px;*/
     border: 1px solid;
     border-radius: 1em;
     background: #000000;
@@ -50,7 +43,7 @@ html, body {
 
 .lower {
     height: 31%;
-    /*font-family: Verdana;*/
+    /*font-family: Verdana, sans-serif;*/
     /*position: relative;*/
     background: -webkit-gradient(linear, left top, left bottom, from(#444433), to(#000000));
     background: -moz-linear-gradient(top, #444433, #000000);
@@ -61,7 +54,7 @@ html, body {
 
 .chord_types_lower {
     height: 21%;
-    /*font-family: Verdana;*/
+    /*font-family: Verdana, sans-serif;*/
     /*position: relative;*/
     background: -webkit-gradient(linear, left top, left bottom, from(#444433), to(#000000));
     background: -moz-linear-gradient(top, #444433, #000000);
@@ -259,6 +252,7 @@ canvas {
     position: absolute;
     /*top:0;*/
     height: 100%;
+    background: #222222;
     border-top-right-radius: 0.2em;
     border-bottom-right-radius: 0.2em;
 
@@ -276,10 +270,12 @@ canvas {
 .progress_current {
     position: absolute;
     height: 100%;
+    background: #666666;
     border-top-right-radius: 0.2em;
     border-bottom-right-radius: 0.2em;
     border-color: #78b337 #6ba031 #568128;
 
+    border-color: #78b337 #6ba031 #568128;
     background-color: #6bcc7e;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c9ffd3), color-stop(70%, #b9ee7f), color-stop(100%, #6aff87));
     background-image: -webkit-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
