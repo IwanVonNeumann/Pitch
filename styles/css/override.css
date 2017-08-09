@@ -1,3 +1,6 @@
+body {
+  font-family: Verdana, sans-serif;
+}
 .container {
   margin: 0 auto;
   width: 480px;
@@ -9,7 +12,7 @@
   padding: 0;
 }
 .container .exercise-menu .item {
-  font-size: 1rem;
+  font-size: .75rem;
   display: inline-block;
   width: 20%;
   text-align: center;
@@ -18,7 +21,11 @@
   padding: .25rem 0 .125rem;
 }
 .container .exercise-menu .item:hover {
+  background-color: rgba(255, 69, 0, 0.1);
   border-bottom: 2px solid orangered;
+}
+.container .exercise-menu .item.selected {
+  background-color: rgba(255, 69, 0, 0.25);
 }
 .container .excercise {
   cursor: pointer;

@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pitchimprover</title>
+    <title>Pitch</title>
 
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" src="minified.js"></script>
+    <script src="js/Menu.js"></script>
+
     <link rel="stylesheet" href="styles/css/style.css">
     <link rel="stylesheet" href="styles/css/override.css">
 </head>
@@ -13,52 +16,49 @@
 
 <div class="container">
     <ul class="exercise-menu">
-        <li class="item">Melody</li>
-        <li class="item">Intervals</li>
-        <li class="item">Perfect pitch</li>
-        <li class="item">Progressions</li>
-        <li class="item">Chord types</li>
+        <li class="item js-select-ex js-select-ex-melody">Melody</li>
+        <li class="item js-select-ex js-select-ex-intervals">Intervals</li>
+        <li class="item js-select-ex js-select-ex-perfect-pitch">Perfect pitch</li>
+        <li class="item js-select-ex js-select-ex-progressions">Progressions</li>
+        <li class="item js-select-ex js-select-ex-chord-types">Chord types</li>
     </ul>
 
-    <div class="excercise">
-        <div class="stub">
-            Sorry, looks like your browser<br/>
-            does not support HTML audio.<br/>
-            To access the excercises online,<br/>
-            please use a modern browser<br/>
-            like Chrome, Firefox, IE9+, Opera or Safari.<br/>
-            Or install the Pitchimprover app<br/>
-            in case you are using a mobile device.
-        </div>
+    <ul class="exercise-menu">
+        <li class="item js-select-ins js-select-ins-piano">Piano</li>
+        <li class="item js-select-ins js-select-ins-guitar">Guitar</li>
+        <li class="item js-select-ins js-select-ins-violin">Violin</li>
+    </ul>
 
-        <div class="loader"></div>
+    <div class="exercises-container">
+        <div class="excercise" id="exMelody">
+            <div class="loader"></div>
 
-        <div class="upper">
-            <span name="selector" class="levelselector"></span>
-            <span id="levelname" class="levelname"></span>
-            <span name="selector" class="keyselector"></span>
-            <div class="progress">
-                <div class="progress_hisc"></div>
-                <div class="progress_current"></div>
-                <span class="correct_text"></span>
-                <span class="hiscore_text"></span>
-            </div>
-        </div>
-
-        <div class="dummy">
-            <span class="roottext"></span>
-        </div>
-
-        <canvas id="canvas"></canvas>
-        <!-- width="480" height="160"></canvas> -->
-
-        <div class="lower">
-            <div class="playbtndiv">
-                <button id="playbtn" class="playbtn" onclick="play();">play</br> repeat</button>
+            <div class="upper">
+                <span name="selector" class="levelselector"></span>
+                <span id="levelname" class="levelname"></span>
+                <span name="selector" class="keyselector"></span>
+                <div class="progress">
+                    <div class="progress_hisc"></div>
+                    <div class="progress_current"></div>
+                    <span class="correct_text"></span>
+                    <span class="hiscore_text"></span>
+                </div>
             </div>
 
-            <div class="infozonediv">
-                <div class="infozone"></div>
+            <div class="dummy">
+                <span class="roottext"></span>
+            </div>
+
+            <canvas id="canvas"></canvas>
+
+            <div class="lower">
+                <div class="playbtndiv">
+                    <button id="playbtn" class="playbtn" onclick="play();">play<br/> repeat</button>
+                </div>
+
+                <div class="infozonediv">
+                    <div class="infozone"></div>
+                </div>
             </div>
         </div>
     </div>

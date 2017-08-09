@@ -27,7 +27,7 @@
 
     -moz-user-select: none;
     -webkit-user-select: none;
-    -o-user-select: none;
+    /*-o-user-select: none;*/
 }
 
 .upper {
@@ -252,7 +252,7 @@ canvas {
     position: absolute;
     /*top:0;*/
     height: 100%;
-    background: #222222;
+    /*background: #222222;*/
     border-top-right-radius: 0.2em;
     border-bottom-right-radius: 0.2em;
 
@@ -270,12 +270,12 @@ canvas {
 .progress_current {
     position: absolute;
     height: 100%;
-    background: #666666;
+    /*background: #666666;*/
     border-top-right-radius: 0.2em;
     border-bottom-right-radius: 0.2em;
     border-color: #78b337 #6ba031 #568128;
 
-    border-color: #78b337 #6ba031 #568128;
+    /*border-color: #78b337 #6ba031 #568128;*/
     background-color: #6bcc7e;
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c9ffd3), color-stop(70%, #b9ee7f), color-stop(100%, #6aff87));
     background-image: -webkit-linear-gradient(top, #c9ffd3 0%, #b9ee7f 70%, #6aff87 100%);
