@@ -1,4 +1,4 @@
-var ExcerciseChords = {
+var exerciseChords = {
 
     state: 0,
     level: 0,
@@ -23,8 +23,8 @@ var ExcerciseChords = {
         this.root = 0;
 
         Selectors.init(this);
-        ExcerciseFns.initHiscores(this);
-        ExcerciseFns.resetState(this);
+        exerciseFns.initHiscores(this);
+        exerciseFns.resetState(this);
         ChordSequencePlayer.playing = false;
         this.setLevel(0);
         this.resetButtonLabels();
@@ -32,7 +32,7 @@ var ExcerciseChords = {
     },
 
     toString: function () {
-        return 'excercisechords';
+        return 'exercisechords';
     },
 
     resetButtonLabels: function () {
@@ -107,7 +107,7 @@ var ExcerciseChords = {
             this.chord_btns[i].onmousedown = (function (ii) {
                 return function () {
                     console.log("mouse down" + ii.toString());
-                    ExcerciseChords.buttonDown(ii);
+                    exerciseChords.buttonDown(ii);
                 }
             })(i);
 
@@ -118,7 +118,7 @@ var ExcerciseChords = {
     setLevel: function (i_lvl) {
         this.level = i_lvl;
         this.resetButtonLabels();
-        ExcerciseFns.setState(this, ExcerciseStates.pending);
+        exerciseFns.setState(this, exerciseStates.pending);
     },
 
     newTask: function () {
@@ -129,9 +129,9 @@ var ExcerciseChords = {
     },
 
     playTask: function () {
-        if (this.state === ExcerciseStates.pending || this.state === ExcerciseStates.level_complete || this.state === ExcerciseStates.game_over) {
+        if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
             this.newTask();
-            ExcerciseFns.setState(this, ExcerciseStates.waiting);
+            exerciseFns.setState(this, exerciseStates.waiting);
         }
 
         this.current_seq.play();
@@ -167,7 +167,7 @@ var ExcerciseChords = {
         var chrd = SequenceChordTypes.createChord(this.current_seq.tone0, chn, this.root);
         chrd.play();
 
-        if (this.state !== ExcerciseStates.waiting)
+        if (this.state !== exerciseStates.waiting)
             return;
 
         ++this.num_tries;
@@ -182,7 +182,7 @@ var ExcerciseChords = {
             this.wrong_chord = null;
         }
 
-        ExcerciseFns.setState(this, ExcerciseStates.waiting);
+        exerciseFns.setState(this, exerciseStates.waiting);
 
 
         if (this.current_answer.len() !== this.current_seq.len())
@@ -191,9 +191,9 @@ var ExcerciseChords = {
         if (!this.mistaken)
             ++this.correct_in_row[this.level];
 
-        ExcerciseFns.updateProgress(this);
-        ExcerciseFns.setState(this, ExcerciseStates.answered);
-        ExcerciseFns.checkLevelComplete(this);
+        exerciseFns.updateProgress(this);
+        exerciseFns.setState(this, exerciseStates.answered);
+        exerciseFns.checkLevelComplete(this);
     },
 
     mouseDown: function (x, y) {
@@ -300,11 +300,11 @@ var ExcerciseChords = {
     },
 
     draw: function () {
-        ExcerciseFns.updateProgress(this);
+        exerciseFns.updateProgress(this);
         this.resetButtonLabels();
     },
 
     playOrRepeat: function () {
-        return !(this.state === ExcerciseStates.waiting);
+        return !(this.state === exerciseStates.waiting);
     }
 };

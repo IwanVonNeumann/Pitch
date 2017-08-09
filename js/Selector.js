@@ -1,9 +1,9 @@
 var Selectors = {
 
-    excercise: null,
+    exercise: null,
 
-    init: function (i_excercise) {
-        this.excercise = i_excercise;
+    init: function (i_exercise) {
+        this.exercise = i_exercise;
         var selectors = document.getElementsByName("selector");
         for (var i = 0; i < selectors.length; ++i) {
             //var title = document.createElement("span");
@@ -32,7 +32,7 @@ var Selectors = {
                 btninc.onclick = this.incKey;
                 btndec.onclick = this.decKey;
                 value.id = "keyselectorvalue";
-                value.textContent = Constants.tone_names[this.excercise.getRoot()];
+                value.textContent = Constants.tone_names[this.exercise.getRoot()];
             }
             else if (selectors[i].className === "levelselector") {
                 title.textContent = " Level ";
@@ -41,39 +41,39 @@ var Selectors = {
                 btninc.onclick = this.incLevel;
                 btndec.onclick = this.decLevel;
                 value.id = "levelselectorvalue";
-                value.textContent = this.excercise.getLevel() + 1;
+                value.textContent = this.exercise.getLevel() + 1;
             }
         }
     },
 
     updateLevel: function () {
         var levename = document.getElementById("levelname");
-        levelname.textContent = Selectors.excercise.getLevelName();
-        document.getElementById("levelselectorvalue").textContent = Selectors.excercise.getLevel() + 1;
+        levelname.textContent = Selectors.exercise.getLevelName();
+        document.getElementById("levelselectorvalue").textContent = Selectors.exercise.getLevel() + 1;
     },
 
     incLevel: function () {
         Selectors.updateLevel();
-        Selectors.excercise.setLevel((Selectors.excercise.getLevel() + 1) % Selectors.excercise.getNumLevels());
-        Selectors.excercise.draw();
+        Selectors.exercise.setLevel((Selectors.exercise.getLevel() + 1) % Selectors.exercise.getNumLevels());
+        Selectors.exercise.draw();
     },
 
     decLevel: function () {
         Selectors.updateLevel();
-        Selectors.excercise.setLevel((Selectors.excercise.getLevel() + Selectors.excercise.getNumLevels() - 1) % Selectors.excercise.getNumLevels());
-        Selectors.excercise.draw();
+        Selectors.exercise.setLevel((Selectors.exercise.getLevel() + Selectors.exercise.getNumLevels() - 1) % Selectors.exercise.getNumLevels());
+        Selectors.exercise.draw();
     },
 
     incKey: function () {
-        Selectors.excercise.setRoot((Selectors.excercise.getRoot() + 1) % Constants.tone_names.length);
-        Selectors.excercise.draw();
-        document.getElementById("keyselectorvalue").textContent = Constants.tone_names[Selectors.excercise.getRoot()];
+        Selectors.exercise.setRoot((Selectors.exercise.getRoot() + 1) % Constants.tone_names.length);
+        Selectors.exercise.draw();
+        document.getElementById("keyselectorvalue").textContent = Constants.tone_names[Selectors.exercise.getRoot()];
     },
 
     decKey: function () {
-        Selectors.excercise.setRoot((Selectors.excercise.getRoot() + Constants.tone_names.length - 1) % Constants.tone_names.length);
-        Selectors.excercise.draw();
-        document.getElementById("keyselectorvalue").textContent = Constants.tone_names[Selectors.excercise.getRoot()];
+        Selectors.exercise.setRoot((Selectors.exercise.getRoot() + Constants.tone_names.length - 1) % Constants.tone_names.length);
+        Selectors.exercise.draw();
+        document.getElementById("keyselectorvalue").textContent = Constants.tone_names[Selectors.exercise.getRoot()];
     },
 
     enableKeySelection: function (enable) {

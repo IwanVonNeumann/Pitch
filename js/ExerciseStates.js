@@ -1,4 +1,4 @@
-var ExcerciseStates = {
+var exerciseStates = {
     pending: 0,
     waiting: 1,
     waiting0: 2,

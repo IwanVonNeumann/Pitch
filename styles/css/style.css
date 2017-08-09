@@ -17,7 +17,7 @@
     top: 40%;
 }
 
-.excercise {
+.exercise {
     width: 480px;
     height: 100%;
 
@@ -306,7 +306,7 @@ canvas {
     width: 98%;
 }
 
-/*chord types excercise*/
+/*chord types exercise*/
 .chord_types {
     background: #000000;
     width: 100%;
@@ -336,13 +336,13 @@ canvas {
 }
 
 /*main menu*/
-.excercises_menu {
+.exercises_menu {
     background: #000000;
     width: 100%;
     height: 80%;
 }
 
-.excercises_row {
+.exercises_row {
     background: #000000;
     height: 25%;
     padding-left: 2%;
@@ -350,7 +350,7 @@ canvas {
     /*padding: 0px 0px 0px 10px;*/
 }
 
-.excercise_btn {
+.exercise_btn {
     height: 100%;
     width: 49%;
 }

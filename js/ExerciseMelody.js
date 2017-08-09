@@ -1,6 +1,6 @@
 "use strict";
 
-var ExcerciseMelody = {
+var exerciseMelody = {
     root: 0,
     num_tries: 0,
     state: 0,
@@ -19,8 +19,8 @@ var ExcerciseMelody = {
         Selectors.init(this);
         this.kbrd = new Keyboard(false);
 
-        ExcerciseFns.initHiscores(this);
-        ExcerciseFns.resetState(this);
+        exerciseFns.initHiscores(this);
+        exerciseFns.resetState(this);
 
 
         SequencePlayer.playing = false;
@@ -28,12 +28,12 @@ var ExcerciseMelody = {
     },
 
     toString: function () {
-        return 'excercisemelody';
+        return 'exercisemelody';
     },
 
     setRoot: function (i_root) {
         this.root = i_root;
-        ExcerciseFns.setState(this, ExcerciseStates.pending);
+        exerciseFns.setState(this, exerciseStates.pending);
     },
 
     getRoot: function () {
@@ -43,7 +43,7 @@ var ExcerciseMelody = {
     setLevel: function (i_lvl) {
         this.level = i_lvl;
 
-        ExcerciseFns.setState(this, ExcerciseStates.pending);
+        exerciseFns.setState(this, exerciseStates.pending);
     },
 
     getLevelName: function () {
@@ -58,9 +58,9 @@ var ExcerciseMelody = {
     },
 
     playTask: function () {
-        if (this.state === ExcerciseStates.pending || this.state === ExcerciseStates.level_complete || this.state === ExcerciseStates.game_over) {
+        if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
             this.newTask();
-            ExcerciseFns.setState(this, ExcerciseStates.waiting);
+            exerciseFns.setState(this, exerciseStates.waiting);
         }
         this.current_seq.play();
         this.draw();
@@ -79,7 +79,7 @@ var ExcerciseMelody = {
             return;
         SoundManager.playSound(key);
 
-        if (this.state !== ExcerciseStates.waiting || !this.isActive(key))
+        if (this.state !== exerciseStates.waiting || !this.isActive(key))
             return;
 
         ++this.num_tries;
@@ -94,17 +94,17 @@ var ExcerciseMelody = {
         if (this.wrong_tone === null)
             this.current_answer.add(key);
 
-        ExcerciseFns.setState(this, ExcerciseStates.waiting);
+        exerciseFns.setState(this, exerciseStates.waiting);
 
         if (this.current_answer.len() !== this.current_seq.len())
             return;
 
         if (!this.mistaken)
             ++this.correct_in_row[this.getLevel()];
-        ExcerciseFns.updateProgress(this);
+        exerciseFns.updateProgress(this);
 
-        ExcerciseFns.setState(this, ExcerciseStates.answered);
-        ExcerciseFns.checkLevelComplete(this);
+        exerciseFns.setState(this, exerciseStates.answered);
+        exerciseFns.checkLevelComplete(this);
     },
 
     getCorrectNeeded: function () {
@@ -203,7 +203,7 @@ var ExcerciseMelody = {
     draw: function () {
         //alert("drawing");
         //return;
-        ExcerciseFns.updateProgress(this);
+        exerciseFns.updateProgress(this);
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
@@ -221,7 +221,7 @@ var ExcerciseMelody = {
         var key_states = this.getKeyStates();
 
         this.kbrd.draw(keyboard_x, y, key_states);
-        if (this.state === ExcerciseStates.waiting) {
+        if (this.state === exerciseStates.waiting) {
             this.kbrd.subscribeKey(this.current_seq.sequence[0], this.getKeyboardFocusX());
         } else {
             this.kbrd.hideSubscribeKey();
@@ -232,13 +232,13 @@ var ExcerciseMelody = {
     },
 
     mouseUp: function (x, y) {
-        ExcerciseMelody.kbrd.mouseUp();
-        ExcerciseMelody.draw();
+        exerciseMelody.kbrd.mouseUp();
+        exerciseMelody.draw();
     },
 
     mouseDown: function (x, y) {
         this.keyPressed(this.kbrd.keyHitTest(x, y, this.getKeyboardFocusX()));
         this.draw();
-        setTimeout(ExcerciseMelody.mouseUp, 600);
+        setTimeout(exerciseMelody.mouseUp, 600);
     }
 };

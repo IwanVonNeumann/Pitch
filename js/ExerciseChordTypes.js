@@ -1,4 +1,4 @@
-﻿var ExcerciseChordTypes = {
+﻿var exerciseChordTypes = {
 
     state: 0,
     two_chords: null,
@@ -28,20 +28,20 @@
             btn.textContent = ChordTypes.Name(i);
             btn.onclick = (function (ii) {
                 return function () {
-                    ExcerciseChordTypes.buttonDown(ii);
+                    exerciseChordTypes.buttonDown(ii);
                 }
             })(i);
         }
 
         Selectors.init(this);
 
-        ExcerciseFns.initHiscores(this);
-        ExcerciseFns.resetState(this);
+        exerciseFns.initHiscores(this);
+        exerciseFns.resetState(this);
         this.setLevel(0);
     },
 
     toString: function () {
-        return 'excercisechordtypes';
+        return 'exercisechordtypes';
     },
 
     setLevel: function (i_lvl) {
@@ -52,7 +52,7 @@
             this.correct_in_row[this.level] = 0;
         }
 
-        ExcerciseFns.setState(this, ExcerciseStates.pending);
+        exerciseFns.setState(this, exerciseStates.pending);
 
         this.updateBtnEnabling();
     },
@@ -69,9 +69,9 @@
     },
 
     playTask: function () {
-        if (this.state === ExcerciseStates.pending || this.state === ExcerciseStates.level_complete || this.state === ExcerciseStates.game_over) {
+        if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
             this.newTask();
-            ExcerciseFns.setState(this, ExcerciseStates.waiting);
+            exerciseFns.setState(this, exerciseStates.waiting);
         }
 
         this.current_chord.play();
@@ -92,7 +92,7 @@
         var chord = new Chord(this.current_chord.root, this.current_chord.root, ind);
         chord.play();
         //   if (this.chord_btns[i].isEnabled() && this.chord_btns[i].hitTestPoint(x, y))
-        if (this.state === ExcerciseStates.waiting) {
+        if (this.state === exerciseStates.waiting) {
             this.current_answer = chord;
 
             var correct = TestingHelper.always_true ? true : (this.current_answer.type === this.current_chord.type);
@@ -110,7 +110,7 @@
                 }
             }
 
-            ExcerciseFns.updateProgress(this, !this.two_chords);
+            exerciseFns.updateProgress(this, !this.two_chords);
 
             if (this.two_chords) {
                 if (this.correct_in_row[this.level] >= this.getCorrectNeeded()) {
@@ -118,11 +118,11 @@
                     this.two_chords = false;
                     this.exiting_practice_mode = true;
                 }
-                ExcerciseFns.setState(this, ExcerciseStates.answered);
+                exerciseFns.setState(this, exerciseStates.answered);
             }
             else {
-                ExcerciseFns.setState(this, ExcerciseStates.answered);
-                ExcerciseFns.checkLevelComplete(this);
+                exerciseFns.setState(this, exerciseStates.answered);
+                exerciseFns.checkLevelComplete(this);
             }
 
         }
@@ -149,7 +149,7 @@
         if (playbtn.offsetLeft < x && playbtn.offsetLeft + playbtn.clientWidth >= x && playbtn.offsetTop < y && playbtn.offsetTop + playbtn.clientHeight >= y)
             return;//let playbtn handle the click
 
-        ExcerciseFns.clickedAnywhere(this);
+        exerciseFns.clickedAnywhere(this);
 
         this.updateBtnEnabling();
     },
@@ -233,7 +233,7 @@
     },
 
     draw: function () {
-        ExcerciseFns.updateProgress(this, !this.two_chords);
+        exerciseFns.updateProgress(this, !this.two_chords);
         this.updateBtnEnabling();
     }
 };

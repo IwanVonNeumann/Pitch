@@ -33,11 +33,11 @@ else {
 }
 
 function removeStub() {
-    var excercise = (document.getElementsByClassName("excercise"))[0];
+    var exercise = (document.getElementsByClassName("exercise"))[0];
     var stub = (document.getElementsByClassName("stub"));
     if (stub.length > 0) {
         stub = stub[0];
-        excercise.removeChild(stub);
+        exercise.removeChild(stub);
     }
 }
 
@@ -48,19 +48,19 @@ if (Config.target === "web")
             return;
 
         var canvas = document.getElementById("canvas");
-        var excercise = (document.getElementsByClassName("excercise"))[0];
+        var exercise = (document.getElementsByClassName("exercise"))[0];
         if (canvas) {
-            canvas.width = excercise.clientWidth;
-            canvas.height = Math.floor(excercise.clientHeight * 0.5);
-            canvas.style.width = excercise.clientWidth;
-            canvas.style.height = Math.floor(excercise.clientHeight * 0.5);
+            canvas.width = exercise.clientWidth;
+            canvas.height = Math.floor(exercise.clientHeight * 0.5);
+            canvas.style.width = exercise.clientWidth;
+            canvas.style.height = Math.floor(exercise.clientHeight * 0.5);
 
             Constants.scr_w = canvas.clientWidth;
             Constants.scr_h = canvas.clientHeight;
         }
         else {
-            Constants.scr_w = excercise.clientWidth;
-            Constants.scr_h = excercise.clientHeight;
+            Constants.scr_w = exercise.clientWidth;
+            Constants.scr_h = exercise.clientHeight;
         }
 
 
@@ -78,22 +78,22 @@ var reloaded = false;
 
 function drawFlush() {
 
-    var excercise = (document.getElementsByClassName("excercise"))[0];
+    var exercise = (document.getElementsByClassName("exercise"))[0];
 
     var loader = (document.getElementsByClassName("loader"));
     if (loader.length > 0) {
         loader = loader[0];
-        excercise.removeChild(loader);
+        exercise.removeChild(loader);
     }
 
     var canvas = document.getElementById("canvas");
     if (canvas !== null) {
-        canvas.width = excercise.clientWidth;
-        canvas.height = Math.floor(excercise.clientHeight * 0.5);
+        canvas.width = exercise.clientWidth;
+        canvas.height = Math.floor(exercise.clientHeight * 0.5);
     }
     else {
-        Constants.scr_w = excercise.clientWidth;
-        Constants.scr_h = excercise.clientHeight;
+        Constants.scr_w = exercise.clientWidth;
+        Constants.scr_h = exercise.clientHeight;
     }
 
     Constants.init();
@@ -108,18 +108,18 @@ function loadProgress(percent) {
 }
 
 //window.onload = function()
-function onLoad(excercise) {
-    ex = excercise;
+function onLoad(exercise) {
+    ex = exercise;
 
-    excercise = (document.getElementsByClassName("excercise"))[0];
+    exercise = (document.getElementsByClassName("exercise"))[0];
     if (Config.target === "web") {
-        excercise.style.height = "320px";//for the mobile apps the height must be fullscreen
+        exercise.style.height = "320px";//for the mobile apps the height must be fullscreen
     }
     else {
-        excercise.style.width = "100%";//for the mobile apps the height must be fullscreen
+        exercise.style.width = "100%";//for the mobile apps the height must be fullscreen
         var upper = (document.getElementsByClassName("upper"))[0];
         upper.style.borderRadius = '0';
-        excercise.style.borderRadius = '0';
+        exercise.style.borderRadius = '0';
         (document.getElementsByClassName("playbtn"))[0].style.borderRadius = '0';
         // document.style.background = 'black';
     }
@@ -143,8 +143,8 @@ function onLoad(excercise) {
 
 function play() {
 
-    if (ex.state === ExcerciseStates.answered)
-        ExcerciseFns.setState(ex, ExcerciseStates.pending);
+    if (ex.state === exerciseStates.answered)
+        exerciseFns.setState(ex, exerciseStates.pending);
 
     ex.playTask();
 }

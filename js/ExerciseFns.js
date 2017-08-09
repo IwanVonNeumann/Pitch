@@ -1,6 +1,6 @@
 "use strict";
 
-var ExcerciseFns = {
+var exerciseFns = {
 
     initHiscores: function (ex) {
         ex.hiscores = new Array(ex.getNumLevels());
@@ -24,11 +24,11 @@ var ExcerciseFns = {
     },
 
     resetState: function (ex) {
-        this.setState(ex, ExcerciseStates.pending);
+        this.setState(ex, exerciseStates.pending);
     },
 
     clickedAnywhere: function (ex) {
-        if (ex.state === ExcerciseStates.answered || ex.state === ExcerciseStates.level_complete || ex.state === ExcerciseStates.game_over)
+        if (ex.state === exerciseStates.answered || ex.state === exerciseStates.level_complete || ex.state === exerciseStates.game_over)
             this.resetState(ex);
     },
 
@@ -82,10 +82,10 @@ var ExcerciseFns = {
 
         if (ex.level < ex.getNumLevels() - 1) {
             ++ex.level;
-            this.setState(ex, ExcerciseStates.level_complete);
+            this.setState(ex, exerciseStates.level_complete);
         }
         else
-            this.setState(ex, ExcerciseStates.game_over);
+            this.setState(ex, exerciseStates.game_over);
     },
 
     getCorrectInRow: function (ex) {
@@ -97,7 +97,7 @@ var ExcerciseFns = {
     },
 
     playOrRepeat: function (ex) {
-        return ex.state !== ExcerciseStates.waiting && ex.state !== ExcerciseStates.waiting0 && ex.state !== ExcerciseStates.waiting1;
+        return ex.state !== exerciseStates.waiting && ex.state !== exerciseStates.waiting0 && ex.state !== exerciseStates.waiting1;
     },
 
     setState: function (ex, i_state) {
@@ -111,26 +111,26 @@ var ExcerciseFns = {
 
         var text = null;
         switch (ex.state) {
-            case ExcerciseStates.pending: {
+            case exerciseStates.pending: {
                 text = ex.getPendingText();
                 break;
             }
-            case ExcerciseStates.waiting:
+            case exerciseStates.waiting:
                 text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                 break;
-            case ExcerciseStates.waiting0:
+            case exerciseStates.waiting0:
                 text = ex.getPromptText();
                 break;
-            case ExcerciseStates.waiting1:
+            case exerciseStates.waiting1:
                 text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                 break;
-            case ExcerciseStates.answered:
+            case exerciseStates.answered:
                 text = ex.getAnsweredText();
                 break;
-            case ExcerciseStates.level_complete:
+            case exerciseStates.level_complete:
                 text = ex.getLevelCompleteText();
                 break;
-            case ExcerciseStates.game_over:
+            case exerciseStates.game_over:
                 text = ex.getGameOverText();
                 break;
             default:
@@ -139,7 +139,7 @@ var ExcerciseFns = {
         }
 
 
-        Selectors.enableKeySelection(ex.state === ExcerciseStates.pending || ex.state === ExcerciseStates.answered);
+        Selectors.enableKeySelection(ex.state === exerciseStates.pending || ex.state === exerciseStates.answered);
         var textfield = document.getElementsByClassName("infozone");
         textfield[0].innerHTML = text;
         ex.draw();
