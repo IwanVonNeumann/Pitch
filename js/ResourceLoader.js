@@ -2,32 +2,24 @@
 
 var ResourceLoader = {
 
-    sounds: null,
-    images: null,
+    sounds: [],
+    images: [],
     loadedCount: 0,
     imgloaded: 0,
 
     // TODO create constructor
     reset: function () {
-        this.sounds = null;
-        this.images = null;
+        this.sounds = [];
+        this.images = [];
         this.loadedCount = 0;
         this.imgloaded = 0;
     },
 
     addImage: function (path) {
-        //console.log("added image: " + path);
-        if (this.images === null)
-            this.images = [];
-
         this.images.push(path);
     },
 
     addSound: function (path) {
-        if (this.sounds === null) {
-            this.sounds = [];
-        }
-
         this.sounds.push(path);
     },
 
@@ -56,9 +48,7 @@ var ResourceLoader = {
 
     resourceLoaded: function () {
         ResourceLoader.loadedCount++;
-        var totalImages = ResourceLoader.images === null ? 0 : ResourceLoader.images.length;
-        var totalSounds = ResourceLoader.sounds === null ? 0 : ResourceLoader.sounds.length;
-        var totalResources = totalImages + totalSounds;
+        var totalResources = ResourceLoader.images.length + ResourceLoader.sounds.length;
 
         if (ResourceLoader.loadedCount < totalResources) {
             var progress = Math.floor((ResourceLoader.loadedCount * 100) / totalResources);
