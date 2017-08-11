@@ -23,6 +23,8 @@ var SoundManager = {
         if (!canPlayOGG)
             ext = ".mp3";
 
+        ResourceLoader.reset(); // TODO create new ResourceLoader
+
         for (var i = 0; i < this.sounds.length; ++i) {
             var ind = (i < 9) ? "0" : "";
             ind += (i + 1);

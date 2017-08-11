@@ -4,8 +4,16 @@ var ResourceLoader = {
 
     sounds: null,
     images: null,
-    numloaded: 0,
+    loadedCount: 0,
     imgloaded: 0,
+
+    // TODO create constructor
+    reset: function () {
+        this.sounds = null;
+        this.images = null;
+        this.loadedCount = 0;
+        this.imgloaded = 0;
+    },
 
     addImage: function (path) {
         //console.log("added image: " + path);
@@ -47,15 +55,17 @@ var ResourceLoader = {
 
 
     resourceLoaded: function () {
-        ++ResourceLoader.numloaded;
-        var total = (ResourceLoader.images === null ? 0 : ResourceLoader.images.length)
-            + (ResourceLoader.sounds === null ? 0 : ResourceLoader.sounds.length);
+        ResourceLoader.loadedCount++;
+        var totalImages = ResourceLoader.images === null ? 0 : ResourceLoader.images.length;
+        var totalSounds = ResourceLoader.sounds === null ? 0 : ResourceLoader.sounds.length;
+        var totalResources = totalImages + totalSounds;
 
-        if (ResourceLoader.numloaded === total) {
+        if (ResourceLoader.loadedCount < totalResources) {
+            var progress = Math.floor((ResourceLoader.loadedCount * 100) / totalResources);
+            ResourceLoader.loadProgress(progress);
+        } else {
             ResourceLoader.callback();
         }
-        else
-            ResourceLoader.loadProgress(Math.floor((ResourceLoader.numloaded * 100) / total));
     },
 
     aborted: function () {
