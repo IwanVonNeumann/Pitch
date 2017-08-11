@@ -4,9 +4,96 @@
 
 $(document).ready(function () {
 
-    $(".js-select-ex-melody").addClass("selected");
-    $(".js-select-ins-piano").addClass("selected");
+    var $exerciseContainer = $(".exercises-container");
+
+    var $selectExMelody = $(".js-select-ex-melody");
+    var $selectExRelative = $(".js-select-ex-relative");
+    var $selectExPerfect = $(".js-select-ex-perfect");
+    var $selectExProgressions = $(".js-select-ex-progressions");
+    var $selectExChords = $(".js-select-ex-chords");
+
+    var $selectInsPiano = $(".js-select-ins-piano");
+    var $selectInsGuitar = $(".js-select-ins-guitar");
+    var $selectInsViolin = $(".js-select-ins-violin");
 
 
+    function selectExMelody() {
+        deselectAllExercises();
+        $selectExMelody.addClass("selected");
+        $exerciseContainer.load("ex_Melody.html", function () {
+            onLoad(exerciseMelody);
+        });
+    }
 
+    function selectExRelative() {
+        deselectAllExercises();
+        $selectExRelative.addClass("selected");
+        $exerciseContainer.load("ex_Relative.html", function () {
+            onLoad(exerciseIntervals);
+        });
+    }
+
+    function selectExPerfect() {
+        deselectAllExercises();
+        $selectExPerfect.addClass("selected");
+        $exerciseContainer.load("ex_Perfect.html", function () {
+            onLoad(exercisePerfect);
+        });
+    }
+
+    function selectExProgressions() {
+        deselectAllExercises();
+        $selectExProgressions.addClass("selected");
+        $exerciseContainer.load("ex_Progressions.html", function () {
+            onLoad(exerciseChords);
+        });
+    }
+
+    function selectExChords() {
+        deselectAllExercises();
+        $selectExChords.addClass("selected");
+        $exerciseContainer.load("ex_Chords.html", function () {
+            onLoad(exerciseChordTypes);
+        });
+    }
+
+    function deselectAllExercises() {
+        $(".js-select-ex").removeClass("selected");
+    }
+
+    function selectInsPiano() {
+        deselectAllInstruments();
+        $selectInsPiano.addClass("selected");
+        // TODO load piano sounds
+    }
+
+    function selectInsGuitar() {
+        deselectAllInstruments();
+        $selectInsGuitar.addClass("selected");
+        // TODO load guitar sounds
+    }
+
+    function selectInsViolin() {
+        deselectAllInstruments();
+        $selectInsViolin.addClass("selected");
+        // TODO load violin sounds
+    }
+
+    function deselectAllInstruments() {
+        $(".js-select-ins").removeClass("selected");
+    }
+
+
+    $selectExMelody.click(selectExMelody);
+    $selectExRelative.click(selectExRelative);
+    $selectExPerfect.click(selectExPerfect);
+    $selectExProgressions.click(selectExProgressions);
+    $selectExChords.click(selectExChords);
+
+    $selectInsPiano.click(selectInsPiano);
+    $selectInsGuitar.click(selectInsGuitar);
+    $selectInsViolin.click(selectInsViolin);
+
+    selectExMelody();
+    selectInsPiano();
 });

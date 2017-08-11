@@ -5,22 +5,50 @@
     <title>Pitch</title>
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="minified.js"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="minified.js"></script>-->
+
+    <script type="text/javascript" charset="utf-8" src="js/Config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ResourceLoader.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Constants.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/KeyStates.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseStates.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/AnimationManager.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/SoundManager.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Interval.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/RandomUtil.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/TestingHelper.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Answers.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Selector.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/SequencePlayer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Sequence.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Chord.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ChordSequence.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ChordSequencePlayer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseFns.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseIntervals.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExercisePerfect.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseMelody.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseChordTypes.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ExerciseChords.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/KbdMeasurements.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Keyboard.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/Board.js"></script>
+
     <script src="js/Menu.js"></script>
 
     <link rel="stylesheet" href="styles/css/style.css">
     <link rel="stylesheet" href="styles/css/override.css">
 </head>
 
-<body onload="onLoad(exerciseMelody)">
+<body>
 
 <div class="container">
     <ul class="exercise-menu">
         <li class="item js-select-ex js-select-ex-melody">Melody</li>
-        <li class="item js-select-ex js-select-ex-intervals">Intervals</li>
-        <li class="item js-select-ex js-select-ex-perfect-pitch">Perfect pitch</li>
+        <li class="item js-select-ex js-select-ex-relative">Intervals</li>
+        <li class="item js-select-ex js-select-ex-perfect">Perfect pitch</li>
         <li class="item js-select-ex js-select-ex-progressions">Progressions</li>
-        <li class="item js-select-ex js-select-ex-chord-types">Chord types</li>
+        <li class="item js-select-ex js-select-ex-chords">Chord types</li>
     </ul>
 
     <ul class="exercise-menu">
@@ -29,39 +57,8 @@
         <li class="item js-select-ins js-select-ins-violin">Violin</li>
     </ul>
 
-    <div class="exercises-container">
-        <div class="exercise" id="exMelody">
-            <div class="loader"></div>
+    <div class="exercises-container"></div>
 
-            <div class="upper">
-                <span name="selector" class="levelselector"></span>
-                <span id="levelname" class="levelname"></span>
-                <span name="selector" class="keyselector"></span>
-                <div class="progress">
-                    <div class="progress_hisc"></div>
-                    <div class="progress_current"></div>
-                    <span class="correct_text"></span>
-                    <span class="hiscore_text"></span>
-                </div>
-            </div>
-
-            <div class="dummy">
-                <span class="roottext"></span>
-            </div>
-
-            <canvas id="canvas"></canvas>
-
-            <div class="lower">
-                <div class="playbtndiv">
-                    <button id="playbtn" class="playbtn" onclick="play();">play<br/> repeat</button>
-                </div>
-
-                <div class="infozonediv">
-                    <div class="infozone"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 var ResourceLoader = {
 
-    pgsounds: null,
+    sounds: null,
     images: null,
     numloaded: 0,
     imgloaded: 0,
@@ -16,8 +16,9 @@ var ResourceLoader = {
     },
 
     addSound: function (path) {
-        if (this.sounds === null)
+        if (this.sounds === null) {
             this.sounds = [];
+        }
 
         this.sounds.push(path);
     },
@@ -32,7 +33,7 @@ var ResourceLoader = {
                 this.images[i] = new Image();
                 this.images[i].onload = ResourceLoader.resourceLoaded;
                 this.images[i].onerror = this.aborted;
-                this.images[i].onabort = this.errorr;
+                this.images[i].onabort = this.error;
                 this.images[i].src = path;
             }
 
@@ -61,7 +62,7 @@ var ResourceLoader = {
         console.log("resource abortion");
     },
 
-    errorr: function (error) {
+    error: function (error) {
         console.log("resource error");
     }
 };

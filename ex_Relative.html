@@ -1,78 +1,41 @@
-<!DOCTYPE HTML>
-<script type="text/javascript" charset="utf-8" src="js/Config.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ResourceLoader.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Constants.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/KeyStates.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseStates.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/AnimationManager.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/SoundManager.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Interval.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/RandomUtil.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/TestingHelper.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/MButton.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Answers.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Selector.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/SequencePlayer.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Sequence.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Chord.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ChordSequence.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ChordSequencePlayer.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseFns.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseIntervals.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExercisePerfect.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseMelodyLogic.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseMelody.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseChordTypes.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ExerciseChords.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/KbdMeasurements.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Keyboard.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/Board.js"></script>
-<!-- <script type="text/javascript" charset="utf-8" src="minified.js"></script> -->
-<link rel="stylesheet" href="styles/css/style.css">
-
-<html>
-<body onload="onLoad(exerciseIntervals)">
 <div class="exercise">
-<div class="stub">
-Sorry, looks like your browser</br>does not support HTML audio.</br>
-To access the exercises online,</br> please use a modern browser</br>like Chrome, Firefox, IE9+, Opera or Safari.</br>
-Or install the Pitchimprover app </br>in case you are using a mobile device.
-</div>
-
-<div class="loader"></div>
-
-<div class="upper">
-  <span name="selector" class="levelselector"></span>
-  <span id="levelname" class="levelname"></span>
-
-  <div class="progress">
-    <div class="progress_hisc"></div>
-    <div class="progress_current"></div>
-    <span class="correct_text"></span>
-    <span class="hiscore_text"></span>
-  </div>
-</div>
-
-<div class="dummy">
-<span class="roottext">
-</span>
-</div>
-
-<canvas id="canvas"></canvas>
-
-<div class="lower">
-  <div class = "playbtndiv">
-    <button id="playbtn" class="playbtn" onclick="play();">play</br> repeat</button>
-  </div>
-  
-  <div class = "infozonediv">
-    <div class="infozone">
+    <div class="stub">
+        Sorry, looks like your browser<br/>
+        does not support HTML audio.<br/>
+        To access the exercises online,<br/>
+        please use a modern browser<br/>
+        like Chrome, Firefox, IE9+, Opera or Safari.<br/>
+        Or install the Pitchimprover app <br/>
+        in case you are using a mobile device.
     </div>
-  </div>
+
+    <div class="loader"></div>
+
+    <div class="upper">
+        <span name="selector" class="levelselector"></span>
+        <span id="levelname" class="levelname"></span>
+
+        <div class="progress">
+            <div class="progress_hisc"></div>
+            <div class="progress_current"></div>
+            <span class="correct_text"></span>
+            <span class="hiscore_text"></span>
+        </div>
+    </div>
+
+    <div class="dummy">
+        <span class="roottext"></span>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="lower">
+        <div class="playbtndiv">
+            <button id="playbtn" class="playbtn" onclick="play();">play</br> repeat</button>
+        </div>
+
+        <div class="infozonediv">
+            <div class="infozone"></div>
+        </div>
+    </div>
 </div>
-
-
-
-</div>
-</body>
-</html>
