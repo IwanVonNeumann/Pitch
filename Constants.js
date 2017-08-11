@@ -142,7 +142,7 @@ var Constants = {
     phiOrder: function(order)
     {
       var inv_phi = 1./this.phi;
-      if(order == 1)
+      if(order === 1)
         return inv_phi;
 
       return inv_phi*this.phiOrder(order-1);
@@ -155,17 +155,17 @@ var Constants = {
     
     isMajor : function(level)
     {
-      return (level == 0 || level == 2 || level == 4 || level == 6 || level == 8 || level == 11);
+      return (level === 0 || level === 2 || level === 4 || level === 6 || level === 8 || level === 11);
     },
     
     isBlack: function(key)
     {
       var t = key % this.num_tones_in_octave;
-      return(t == this.tone_c_sharp || 
-             t == this.tone_e_flat  || 
-             t == this.tone_f_sharp ||
-             t == this.tone_a_flat  || 
-             t == this.tone_b_flat);
+      return(t === this.tone_c_sharp ||
+             t === this.tone_e_flat  ||
+             t === this.tone_f_sharp ||
+             t === this.tone_a_flat  ||
+             t === this.tone_b_flat);
     },
     
     generalToneName : function(tone)
@@ -185,7 +185,7 @@ var Constants = {
     
     isWhiteTone : function(tone)
     {
-      return (this.white_tones.indexOf(tone) != -1);
+      return (this.white_tones.indexOf(tone) !== -1);
     },
     
     isSharpKey : function(key, major)
@@ -193,7 +193,7 @@ var Constants = {
       if (!major)
         key = (key + 3)%12;
       
-      return (key == this.tone_c || key == this.tone_g || key == this.tone_d || key == this.tone_a || key == this.tone_e || key == this.tone_b || key == this.tone_f_sharp || key == this.tone_c_sharp);
+      return (key === this.tone_c || key === this.tone_g || key === this.tone_d || key === this.tone_a || key === this.tone_e || key === this.tone_b || key === this.tone_f_sharp || key === this.tone_c_sharp);
     },
     
     toneNameInKey : function(tone, key, major)
