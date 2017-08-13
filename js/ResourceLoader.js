@@ -5,29 +5,31 @@ var ResourceLoader = {
     sounds: [],
     images: [],
     loadedCount: 0,
-    imgloaded: 0,
 
     // TODO create constructor
     reset: function () {
         this.sounds = [];
         this.images = [];
         this.loadedCount = 0;
-        this.imgloaded = 0;
     },
 
-    addImage: function (path) {
+    registerImage: function (path) {
         this.images.push(path);
     },
 
-    addSound: function (path) {
+    registerSound: function (path) {
         this.sounds.push(path);
     },
 
-    loadAll: function (iloadProgress, icallback) {
-        this.callback = icallback;
-        this.loadProgress = iloadProgress;
+    loadAll: function (displayProgress, callback) {
+        this.callback = callback;
+        this.displayProgress = displayProgress;
+        this.loadImages();
+        this.loadSounds();
+    },
 
-        if (this.images !== null)
+    loadImages: function () {
+        if (this.images)
             for (var i = 0; i < this.images.length; ++i) {
                 var path = this.images[i];
                 this.images[i] = new Image();
@@ -36,15 +38,16 @@ var ResourceLoader = {
                 this.images[i].onabort = this.error;
                 this.images[i].src = path;
             }
+    },
 
-        if (this.sounds !== null)
-            for (i = 0; i < this.sounds.length; ++i) {
-                path = this.sounds[i];
+    loadSounds: function () {
+        if (this.sounds)
+            for (var i = 0; i < this.sounds.length; ++i) {
+                var path = this.sounds[i];
                 this.sounds[i] = new Audio(path);
                 this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded(), false);
             }
     },
-
 
     resourceLoaded: function () {
         ResourceLoader.loadedCount++;
@@ -52,7 +55,7 @@ var ResourceLoader = {
 
         if (ResourceLoader.loadedCount < totalResources) {
             var progress = Math.floor((ResourceLoader.loadedCount * 100) / totalResources);
-            ResourceLoader.loadProgress(progress);
+            ResourceLoader.displayProgress(progress);
         } else {
             ResourceLoader.callback();
         }

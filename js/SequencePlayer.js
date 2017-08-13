@@ -6,7 +6,6 @@ var SequencePlayer = {
     playing: false,
     sequence: null,
 
-
     playSequence: function (sequence) {
         if (this.playing)
             return;
@@ -24,13 +23,25 @@ var SequencePlayer = {
             seq = seq.slice(1, seq.length);
         };
 
+        var noteLength = this.countNoteLength();
+
         for (var i = 0; i < this.sequence.length; ++i) {
             //var tone = this.sequence[i];
-            setTimeout(func, i * 611);
+            setTimeout(func, i * noteLength);
         }
 
         setTimeout(function () {
             SequencePlayer.playing = false;
-        }, sequence.length * 611);
+        }, sequence.length * noteLength);
+    },
+
+    NOTE_LENGTH: {
+        "piano": 611,
+        "guitar": 611,
+        "violin": 950
+    },
+
+    countNoteLength: function () {
+        return this.NOTE_LENGTH[Config.instrument];
     }
 };

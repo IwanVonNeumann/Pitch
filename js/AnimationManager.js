@@ -4,10 +4,10 @@ var AnimationManager = {
         var prefix = '';
         if (Config.target !== "web")
             prefix = 'mobile/';
-        ResourceLoader.addImage('img/' + prefix + 'keysgreen.png');
-        ResourceLoader.addImage('img/' + prefix + 'keysgreenpressed.png');
-        ResourceLoader.addImage('img/' + prefix + 'keysdisabled.png');
-        ResourceLoader.addImage('img/' + prefix + 'keysdisabledpressed.png');
+        ResourceLoader.registerImage('img/' + prefix + 'keysgreen.png');
+        ResourceLoader.registerImage('img/' + prefix + 'keysgreenpressed.png');
+        ResourceLoader.registerImage('img/' + prefix + 'keysdisabled.png');
+        ResourceLoader.registerImage('img/' + prefix + 'keysdisabledpressed.png');
     },
 
     CreateKeysGreenAnim: function () {

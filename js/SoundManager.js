@@ -2,44 +2,41 @@
 
 var SoundManager = {
 
-    sounds: new Array(12 * Constants.num_octaves),
-
     canPlayAudio: function () {
+        return this.canPlayOGG() || this.canPlayMP3();
+    },
+    
+    canPlayMP3: function () {
         var audio = document.createElement("audio");
-        var canPlayMP3 = (typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "");
-        var canPlayOGG = (typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "");
-        return canPlayOGG || canPlayMP3;
+        return typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "";
+    },
+
+    canPlayOGG: function () {
+        var audio = document.createElement("audio");
+        return typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "";
     },
 
     init: function () {
-        var instrument = window.parent.g_instrument;
-        if (instrument === undefined)
-            instrument = "piano";
-        var audio = document.createElement("audio");
-        var canPlayMP3 = (typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "");
-        var canPlayOGG = (typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "");
+        var instrument = Config.instrument = Config.instrument || "piano";
 
-        var ext = ".ogg";
-        if (!canPlayOGG)
-            ext = ".mp3";
+        var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
         ResourceLoader.reset(); // TODO create new ResourceLoader
 
-        for (var i = 0; i < this.sounds.length; ++i) {
-            var ind = (i < 9) ? "0" : "";
-            ind += (i + 1);
+        for (var i = 1; i <= 12 * Constants.num_octaves; i++) {
+            var prefix = (i < 10) ? "0" : "";
+            var index = prefix + i;
 
-            var s = "sound/" + instrument + "/" + instrument + "_silence_" + ind + ext;
-            ResourceLoader.addSound(s);
-
-            //this.sounds[i] = new Audio(s);
-            //this.sounds[i].preload = "auto";
+            var directory = "sound/" + instrument + "/";
+            var fileName = instrument + "_silence_" + index + ext;
+            var path = directory + fileName;
+            
+            ResourceLoader.registerSound(path);
         }
     },
 
     playSound: function (tone, volume) {
-        if (volume === undefined)
-            volume = 1.0;
+        volume = volume || 1.0;
 
         var s = ResourceLoader.sounds[tone];
         s.pause();

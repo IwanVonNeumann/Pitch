@@ -64,19 +64,22 @@ $(document).ready(function () {
     function selectInsPiano() {
         deselectAllInstruments();
         $selectInsPiano.addClass("selected");
-        // TODO load piano sounds
+        Config.instrument = "piano";
+        SoundManager.init(); // TODO fix
     }
 
     function selectInsGuitar() {
         deselectAllInstruments();
         $selectInsGuitar.addClass("selected");
-        // TODO load guitar sounds
+        Config.instrument = "guitar";
+        SoundManager.init(); // TODO fix
     }
 
     function selectInsViolin() {
         deselectAllInstruments();
         $selectInsViolin.addClass("selected");
-        // TODO load violin sounds
+        Config.instrument = "violin";
+        SoundManager.init(); // TODO fix
     }
 
     function deselectAllInstruments() {
@@ -95,5 +98,6 @@ $(document).ready(function () {
     $selectInsViolin.click(selectInsViolin);
 
     selectExMelody();
-    selectInsPiano();
+    // selectInsPiano();
+    selectInsViolin();
 });
