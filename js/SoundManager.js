@@ -29,7 +29,7 @@ var SoundManager = {
             var ind = (i < 9) ? "0" : "";
             ind += (i + 1);
 
-            var s = instrument + "/" + instrument + "_silence_" + ind + ext;
+            var s = "sound/" + instrument + "/" + instrument + "_silence_" + ind + ext;
             ResourceLoader.addSound(s);
 
             //this.sounds[i] = new Audio(s);
