@@ -53,7 +53,7 @@ var ResourceLoader = {
             for (var i = 0; i < this.sounds.length; ++i) {
                 var path = this.sounds[i];
                 this.sounds[i] = new Audio(path);
-                this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded);
+                this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded());
             }
     },
 
