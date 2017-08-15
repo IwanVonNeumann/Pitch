@@ -25,7 +25,7 @@ var SequencePlayer = {
 
         var noteLength = this.countNoteLength();
 
-        for (var i = 0; i < this.sequence.length; ++i) {
+        for (var i = 0; i < this.sequence.length; i++) {
             //var tone = this.sequence[i];
             setTimeout(func, i * noteLength);
         }
@@ -35,13 +35,12 @@ var SequencePlayer = {
         }, sequence.length * noteLength);
     },
 
-    NOTE_LENGTH: {
-        "piano": 611,
-        "guitar": 611,
-        "violin": 950
-    },
-
     countNoteLength: function () {
-        return this.NOTE_LENGTH[Config.instrument];
+        var NOTE_LENGTH = {
+            piano: 611,
+            guitar: 611,
+            violin: 950
+        };
+        return NOTE_LENGTH[Config.instrument];
     }
 };

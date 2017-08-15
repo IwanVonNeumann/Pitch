@@ -29,13 +29,21 @@ var ResourceLoader = {
     },
 
     loadImages: function () {
+        var aborted = function () {
+            console.log("resource abortion");
+        };
+
+        var error = function (error) {
+            console.log("resource error");
+        };
+
         if (this.images)
             for (var i = 0; i < this.images.length; ++i) {
                 var path = this.images[i];
                 this.images[i] = new Image();
                 this.images[i].onload = ResourceLoader.resourceLoaded;
-                this.images[i].onerror = this.aborted;
-                this.images[i].onabort = this.error;
+                this.images[i].onerror = aborted;
+                this.images[i].onabort = error;
                 this.images[i].src = path;
             }
     },
@@ -45,7 +53,7 @@ var ResourceLoader = {
             for (var i = 0; i < this.sounds.length; ++i) {
                 var path = this.sounds[i];
                 this.sounds[i] = new Audio(path);
-                this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded(), false);
+                this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded);
             }
     },
 
@@ -59,13 +67,5 @@ var ResourceLoader = {
         } else {
             ResourceLoader.callback();
         }
-    },
-
-    aborted: function () {
-        console.log("resource abortion");
-    },
-
-    error: function (error) {
-        console.log("resource error");
     }
 };

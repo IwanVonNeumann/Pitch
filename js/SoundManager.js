@@ -17,13 +17,16 @@ var SoundManager = {
     },
 
     init: function () {
-        var instrument = Config.instrument = Config.instrument || "piano";
+        var instrument = Config.instrument || "piano";
 
         var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
         ResourceLoader.reset(); // TODO create new ResourceLoader
 
-        for (var i = 1; i <= 12 * Constants.num_octaves; i++) {
+        var NOTES_PER_OCTAVE = 12;
+        var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
+
+        for (var i = 1; i <= notesTotal; i++) {
             var prefix = (i < 10) ? "0" : "";
             var index = prefix + i;
 
