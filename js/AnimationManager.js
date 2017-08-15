@@ -1,13 +1,15 @@
 var AnimationManager = {
 
     init: function () {
-        var prefix = Config.target === "web" ? '' : 'mobile/';
+        var directory = Config.target === "web"
+            ? 'img/'
+            : 'img/mobile/';
 
         this.registerImages([
-            'img/' + prefix + 'keysgreen.png',
-            'img/' + prefix + 'keysgreenpressed.png',
-            'img/' + prefix + 'keysdisabled.png',
-            'img/' + prefix + 'keysdisabledpressed.png'
+            directory + 'keys_green.png',
+            directory + 'keys_green_pressed.png',
+            directory + 'keys_disabled.png',
+            directory + 'keys_disabled_pressed.png'
         ]);
     },
 
