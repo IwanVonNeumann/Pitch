@@ -21,29 +21,29 @@ var ResourceLoader = {
         this.sounds.push(path);
     },
 
-    loadAll: function (displayProgress, callback) {
-        this.callback = callback;
+    loadAll: function (displayProgress, allResourcesLoaded) {
+        this.allResourcesLoaded = allResourcesLoaded;
         this.displayProgress = displayProgress;
         this.loadImages();
         this.loadSounds();
     },
 
     loadImages: function () {
-        var aborted = function () {
+        function imageLoadingAborted() {
             console.log("resource abortion");
-        };
+        }
 
-        var error = function (error) {
+        function imageLoadingError() {
             console.log("resource error");
-        };
+        }
 
         if (this.images)
             for (var i = 0; i < this.images.length; ++i) {
                 var path = this.images[i];
                 this.images[i] = new Image();
                 this.images[i].onload = ResourceLoader.resourceLoaded;
-                this.images[i].onerror = aborted;
-                this.images[i].onabort = error;
+                this.images[i].onerror = imageLoadingAborted;
+                this.images[i].onabort = imageLoadingError;
                 this.images[i].src = path;
             }
     },
@@ -65,7 +65,7 @@ var ResourceLoader = {
             var progress = Math.floor((ResourceLoader.loadedCount * 100) / totalResources);
             ResourceLoader.displayProgress(progress);
         } else {
-            ResourceLoader.callback();
+            ResourceLoader.allResourcesLoaded();
         }
     }
 };
