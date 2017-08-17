@@ -46,10 +46,10 @@ var SequenceChordTypes = {
     randomChord: function (level, step) {
         var major = true;
 
-        if (level % 2 == 0)
+        if (level % 2 === 0)
             major = false;
 
-        if (step == 0)
+        if (step === 0)
             if (major)
                 return this.c_I;
             else

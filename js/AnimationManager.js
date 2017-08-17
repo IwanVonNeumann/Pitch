@@ -1,6 +1,8 @@
 var AnimationManager = {
 
     init: function () {
+        this.registeredImages = [];
+
         var directory = Config.target === "web"
             ? 'img/'
             : 'img/mobile/';
@@ -13,10 +15,16 @@ var AnimationManager = {
         ]);
     },
 
-    registerImages: function (images) {
-        $.each(images, function (i, image) {
-            ResourceLoader.registerImage(image);
+    registerImages: function (paths) {
+        var registerImage = this.registerImage;
+        $.each(paths, function (i, path) {
+            registerImage(path);
         });
+    },
+
+    registerImage: function (path) {
+        // this.registeredImages.push(path);
+        ResourceLoader.registerImage(path);
     },
 
     CreateKeysGreenAnim: function () {

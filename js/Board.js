@@ -11,7 +11,7 @@ function touchDown(e) {
     ex.mouseDown(ev.clientX, ev.clientY);
 }
 
-function touchUp(e) {
+function touchUp() {
     ex.mouseUp();
 }
 
@@ -74,7 +74,8 @@ window.onselectstart = function () {
 };
 
 var t;
-var reloaded = false;
+
+// var reloaded = false;
 
 function drawFlush() {
 
@@ -111,33 +112,31 @@ function loadProgress(percent) {
 function onLoad(exercise) {
     ex = exercise;
 
-    exercise = (document.getElementsByClassName("exercise"))[0];
     if (Config.target === "web") {
-        exercise.style.height = "320px";//for the mobile apps the height must be fullscreen
-    }
-    else {
-        exercise.style.width = "100%";//for the mobile apps the height must be fullscreen
-        var upper = (document.getElementsByClassName("upper"))[0];
-        upper.style.borderRadius = '0';
-        exercise.style.borderRadius = '0';
-        (document.getElementsByClassName("playbtn"))[0].style.borderRadius = '0';
+        //for the mobile apps the height must be fullscreen
+        $(".exercise").css({height: "320px"});
+    } else {
+        //for the mobile apps the height must be fullscreen
+        $(".exercise").css({
+            width: "100%",
+            borderRadius: "0"
+        });
+        $(".upper").css({borderRadius: '0'});
+        $(".playbtn").css({borderRadius: '0'});
         // document.style.background = 'black';
     }
 
-    if (Config.target === "web")
-        if (!SoundManager.canPlayAudio())
-            return;
     removeStub();
+
     if (Config.target === "android")
         SoundManager = SoundManagerAndroid;
 
-    if (Config.target === "web")
-        SoundManager.init();
+    if (!SoundManager.canPlayAudio())
+        return;
 
+    SoundManager.init();
     AnimationManager.init();
-
     SequenceChordTypes.init();
-
     ResourceLoader.loadAll(loadProgress, drawFlush);
 }
 

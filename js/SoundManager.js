@@ -5,7 +5,7 @@ var SoundManager = {
     canPlayAudio: function () {
         return this.canPlayOGG() || this.canPlayMP3();
     },
-    
+
     canPlayMP3: function () {
         var audio = document.createElement("audio");
         return typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "";
@@ -17,25 +17,38 @@ var SoundManager = {
     },
 
     init: function () {
+        this.registeredSounds = [];
+        this.registerSounds();
+    },
+
+    registerSounds: function () {
         var instrument = Config.instrument || "piano";
 
         var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
+        // TODO remove
         ResourceLoader.reset(); // TODO create new ResourceLoader
 
         var NOTES_PER_OCTAVE = 12;
         var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
 
-        for (var i = 1; i <= notesTotal; i++) {
-            var prefix = (i < 10) ? "0" : "";
-            var index = prefix + i;
-
-            var directory = "sound/" + instrument + "/";
-            var fileName = instrument + "_silence_" + index + ext;
-            var path = directory + fileName;
-            
-            ResourceLoader.registerSound(path);
+        for (var tone = 1; tone <= notesTotal; tone++) {
+            var path = this.concatPath(instrument, tone, ext);
+            this.registerSound(path);
         }
+    },
+
+    concatPath: function (instrument, tone, ext) {
+        var prefix = (tone < 10) ? "0" : "";
+        var index = prefix + tone;
+        var directory = "sound/" + instrument + "/";
+        var fileName = instrument + "_silence_" + index + ext;
+        return directory + fileName;
+    },
+
+    registerSound: function (path) {
+        // this.registeredSounds.push(path);
+        ResourceLoader.registerSound(path);
     },
 
     playSound: function (tone, volume) {
