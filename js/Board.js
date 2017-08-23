@@ -26,8 +26,7 @@ function mouseUp(e) {
 if (Config.target === "web") {
     document.onmousedown = mouseDown;
     document.onmouseup = mouseUp;
-}
-else {
+} else {
     document.ontouchstart = touchDown;
     document.ontouchend = touchUp;
 }
@@ -57,12 +56,10 @@ if (Config.target === "web")
 
             Constants.scr_w = canvas.clientWidth;
             Constants.scr_h = canvas.clientHeight;
-        }
-        else {
+        } else {
             Constants.scr_w = exercise.clientWidth;
             Constants.scr_h = exercise.clientHeight;
         }
-
 
         if (ex !== null)
             ex.draw();
@@ -91,8 +88,7 @@ function drawFlush() {
     if (canvas !== null) {
         canvas.width = exercise.clientWidth;
         canvas.height = Math.floor(exercise.clientHeight * 0.5);
-    }
-    else {
+    } else {
         Constants.scr_w = exercise.clientWidth;
         Constants.scr_h = exercise.clientHeight;
     }
