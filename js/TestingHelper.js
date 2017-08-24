@@ -1,4 +1,7 @@
-var TestingHelper = {
-    testing: false,
-    always_true: false
-};
+define("TestingHelper", function () {
+
+    return {
+        testing: false,
+        always_true: false
+    };
+});

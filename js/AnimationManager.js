@@ -1,45 +1,49 @@
-var AnimationManager = {
+"use strict";
 
-    init: function () {
-        this.registeredImages = [];
+define("AnimationManager", ["Config", "ResourceLoader"], function (Config, ResourceLoader) {
 
-        var directory = Config.target === "web"
-            ? 'img/'
-            : 'img/mobile/';
+    return {
+        init: function () {
+            this.registeredImages = [];
 
-        this.registerImages([
-            directory + 'keys_green.png',
-            directory + 'keys_green_pressed.png',
-            directory + 'keys_disabled.png',
-            directory + 'keys_disabled_pressed.png'
-        ]);
-    },
+            var directory = Config.target === "web"
+                ? 'img/'
+                : 'img/mobile/';
 
-    registerImages: function (paths) {
-        var registerImage = this.registerImage;
-        $.each(paths, function (i, path) {
-            registerImage(path);
-        });
-    },
+            this.registerImages([
+                directory + 'keys_green.png',
+                directory + 'keys_green_pressed.png',
+                directory + 'keys_disabled.png',
+                directory + 'keys_disabled_pressed.png'
+            ]);
+        },
 
-    registerImage: function (path) {
-        // this.registeredImages.push(path);
-        ResourceLoader.registerImage(path);
-    },
+        registerImages: function (paths) {
+            var registerImage = this.registerImage;
+            $.each(paths, function (i, path) {
+                registerImage(path);
+            });
+        },
 
-    CreateKeysGreenAnim: function () {
-        return ResourceLoader.images[0];
-    },
+        registerImage: function (path) {
+            // this.registeredImages.push(path);
+            ResourceLoader.registerImage(path);
+        },
 
-    CreateKeysGreenPressedAnim: function () {
-        return ResourceLoader.images[1];
-    },
+        CreateKeysGreenAnim: function () {
+            return ResourceLoader.images[0];
+        },
 
-    CreateKeysDisabledAnim: function () {
-        return ResourceLoader.images[2];
-    },
+        CreateKeysGreenPressedAnim: function () {
+            return ResourceLoader.images[1];
+        },
 
-    CreateKeysDisabledPressedAnim: function () {
-        return ResourceLoader.images[3];
-    }
-};
+        CreateKeysDisabledAnim: function () {
+            return ResourceLoader.images[2];
+        },
+
+        CreateKeysDisabledPressedAnim: function () {
+            return ResourceLoader.images[3];
+        }
+    };
+});

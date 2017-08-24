@@ -1,244 +1,255 @@
 "use strict";
 
-var exerciseMelody = {
-    root: 0,
-    num_tries: 0,
-    state: 0,
-    level: 0,
-    length: 0,
-    mistaken: false,
-    current_seq: null,
-    current_answer: null,
-    wrong_tone: null,
-    kbrd: null,
+define("exerciseMelody",
+    ["Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements", "exerciseFns", "exerciseStates",
+        "SequencePlayer", "SoundManager", "Answers", "TestingHelper"],
+    function (Constants, Selectors, Sequence, Keyboard, KbdMeasurements, exerciseFns, exerciseStates,
+              SequencePlayer, SoundManager, Answers, TestingHelper) {
 
-    init: function () {
-        this.num_tries = 0;
-        this.root = 0;
-        this.length = 5;
-        Selectors.init(this);
-        this.kbrd = new Keyboard(false);
+        return {
+            root: 0,
+            num_tries: 0,
+            state: 0,
+            level: 0,
+            length: 0,
+            mistaken: false,
+            current_seq: null,
+            current_answer: null,
+            wrong_tone: null,
+            kbrd: null,
 
-        exerciseFns.initHiscores(this);
-        exerciseFns.resetState(this);
+            init: function () {
+                console.log("exerciseMelody.init()");
+                this.num_tries = 0;
+                this.root = 0;
+                this.length = 5;
+                Selectors.init(this);
+                this.kbrd = new Keyboard(false);
+
+                exerciseFns.initHiscores(this);
+                exerciseFns.resetState(this);
 
 
-        SequencePlayer.playing = false;
-        this.setLevel(0);
-    },
+                SequencePlayer.playing = false;
+                this.setLevel(0);
 
-    toString: function () {
-        return 'exercisemelody';
-    },
+                console.log(this.kbrd);
+            },
 
-    setRoot: function (i_root) {
-        this.root = i_root;
-        exerciseFns.setState(this, exerciseStates.pending);
-    },
+            toString: function () {
+                return 'exercisemelody';
+            },
 
-    getRoot: function () {
-        return this.root;
-    },
+            setRoot: function (i_root) {
+                this.root = i_root;
+                exerciseFns.setState(this, exerciseStates.pending);
+            },
 
-    setLevel: function (i_lvl) {
-        this.level = i_lvl;
+            getRoot: function () {
+                return this.root;
+            },
 
-        exerciseFns.setState(this, exerciseStates.pending);
-    },
+            setLevel: function (i_lvl) {
+                this.level = i_lvl;
 
-    getLevelName: function () {
-        return Constants.level_names[this.level];
-    },
+                exerciseFns.setState(this, exerciseStates.pending);
+            },
 
-    newTask: function () {
-        this.current_seq = new Sequence();
-        this.current_seq.Randomize(this.level, this.root, this.length);
-        this.current_answer = new Sequence(0);
-        this.mistaken = false;
-    },
+            getLevelName: function () {
+                return Constants.level_names[this.level];
+            },
 
-    playTask: function () {
-        if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
-            this.newTask();
-            exerciseFns.setState(this, exerciseStates.waiting);
-        }
-        this.current_seq.play();
-        this.draw();
-    },
+            newTask: function () {
+                this.current_seq = new Sequence();
+                this.current_seq.Randomize(this.level, this.root, this.length);
+                this.current_answer = new Sequence(0);
+                this.mistaken = false;
+            },
 
-    isActive: function (key) {
-        for (var i = 0; i < Constants.steps_by_levels[this.level].length; ++i)
-            if ((key + Constants.num_tones_in_octave - this.root) % Constants.num_tones_in_octave === Constants.steps_by_levels[this.level][i])
-                return true;
+            playTask: function () {
+                if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
+                    this.newTask();
+                    exerciseFns.setState(this, exerciseStates.waiting);
+                }
+                this.current_seq.play();
+                this.draw();
+            },
 
-        return false;
-    },
+            isActive: function (key) {
+                for (var i = 0; i < Constants.steps_by_levels[this.level].length; ++i)
+                    if ((key + Constants.num_tones_in_octave - this.root) % Constants.num_tones_in_octave === Constants.steps_by_levels[this.level][i])
+                        return true;
 
-    keyPressed: function (key) {
-        if (key < 0)
-            return;
-        SoundManager.playSound(key);
+                return false;
+            },
 
-        if (this.state !== exerciseStates.waiting || !this.isActive(key))
-            return;
+            keyPressed: function (key) {
+                if (key < 0)
+                    return;
+                SoundManager.playSound(key);
 
-        ++this.num_tries;
-        if (key !== this.current_seq.ith(this.current_answer.len()) && !TestingHelper.always_true) {
-            this.correct_in_row[this.getLevel()] = 0;
-            this.wrong_tone = key;
-            this.mistaken = true;
-        }
-        else
-            this.wrong_tone = null;
+                if (this.state !== exerciseStates.waiting || !this.isActive(key))
+                    return;
 
-        if (this.wrong_tone === null)
-            this.current_answer.add(key);
+                ++this.num_tries;
+                if (key !== this.current_seq.ith(this.current_answer.len()) && !TestingHelper.always_true) {
+                    this.correct_in_row[this.getLevel()] = 0;
+                    this.wrong_tone = key;
+                    this.mistaken = true;
+                }
+                else
+                    this.wrong_tone = null;
 
-        exerciseFns.setState(this, exerciseStates.waiting);
+                if (this.wrong_tone === null)
+                    this.current_answer.add(key);
 
-        if (this.current_answer.len() !== this.current_seq.len())
-            return;
+                exerciseFns.setState(this, exerciseStates.waiting);
 
-        if (!this.mistaken)
-            ++this.correct_in_row[this.getLevel()];
-        exerciseFns.updateProgress(this);
+                if (this.current_answer.len() !== this.current_seq.len())
+                    return;
 
-        exerciseFns.setState(this, exerciseStates.answered);
-        exerciseFns.checkLevelComplete(this);
-    },
+                if (!this.mistaken)
+                    ++this.correct_in_row[this.getLevel()];
+                exerciseFns.updateProgress(this);
 
-    getCorrectNeeded: function () {
-        if (TestingHelper.testing)
-            return 1;
-        if (this.level < 5)
-            return 5;
-        if (this.level < 10)
-            return 7;
-        if (this.level < 15)
-            return 10;
-        if (this.level < 20)
-            return 15;
-        return 10000;
-    },
+                exerciseFns.setState(this, exerciseStates.answered);
+                exerciseFns.checkLevelComplete(this);
+            },
 
-    getLevel: function () {
-        return this.level;
-    },
+            getCorrectNeeded: function () {
+                if (TestingHelper.testing)
+                    return 1;
+                if (this.level < 5)
+                    return 5;
+                if (this.level < 10)
+                    return 7;
+                if (this.level < 15)
+                    return 10;
+                if (this.level < 20)
+                    return 15;
+                return 10000;
+            },
 
-    getNumLevels: function () {
-        return Constants.getNumMelodyLevels();
-    },
+            getLevel: function () {
+                return this.level;
+            },
 
-    getKeyStates: function () {
-        var key_states = [];
-        for (var octave_ind = 0; octave_ind < Constants.num_octaves; ++octave_ind)
-            for (var tone_ind = 0; tone_ind < Constants.num_tones_in_octave; ++tone_ind)
-                key_states.push(this.isActive(tone_ind + octave_ind * Constants.num_tones_in_octave));
+            getNumLevels: function () {
+                return Constants.getNumMelodyLevels();
+            },
 
-        return key_states;
-    },
+            getKeyStates: function () {
+                var key_states = [];
+                for (var octave_ind = 0; octave_ind < Constants.num_octaves; ++octave_ind)
+                    for (var tone_ind = 0; tone_ind < Constants.num_tones_in_octave; ++tone_ind)
+                        key_states.push(this.isActive(tone_ind + octave_ind * Constants.num_tones_in_octave));
 
-    toneName: function (tone) {
-        return Constants.toneNameInKey(tone, this.root, Constants.isMajor(this.level));
-    },
+                return key_states;
+            },
 
-    longToneName: function (tone) {
-        return Constants.longToneNameInKey(tone, this.root, Constants.isMajor(this.level));
-    },
+            toneName: function (tone) {
+                return Constants.toneNameInKey(tone, this.root, Constants.isMajor(this.level));
+            },
 
-    getAnswerText: function () {
-        if (this.current_answer.len() === 0)
-            return "";
-        var correct_answer = this.current_seq.ith(this.current_answer.len() - 1);
-        var answer = (this.wrong_tone === null) ? this.current_answer.ith(this.current_answer.len() - 1) : this.wrong_tone;
+            longToneName: function (tone) {
+                return Constants.longToneNameInKey(tone, this.root, Constants.isMajor(this.level));
+            },
 
-        return Answers.getShortAnswer(this.longToneName(correct_answer),
-            this.longToneName(answer),
-            this.num_tries + this.current_seq.root());
-    },
+            getAnswerText: function () {
+                if (this.current_answer.len() === 0)
+                    return "";
+                var correct_answer = this.current_seq.ith(this.current_answer.len() - 1);
+                var answer = (this.wrong_tone === null) ? this.current_answer.ith(this.current_answer.len() - 1) : this.wrong_tone;
 
-    getPromptText: function () {
-        var text = this.toneName(this.current_seq.sequence[0]);
-        for (var i = 1; i < this.current_seq.len(); ++i)
-            if (i < this.current_answer.len() && this.current_answer.ith(i) === this.current_seq.ith(i))
-                text += " - " + this.toneName(this.current_answer.ith(i));
-            else
-                text += " - ?";
+                return Answers.getShortAnswer(this.longToneName(correct_answer),
+                    this.longToneName(answer),
+                    this.num_tries + this.current_seq.root());
+            },
 
-        return text;
-    },
+            getPromptText: function () {
+                var text = this.toneName(this.current_seq.sequence[0]);
+                for (var i = 1; i < this.current_seq.len(); ++i)
+                    if (i < this.current_answer.len() && this.current_answer.ith(i) === this.current_seq.ith(i))
+                        text += " - " + this.toneName(this.current_answer.ith(i));
+                    else
+                        text += " - ?";
 
-    getPendingText: function () {
-        return "Press play to hear melody";
-    },
+                return text;
+            },
 
-    getAnsweredText: function () {
-        var text = "";
-        if (this.mistaken)
-            text = "There were some mistakes.<br>Press play to hear melody";
-        else
-            text = "That was correct.<br>Press play to hear next melody";
-        return text;
-    },
+            getPendingText: function () {
+                return "Press play to hear melody";
+            },
 
-    getLevelCompleteText: function () {
-        return "Level " + (ex.level + 1) + " <br>Press play to hear melody.";
-    },
+            getAnsweredText: function () {
+                var text = "";
+                if (this.mistaken)
+                    text = "There were some mistakes.<br>Press play to hear melody";
+                else
+                    text = "That was correct.<br>Press play to hear next melody";
+                return text;
+            },
 
-    getGameOverText: function () {
-        return "Congratulations, great job!<br> It doesn't get any harder than this.";
-    },
+            getLevelCompleteText: function () {
+                return "Level " + (ex.level + 1) + " <br>Press play to hear melody.";
+            },
 
-    getKeyboardFocusX: function () {
-        var keyboard_x = 0;
-        if (this.current_seq !== null) {
-            var from = this.current_seq.from;
-            keyboard_x = KbdMeasurements.getKeyDisplayX(from);
-            if (keyboard_x + Constants.scr_w > KbdMeasurements.getRightBorderX())
-                keyboard_x = KbdMeasurements.getRightBorderX() - Constants.scr_w;
-        }
-        return keyboard_x;
-    },
+            getGameOverText: function () {
+                return "Congratulations, great job!<br> It doesn't get any harder than this.";
+            },
 
-    draw: function () {
-        //alert("drawing");
-        //return;
-        exerciseFns.updateProgress(this);
-        var canvas = document.getElementById("canvas");
-        var context = canvas.getContext("2d");
+            getKeyboardFocusX: function () {
+                var keyboard_x = 0;
+                if (this.current_seq !== null) {
+                    var from = this.current_seq.from;
+                    keyboard_x = KbdMeasurements.getKeyDisplayX(from);
+                    if (keyboard_x + Constants.scr_w > KbdMeasurements.getRightBorderX())
+                        keyboard_x = KbdMeasurements.getRightBorderX() - Constants.scr_w;
+                }
+                return keyboard_x;
+            },
 
-        // canvas.width = canvas.width; // TODO remove?
-        //context.setTransform(1, 0, 0, 1, 0, 0);
-        context.clearRect(0, 0, canvas.width, canvas.height);//Constants.scr_w, Constants.scr_h);
-        context.fillStyle = "black";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+            draw: function () {
+                //alert("drawing");
+                //return;
+                exerciseFns.updateProgress(this);
+                var canvas = document.getElementById("canvas");
+                var context = canvas.getContext("2d");
 
-        this.drawKeys(0, KbdMeasurements.getKeyDisplayH());
-    },
+                // canvas.width = canvas.width; // TODO remove?
+                //context.setTransform(1, 0, 0, 1, 0, 0);
+                context.clearRect(0, 0, canvas.width, canvas.height);//Constants.scr_w, Constants.scr_h);
+                context.fillStyle = "black";
+                context.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawKeys: function (x, y) {
-        var keyboard_x = this.getKeyboardFocusX();
-        var key_states = this.getKeyStates();
+                this.drawKeys(0, KbdMeasurements.getKeyDisplayH());
+            },
 
-        this.kbrd.draw(keyboard_x, y, key_states);
-        if (this.state === exerciseStates.waiting) {
-            this.kbrd.subscribeKey(this.current_seq.sequence[0], this.getKeyboardFocusX());
-        } else {
-            this.kbrd.hideSubscribeKey();
-        }
-    },
+            drawKeys: function (x, y) {
+                var keyboard_x = this.getKeyboardFocusX();
+                var key_states = this.getKeyStates();
 
-    mouseMove: function (x, y) {
-    },
+                this.kbrd.draw(keyboard_x, y, key_states);
+                if (this.state === exerciseStates.waiting) {
+                    this.kbrd.subscribeKey(this.current_seq.sequence[0], this.getKeyboardFocusX());
+                } else {
+                    this.kbrd.hideSubscribeKey();
+                }
+            },
 
-    mouseUp: function (x, y) {
-        exerciseMelody.kbrd.mouseUp();
-        exerciseMelody.draw();
-    },
+            mouseMove: function (x, y) {
+            },
 
-    mouseDown: function (x, y) {
-        this.keyPressed(this.kbrd.keyHitTest(x, y, this.getKeyboardFocusX()));
-        this.draw();
-        setTimeout(exerciseMelody.mouseUp, 600);
+            mouseUp: function (x, y) {
+                this.kbrd.mouseUp();
+                this.draw();
+            },
+
+            mouseDown: function (x, y) {
+                this.keyPressed(this.kbrd.keyHitTest(x, y, this.getKeyboardFocusX()));
+                this.draw();
+                setTimeout(this.mouseUp.bind(this), 600);
+            }
+        };
     }
-};
+);

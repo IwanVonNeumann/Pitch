@@ -5,6 +5,7 @@
   "authors": [],
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "requirejs": "^2.3.5"
   }
 }
