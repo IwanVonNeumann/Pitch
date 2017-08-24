@@ -14,19 +14,19 @@ define("DocumentSetup",
 
         function touchDown(e) {
             var ev = e.touches[0];
-            Board.ex.mouseDown(ev.clientX, ev.clientY);
+            Board.exercise.mouseDown(ev.clientX, ev.clientY);
         }
 
         function touchUp() {
-            Board.ex.mouseUp();
+            Board.exercise.mouseUp();
         }
 
         function mouseDown(e) {
-            Board.ex.mouseDown(e.clientX, e.clientY);
+            Board.exercise.mouseDown(e.clientX, e.clientY);
         }
 
         function mouseUp(e) {
-            Board.ex.mouseUp(e.clientX, e.clientY);
+            Board.exercise.mouseUp(e.clientX, e.clientY);
         }
 
         if (Config.target === "web") {
@@ -62,8 +62,8 @@ define("DocumentSetup",
                     Constants.scr_h = exercise.clientHeight;
                 }
 
-                if (Board.ex)
-                    Board.ex.draw();
+                if (Board.exercise)
+                    Board.exercise.draw();
             };
     }
 );

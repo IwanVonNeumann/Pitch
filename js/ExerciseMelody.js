@@ -19,7 +19,6 @@ define("exerciseMelody",
             kbrd: null,
 
             init: function () {
-                console.log("exerciseMelody.init()");
                 this.num_tries = 0;
                 this.root = 0;
                 this.length = 5;
@@ -32,8 +31,6 @@ define("exerciseMelody",
 
                 SequencePlayer.playing = false;
                 this.setLevel(0);
-
-                console.log(this.kbrd);
             },
 
             toString: function () {
@@ -191,7 +188,7 @@ define("exerciseMelody",
             },
 
             getLevelCompleteText: function () {
-                return "Level " + (ex.level + 1) + " <br>Press play to hear melody.";
+                return "Level " + (this.level + 1) + " <br>Press play to hear melody.";
             },
 
             getGameOverText: function () {

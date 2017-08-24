@@ -5,11 +5,10 @@ define("Board",
               ResourceLoader) {
 
         return {
-            ex: null,
+            exercise: null,
 
-            //window.onload = function()
             load: function (exercise) {
-                this.ex = exercise;
+                this.exercise = exercise;
 
                 if (Config.target === "web") {
                     //for the mobile apps the height must be fullscreen
@@ -28,6 +27,7 @@ define("Board",
                 this.removeStub();
 
                 if (Config.target === "android")
+                    // TODO repair if Android support needed
                     SoundManager = SoundManagerAndroid;
 
                 if (!SoundManager.canPlayAudio())
@@ -66,8 +66,8 @@ define("Board",
 
                 Constants.init();
 
-                this.ex.init();
-                this.ex.draw();
+                this.exercise.init();
+                this.exercise.draw();
             },
 
             removeStub: function () {

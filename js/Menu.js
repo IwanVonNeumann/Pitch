@@ -4,10 +4,8 @@
 
 // TODO rename module to Main or something main
 define("Menu",
-    ["$", "Config", "SoundManager", "Board", "DocumentSetup", "exerciseStates", "exerciseFns", "exerciseMelody",
-        "exerciseIntervals", "exercisePerfect", "exerciseChords", "exerciseChordTypes"],
-    function ($, Config, SoundManager, Board, DocumentSetup, exerciseStates, exerciseFns, exerciseMelody,
-              exerciseIntervals, exercisePerfect, exerciseChords, exerciseChordTypes) {
+    ["$", "Config", "SoundManager", "Board", "DocumentSetup", "exerciseStates", "exerciseFns", "ExerciseLoader"],
+    function ($, Config, SoundManager, Board, DocumentSetup, exerciseStates, exerciseFns, ExerciseLoader) {
 
         $(document).ready(function () {
 
@@ -27,7 +25,7 @@ define("Menu",
                 deselectAllExercises();
                 $selectExMelody.addClass("selected");
                 $exerciseContainer.load("ex_Melody.html", function () {
-                    Board.load(exerciseMelody);
+                    ExerciseLoader.loadMelody();
                     $("#playbtn").unbind("click").click(play);
                 });
             }
@@ -36,7 +34,7 @@ define("Menu",
                 deselectAllExercises();
                 $selectExRelative.addClass("selected");
                 $exerciseContainer.load("ex_Relative.html", function () {
-                    Board.load(exerciseIntervals);
+                    ExerciseLoader.loadIntervals();
                     $("#playbtn").unbind("click").click(play);
 
                 });
@@ -46,7 +44,7 @@ define("Menu",
                 deselectAllExercises();
                 $selectExPerfect.addClass("selected");
                 $exerciseContainer.load("ex_Perfect.html", function () {
-                    Board.load(exercisePerfect);
+                    ExerciseLoader.loadPerfect();
                     $("#playbtn").unbind("click").click(play);
                 });
             }
@@ -55,7 +53,7 @@ define("Menu",
                 deselectAllExercises();
                 $selectExProgressions.addClass("selected");
                 $exerciseContainer.load("ex_Progressions.html", function () {
-                    Board.load(exerciseChords);
+                    ExerciseLoader.loadChords();
                     $("#playbtn").unbind("click").click(play);
                 });
             }
@@ -64,10 +62,19 @@ define("Menu",
                 deselectAllExercises();
                 $selectExChords.addClass("selected");
                 $exerciseContainer.load("ex_Chords.html", function () {
-                    Board.load(exerciseChordTypes);
+                    ExerciseLoader.loadChordTypes();
                     $("#playbtn").unbind("click").click(play);
                 });
             }
+
+            function play() {
+                var exercise = Board.exercise;
+                if (exercise.state === exerciseStates.answered)
+                    exerciseFns.setState(exercise, exerciseStates.pending);
+
+                exercise.playTask();
+            }
+
 
             function deselectAllExercises() {
                 $(".js-select-ex").removeClass("selected");
@@ -96,15 +103,6 @@ define("Menu",
 
             function deselectAllInstruments() {
                 $(".js-select-ins").removeClass("selected");
-            }
-
-            // TODO find usages
-            function play() {
-                var ex = Board.ex;
-                if (ex.state === exerciseStates.answered)
-                    exerciseFns.setState(ex, exerciseStates.pending);
-
-                ex.playTask();
             }
 
 
