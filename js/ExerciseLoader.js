@@ -4,28 +4,56 @@
 
 
 define("ExerciseLoader",
-    ["Board", "exerciseMelody", "exerciseIntervals", "exercisePerfect", "exerciseChords", "exerciseChordTypes"],
-    function (Board, exerciseMelody, exerciseIntervals, exercisePerfect, exerciseChords, exerciseChordTypes) {
+    ["Board", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals", "exercisePerfect",
+        "exerciseChords", "exerciseChordTypes"],
+    function (Board, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals, exercisePerfect,
+              exerciseChords, exerciseChordTypes) {
+
+        var $exerciseContainer = $(".exercises-container");
+
+        function play() {
+            var exercise = Board.exercise;
+            // TODO encapsulate to exercise.playTask?
+            if (exercise.state === exerciseStates.answered)
+                exerciseFns.setState(exercise, exerciseStates.pending);
+
+            exercise.playTask();
+        }
 
         return {
             loadMelody: function () {
-                Board.load(exerciseMelody);
+                $exerciseContainer.load("ex_Melody.html", function () {
+                    Board.load(exerciseMelody);
+                    $("#playbtn").unbind("click").click(play); // TODO review whether unbind needed
+                });
             },
 
             loadIntervals: function () {
-                Board.load(exerciseIntervals);
+                $exerciseContainer.load("ex_Relative.html", function () {
+                    Board.load(exerciseIntervals);
+                    $("#playbtn").unbind("click").click(play);
+                });
             },
 
             loadPerfect: function () {
-                Board.load(exercisePerfect);
+                $exerciseContainer.load("ex_Perfect.html", function () {
+                    Board.load(exercisePerfect);
+                    $("#playbtn").unbind("click").click(play);
+                });
             },
 
             loadChords: function () {
-                Board.load(exerciseChords);
+                $exerciseContainer.load("ex_Progressions.html", function () {
+                    Board.load(exerciseChords);
+                    $("#playbtn").unbind("click").click(play);
+                });
             },
 
             loadChordTypes: function () {
-                Board.load(exerciseChordTypes);
+                $exerciseContainer.load("ex_Chords.html", function () {
+                    Board.load(exerciseChordTypes);
+                    $("#playbtn").unbind("click").click(play);
+                });
             }
         };
     }

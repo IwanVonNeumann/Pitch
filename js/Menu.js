@@ -4,12 +4,10 @@
 
 // TODO rename module to Main or something main
 define("Menu",
-    ["$", "Config", "SoundManager", "Board", "DocumentSetup", "exerciseStates", "exerciseFns", "ExerciseLoader"],
-    function ($, Config, SoundManager, Board, DocumentSetup, exerciseStates, exerciseFns, ExerciseLoader) {
+    ["$", "Config", "SoundManager", "DocumentSetup", "ExerciseLoader"],
+    function ($, Config, SoundManager, DocumentSetup, ExerciseLoader) {
 
         $(document).ready(function () {
-
-            var $exerciseContainer = $(".exercises-container");
 
             var $selectExMelody = $(".js-select-ex-melody");
             var $selectExRelative = $(".js-select-ex-relative");
@@ -24,55 +22,31 @@ define("Menu",
             function selectExMelody() {
                 deselectAllExercises();
                 $selectExMelody.addClass("selected");
-                $exerciseContainer.load("ex_Melody.html", function () {
-                    ExerciseLoader.loadMelody();
-                    $("#playbtn").unbind("click").click(play);
-                });
+                ExerciseLoader.loadMelody();
             }
 
             function selectExRelative() {
                 deselectAllExercises();
                 $selectExRelative.addClass("selected");
-                $exerciseContainer.load("ex_Relative.html", function () {
-                    ExerciseLoader.loadIntervals();
-                    $("#playbtn").unbind("click").click(play);
-
-                });
+                ExerciseLoader.loadIntervals();
             }
 
             function selectExPerfect() {
                 deselectAllExercises();
                 $selectExPerfect.addClass("selected");
-                $exerciseContainer.load("ex_Perfect.html", function () {
-                    ExerciseLoader.loadPerfect();
-                    $("#playbtn").unbind("click").click(play);
-                });
+                ExerciseLoader.loadPerfect();
             }
 
             function selectExProgressions() {
                 deselectAllExercises();
                 $selectExProgressions.addClass("selected");
-                $exerciseContainer.load("ex_Progressions.html", function () {
-                    ExerciseLoader.loadChords();
-                    $("#playbtn").unbind("click").click(play);
-                });
+                ExerciseLoader.loadChords();
             }
 
             function selectExChords() {
                 deselectAllExercises();
                 $selectExChords.addClass("selected");
-                $exerciseContainer.load("ex_Chords.html", function () {
-                    ExerciseLoader.loadChordTypes();
-                    $("#playbtn").unbind("click").click(play);
-                });
-            }
-
-            function play() {
-                var exercise = Board.exercise;
-                if (exercise.state === exerciseStates.answered)
-                    exerciseFns.setState(exercise, exerciseStates.pending);
-
-                exercise.playTask();
+                ExerciseLoader.loadChordTypes();
             }
 
 
