@@ -4,9 +4,9 @@
 
 
 define("ExerciseLoader",
-    ["Board", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals", "exercisePerfect",
+    ["$", "Board", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals", "exercisePerfect",
         "exerciseChords", "exerciseChordTypes"],
-    function (Board, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals, exercisePerfect,
+    function ($, Board, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals, exercisePerfect,
               exerciseChords, exerciseChordTypes) {
 
         var $exerciseContainer = $(".exercises-container");
