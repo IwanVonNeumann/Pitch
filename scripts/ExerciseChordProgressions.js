@@ -139,6 +139,9 @@ define("exerciseChordProgressions",
             },
 
             playTask: function () {
+                if (this.state === exerciseStates.answered)
+                    exerciseFns.setState(this, exerciseStates.pending);
+
                 if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
                     this.newTask();
                     exerciseFns.setState(this, exerciseStates.waiting);

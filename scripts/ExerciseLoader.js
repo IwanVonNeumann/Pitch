@@ -18,22 +18,16 @@ define("ExerciseLoader",
 
         var $exerciseContainer = $(".exercise-container");
 
-        function playTask() {
-            var exercise = Board.exercise;
-            // TODO encapsulate to exercise.playTask?
-            if (exercise.state === exerciseStates.answered)
-                exerciseFns.setState(exercise, exerciseStates.pending);
-
-            exercise.playTask();
-        }
-
         return {
             load: function (name) {
                 Config.exercise = name;
                 var exercise = EXERCISE[name];
                 $exerciseContainer.load(exercise.template, function () {
                     Board.load(exercise);
-                    $("#playbtn").unbind("click").click(playTask); // TODO make sure whether unbind needed
+                    // TODO make sure whether unbind needed
+                    $("#playbtn").unbind("click").click(function () {
+                        Board.exercise.playTask();
+                    });
                 });
             },
 
