@@ -3,7 +3,7 @@
  */
 
 require.config({
-    baseUrl: "/js",
+    baseUrl: "/scripts",
     paths: {
         "$": "../bower_components/jquery/dist/jquery"
     },
@@ -13,4 +13,3 @@ require.config({
 });
 
 require(["Menu"]);
-// require(["Test"]);
