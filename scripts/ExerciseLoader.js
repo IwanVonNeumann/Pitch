@@ -4,19 +4,19 @@
 
 define("ExerciseLoader",
     ["$", "Config", "Board", "Exercise", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals",
-        "exercisePerfect", "ExerciseChordProgressions", "exerciseChordTypes"],
+        "exercisePerfect", "exerciseChordProgressions", "exerciseChordTypes"],
     function ($, Config, Board, Exercise, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals,
-              exercisePerfect, ExerciseChordProgressions, exerciseChordTypes) {
+              exercisePerfect, exerciseChordProgressions, exerciseChordTypes) {
 
         var EXERCISE = {};
         EXERCISE[Exercise.MELODY] = exerciseMelody;
         EXERCISE[Exercise.INTERVALS] = exerciseIntervals;
         EXERCISE[Exercise.PERFECT] = exercisePerfect;
-        EXERCISE[Exercise.CHORD_PROGRESSIONS] = ExerciseChordProgressions;
+        EXERCISE[Exercise.CHORD_PROGRESSIONS] = exerciseChordProgressions;
         EXERCISE[Exercise.CHORD_TYPES] = exerciseChordTypes;
 
 
-        var $exerciseContainer = $(".exercises-container");
+        var $exerciseContainer = $(".exercise-container");
 
         function playTask() {
             var exercise = Board.exercise;
@@ -29,6 +29,7 @@ define("ExerciseLoader",
 
         return {
             load: function (name) {
+                Config.exercise = name;
                 var exercise = EXERCISE[name];
                 $exerciseContainer.load(exercise.template, function () {
                     Board.load(exercise);

@@ -1,4 +1,4 @@
-define("exerciseChords",
+define("exerciseChordProgressions",
     ["Constants", "Selectors", "exerciseFns", "exerciseStates", "ChordType", "ChordSequenceType", "ChordSequence",
         "ChordSequencePlayer", "Answers", "TestingHelper"],
     function (Constants, Selectors, exerciseFns, exerciseStates, ChordType, ChordSequenceType, ChordSequence,
