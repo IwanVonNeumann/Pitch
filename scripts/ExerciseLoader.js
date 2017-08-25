@@ -2,16 +2,23 @@
  * Created by Iwan on 24.08.2017.
  */
 
-
 define("ExerciseLoader",
-    ["$", "Board", "Exercise", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals",
+    ["$", "Config", "Board", "Exercise", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals",
         "exercisePerfect", "ExerciseChordProgressions", "exerciseChordTypes"],
-    function ($, Board, Exercise, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals,
+    function ($, Config, Board, Exercise, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals,
               exercisePerfect, ExerciseChordProgressions, exerciseChordTypes) {
+
+        var EXERCISE = {};
+        EXERCISE[Exercise.MELODY] = exerciseMelody;
+        EXERCISE[Exercise.INTERVALS] = exerciseIntervals;
+        EXERCISE[Exercise.PERFECT] = exercisePerfect;
+        EXERCISE[Exercise.CHORD_PROGRESSIONS] = ExerciseChordProgressions;
+        EXERCISE[Exercise.CHORD_TYPES] = exerciseChordTypes;
+
 
         var $exerciseContainer = $(".exercises-container");
 
-        function play() {
+        function playTask() {
             var exercise = Board.exercise;
             // TODO encapsulate to exercise.playTask?
             if (exercise.state === exerciseStates.answered)
@@ -21,54 +28,37 @@ define("ExerciseLoader",
         }
 
         return {
-            loadMelody: function () {
-                $exerciseContainer.load("ex_Melody.html", function () {
-                    Board.load(exerciseMelody);
-                    $("#playbtn").unbind("click").click(play); // TODO review whether unbind needed
+            load: function (name) {
+                var exercise = EXERCISE[name];
+                $exerciseContainer.load(exercise.template, function () {
+                    Board.load(exercise);
+                    $("#playbtn").unbind("click").click(playTask); // TODO make sure whether unbind needed
                 });
+            },
+
+            loadMelody: function () {
+                this.load(Exercise.MELODY);
             },
 
             loadIntervals: function () {
-                $exerciseContainer.load("ex_Intervals.html", function () {
-                    Board.load(exerciseIntervals);
-                    $("#playbtn").unbind("click").click(play);
-                });
+                this.load(Exercise.INTERVALS);
             },
 
             loadPerfect: function () {
-                $exerciseContainer.load("ex_Perfect.html", function () {
-                    Board.load(exercisePerfect);
-                    $("#playbtn").unbind("click").click(play);
-                });
+                this.load(Exercise.PERFECT);
             },
 
-            loadChords: function () {
-                $exerciseContainer.load("ex_ChordProgressions.html", function () {
-                    Board.load(ExerciseChordProgressions);
-                    $("#playbtn").unbind("click").click(play);
-                });
+            loadChordProgressions: function () {
+                this.load(Exercise.CHORD_PROGRESSIONS);
             },
 
             loadChordTypes: function () {
-                $exerciseContainer.load("ex_ChordTypes.html", function () {
-                    Board.load(exerciseChordTypes);
-                    $("#playbtn").unbind("click").click(play);
-                });
-            }
+                this.load(Exercise.CHORD_TYPES);
+            },
 
-            /*
-            load: function (name) {
-                var EXERCISE_LOADERS = {};
-                EXERCISE_LOADERS[Exercise.MELODY] = this.loadMelody;
-                EXERCISE_LOADERS[Exercise.INTERVALS] = this.loadIntervals;
-                EXERCISE_LOADERS[Exercise.PERFECT] = this.loadPerfect;
-                EXERCISE_LOADERS[Exercise.CHORD_PROGRESSIONS] = this.loadChords;
-                EXERCISE_LOADERS[Exercise.CHORD_TYPES] = this.loadChordTypes;
-
-                var loadExercise = EXERCISE_LOADERS[name];
-                loadExercise();
+            reload: function () {
+                this.load(Config.exercise);
             }
-            */
         };
     }
 );

@@ -40,7 +40,7 @@ define("Menu",
             function selectExProgressions() {
                 deselectAllExercises();
                 $selectExProgressions.addClass("selected");
-                ExerciseLoader.loadChords();
+                ExerciseLoader.loadChordProgressions();
             }
 
             function selectExChords() {
