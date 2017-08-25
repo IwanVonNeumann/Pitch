@@ -22,6 +22,7 @@
             keys_down: 0,
             progress: null,
             kbrd: null,
+            template: "ex_Perfect.html",
 
             init: function () {
                 this.two_tones = false;

@@ -26,6 +26,7 @@
             progress: null,
 
             root_text: null,
+            template: "ex_Intervals.html",
 
             init: function () {
                 this.two_intervals = false;

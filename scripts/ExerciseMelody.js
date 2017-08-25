@@ -17,6 +17,7 @@ define("exerciseMelody",
             current_answer: null,
             wrong_tone: null,
             kbrd: null,
+            template: "ex_Melody.html",
 
             init: function () {
                 this.num_tries = 0;

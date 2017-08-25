@@ -18,6 +18,7 @@
             kbrd: null,
             entering_practice_mode: false,
             exiting_practice_mode: false,
+            template: "ex_ChordTypes.html",
 
             init: function () {
                 this.two_chords = false;

@@ -4,10 +4,10 @@
 
 
 define("ExerciseLoader",
-    ["$", "Board", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals", "exercisePerfect",
-        "exerciseChords", "exerciseChordTypes"],
-    function ($, Board, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals, exercisePerfect,
-              exerciseChords, exerciseChordTypes) {
+    ["$", "Board", "Exercise", "exerciseStates", "exerciseFns", "exerciseMelody", "exerciseIntervals",
+        "exercisePerfect", "ExerciseChordProgressions", "exerciseChordTypes"],
+    function ($, Board, Exercise, exerciseStates, exerciseFns, exerciseMelody, exerciseIntervals,
+              exercisePerfect, ExerciseChordProgressions, exerciseChordTypes) {
 
         var $exerciseContainer = $(".exercises-container");
 
@@ -29,7 +29,7 @@ define("ExerciseLoader",
             },
 
             loadIntervals: function () {
-                $exerciseContainer.load("ex_Relative.html", function () {
+                $exerciseContainer.load("ex_Intervals.html", function () {
                     Board.load(exerciseIntervals);
                     $("#playbtn").unbind("click").click(play);
                 });
@@ -43,18 +43,32 @@ define("ExerciseLoader",
             },
 
             loadChords: function () {
-                $exerciseContainer.load("ex_Progressions.html", function () {
-                    Board.load(exerciseChords);
+                $exerciseContainer.load("ex_ChordProgressions.html", function () {
+                    Board.load(ExerciseChordProgressions);
                     $("#playbtn").unbind("click").click(play);
                 });
             },
 
             loadChordTypes: function () {
-                $exerciseContainer.load("ex_Chords.html", function () {
+                $exerciseContainer.load("ex_ChordTypes.html", function () {
                     Board.load(exerciseChordTypes);
                     $("#playbtn").unbind("click").click(play);
                 });
             }
+
+            /*
+            load: function (name) {
+                var EXERCISE_LOADERS = {};
+                EXERCISE_LOADERS[Exercise.MELODY] = this.loadMelody;
+                EXERCISE_LOADERS[Exercise.INTERVALS] = this.loadIntervals;
+                EXERCISE_LOADERS[Exercise.PERFECT] = this.loadPerfect;
+                EXERCISE_LOADERS[Exercise.CHORD_PROGRESSIONS] = this.loadChords;
+                EXERCISE_LOADERS[Exercise.CHORD_TYPES] = this.loadChordTypes;
+
+                var loadExercise = EXERCISE_LOADERS[name];
+                loadExercise();
+            }
+            */
         };
     }
 );

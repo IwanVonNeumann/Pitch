@@ -18,6 +18,7 @@ define("exerciseChords",
             current_answer: null,
             chord_btns: null,
             key_selector: null,
+            template: "ex_ChordProgressions.html",
 
             init: function () {
                 // this.current_seq = new ChordSequence(this.root, 4, this.level);

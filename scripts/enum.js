@@ -22,7 +22,7 @@ define("Exercise", function () {
         MELODY: "MELODY",
         INTERVALS: "INTERVALS",
         PERFECT: "PERFECT",
-        CHORDS: "CHORDS",
+        CHORD_PROGRESSIONS: "CHORD_PROGRESSIONS",
         CHORD_TYPES: "CHORD_TYPES"
     };
 });
