@@ -1,12 +1,12 @@
 "use strict";
 
-define("AnimationManager", ["Config", "ResourceLoader"], function (Config, ResourceLoader) {
+define("AnimationManager", ["Config", "Target", "ResourceLoader"], function (Config, Target, ResourceLoader) {
 
     return {
         init: function () {
             this.registeredImages = [];
 
-            var directory = Config.target === "web"
+            var directory = Config.target === Target.WEB
                 ? 'img/'
                 : 'img/mobile/';
 

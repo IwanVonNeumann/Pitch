@@ -1,12 +1,6 @@
-define("SequencePlayer", ["Config", "SoundManager"], function (Config, SoundManager) {
+define("SequencePlayer", ["Config", "Instrument", "SoundManager"], function (Config, Instrument, SoundManager) {
 
-    // TODO fix pointers
-
-    function sequencePlaySound(tone) {
-        SoundManager.playSound(tone);
-    }
-
-    var SequencePlayer = {
+    return {
         playing: false,
         sequence: null,
 
@@ -23,7 +17,7 @@ define("SequencePlayer", ["Config", "SoundManager"], function (Config, SoundMana
             var seq = sequence.slice();
             var func = function () {
                 if (seq.length === 0) return;
-                sequencePlaySound(seq[0]);
+                SoundManager.playSound(seq[0]);
                 seq = seq.slice(1, seq.length);
             };
 
@@ -34,20 +28,19 @@ define("SequencePlayer", ["Config", "SoundManager"], function (Config, SoundMana
                 setTimeout(func, i * noteLength);
             }
 
+            var SequencePlayer = this;
             setTimeout(function () {
                 SequencePlayer.playing = false;
             }, sequence.length * noteLength);
         },
 
         countNoteLength: function () {
-            var NOTE_LENGTH = {
-                piano: 611,
-                guitar: 611,
-                violin: 950
-            };
+            var NOTE_LENGTH = {};
+            NOTE_LENGTH[Instrument.PIANO] = 611;
+            NOTE_LENGTH[Instrument.GUITAR] = 611;
+            NOTE_LENGTH[Instrument.VIOLIN] = 950;
+
             return NOTE_LENGTH[Config.instrument];
         }
     };
-
-    return SequencePlayer;
 });

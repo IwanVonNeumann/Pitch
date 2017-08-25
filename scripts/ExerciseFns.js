@@ -1,7 +1,7 @@
 "use strict";
 
-define("exerciseFns", ["Config", "Constants", "Selectors", "exerciseStates"],
-    function (Config, Constants, Selectors, exerciseStates) {
+define("exerciseFns", ["Config", "Constants", "Target", "Selectors", "exerciseStates"],
+    function (Config, Constants, Target, Selectors, exerciseStates) {
 
         return {
             initHiscores: function (ex) {
@@ -10,7 +10,7 @@ define("exerciseFns", ["Config", "Constants", "Selectors", "exerciseStates"],
                     ex.hiscores[ind] = 0;
 
 
-                if (Config.target === "web") {
+                if (Config.target === Target.WEB) {
                     var storage = window.localStorage;
                     if (storage[ex.toString()])
                         ex.hiscores = JSON.parse(storage[ex.toString()]);
@@ -62,7 +62,7 @@ define("exerciseFns", ["Config", "Constants", "Selectors", "exerciseStates"],
                 if (ex.hiscores[ex.level] < this.getCorrectInRow(ex))
                     ex.hiscores[ex.level] = this.getCorrectInRow(ex);
 
-                if (Config.target === "web") {
+                if (Config.target === Target.WEB) {
                     var storage = window.localStorage;
                     if (!storage[ex.toString()])
                         storage[ex.toString()] = [];

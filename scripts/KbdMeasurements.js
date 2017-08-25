@@ -1,4 +1,4 @@
-define("KbdMeasurements", ["Config", "Constants"], function (Config, Constants) {
+define("KbdMeasurements", ["Config", "Constants", "Target"], function (Config, Constants, Target) {
 
     return {
 
@@ -10,7 +10,7 @@ define("KbdMeasurements", ["Config", "Constants"], function (Config, Constants) 
             this.width = w;
             this.height = h;
 
-            if (Config.target === "web") {
+            if (Config.target === Target.WEB) {
                 this.num_keys_on_screen = 7 * Constants.num_octaves;
             } else {
                 this.num_keys_on_screen = Math.floor(DeviceMeasurements.widthInches() / (3.0 / 9.0));//9 keys on a 3" screen

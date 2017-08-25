@@ -141,7 +141,7 @@
             },
 
             play: function () {
-                if (Config.target === "web") {
+                if (Config.target === Target.WEB) {
                     for (var i = 0; i < this.tones.length; ++i)
                         SoundManager.playSound(this.tones[i], 0.7);
                 } else {

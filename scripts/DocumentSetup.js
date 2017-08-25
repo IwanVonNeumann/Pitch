@@ -3,13 +3,13 @@
  */
 
 define("DocumentSetup",
-    ["Config", "Constants", "Board", "SoundManager"],
-    function (Config, Constants, Board, SoundManager) {
+    ["Config", "Constants", "Target", "Board", "SoundManager"],
+    function (Config, Constants, Target, Board, SoundManager) {
 
         if ('undefined' !== typeof SoundManagerAndroid)
-            Config.target = "android";
+            Config.target = Target.ANDROID;
         else {
-            Config.target = "web";
+            Config.target = Target.WEB;
         }
 
         function touchDown(e) {
@@ -29,7 +29,7 @@ define("DocumentSetup",
             Board.exercise.mouseUp(e.clientX, e.clientY);
         }
 
-        if (Config.target === "web") {
+        if (Config.target === Target.WEB) {
             document.onmousedown = mouseDown;
             document.onmouseup = mouseUp;
         } else {
@@ -41,7 +41,7 @@ define("DocumentSetup",
             return false;
         };
 
-        if (Config.target === "web")
+        if (Config.target === Target.WEB)
             window.onresize = function () {
                 //
                 if (!SoundManager.canPlayAudio())

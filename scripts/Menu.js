@@ -4,8 +4,8 @@
 
 // TODO rename module to Main or something main
 define("Menu",
-    ["$", "Config", "SoundManager", "DocumentSetup", "ExerciseLoader"],
-    function ($, Config, SoundManager, DocumentSetup, ExerciseLoader) {
+    ["$", "Config", "Instrument", "SoundManager", "DocumentSetup", "ExerciseLoader"],
+    function ($, Config, Instrument, SoundManager, DocumentSetup, ExerciseLoader) {
 
         $(document).ready(function () {
 
@@ -57,22 +57,22 @@ define("Menu",
             function selectInsPiano() {
                 deselectAllInstruments();
                 $selectInsPiano.addClass("selected");
-                Config.instrument = "piano";
-                SoundManager.init(); // TODO fix
+                Config.instrument = Instrument.PIANO;
+                SoundManager.init(); // TODO reload exercise
             }
 
             function selectInsGuitar() {
                 deselectAllInstruments();
                 $selectInsGuitar.addClass("selected");
-                Config.instrument = "guitar";
-                SoundManager.init(); // TODO fix
+                Config.instrument = Instrument.GUITAR;
+                SoundManager.init(); // TODO reload exercise
             }
 
             function selectInsViolin() {
                 deselectAllInstruments();
                 $selectInsViolin.addClass("selected");
-                Config.instrument = "violin";
-                SoundManager.init(); // TODO fix
+                Config.instrument = Instrument.VIOLIN;
+                SoundManager.init(); // TODO reload exercise
             }
 
             function deselectAllInstruments() {

@@ -1,8 +1,8 @@
 define("Board",
-    ["Config", "Constants", "exerciseFns", "exerciseStates", "SoundManager", "AnimationManager", "ChordSequenceType",
-        "ResourceLoader"],
-    function (Config, Constants, exerciseFns, exerciseStates, SoundManager, AnimationManager, ChordSequenceType,
-              ResourceLoader) {
+    ["Config", "Constants", "Target", "exerciseFns", "exerciseStates", "SoundManager", "AnimationManager",
+        "ChordSequenceType", "ResourceLoader"],
+    function (Config, Constants, Target, exerciseFns, exerciseStates, SoundManager, AnimationManager,
+              ChordSequenceType, ResourceLoader) {
 
         return {
             exercise: null,
@@ -10,7 +10,7 @@ define("Board",
             load: function (exercise) {
                 this.exercise = exercise;
 
-                if (Config.target === "web") {
+                if (Config.target === Target.WEB) {
                     //for the mobile apps the height must be fullscreen
                     $(".exercise").css({height: "320px"});
                 } else {
@@ -26,8 +26,8 @@ define("Board",
 
                 this.removeStub();
 
-                if (Config.target === "android")
-                    // TODO repair if Android support needed
+                if (Config.target === Target.ANDROID)
+                // TODO repair if Android support needed
                     SoundManager = SoundManagerAndroid;
 
                 if (!SoundManager.canPlayAudio())

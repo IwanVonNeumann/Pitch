@@ -9,6 +9,9 @@ require.config({
     },
     shim: {
         "$": {exports: "jQuery"}
+    },
+    bundles: {
+        "enum": ["Instrument", "Target", "Exercise"]
     }
 });
 
