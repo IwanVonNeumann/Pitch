@@ -1,10 +1,8 @@
 "use strict";
 
 define("ResourceLoader", function () {
-    // TODO return Object literal
-    // TODO turn pointers to 'this'
 
-    var ResourceLoader = {
+    return {
         sounds: [],
         images: [],
         loadedCount: 0,
@@ -40,38 +38,34 @@ define("ResourceLoader", function () {
                 console.log("resource error");
             }
 
-            if (this.images)
-                for (var i = 0; i < this.images.length; ++i) {
-                    var path = this.images[i];
-                    this.images[i] = new Image();
-                    this.images[i].onload = ResourceLoader.resourceLoaded;
-                    this.images[i].onerror = imageLoadingAborted;
-                    this.images[i].onabort = imageLoadingError;
-                    this.images[i].src = path;
-                }
+            for (var i = 0; i < this.images.length; ++i) {
+                var path = this.images[i];
+                this.images[i] = new Image();
+                this.images[i].onload = this.resourceLoaded.bind(this);
+                this.images[i].onerror = imageLoadingAborted;
+                this.images[i].onabort = imageLoadingError;
+                this.images[i].src = path;
+            }
         },
 
         loadSounds: function () {
-            if (this.sounds)
-                for (var i = 0; i < this.sounds.length; ++i) {
-                    var path = this.sounds[i];
-                    this.sounds[i] = new Audio(path);
-                    this.sounds[i].addEventListener('canplaythrough', ResourceLoader.resourceLoaded());
-                }
+            for (var i = 0; i < this.sounds.length; ++i) {
+                var path = this.sounds[i];
+                this.sounds[i] = new Audio(path);
+                this.sounds[i].addEventListener('canplaythrough', this.resourceLoaded());
+            }
         },
 
         resourceLoaded: function () {
-            ResourceLoader.loadedCount++;
-            var totalResources = ResourceLoader.images.length + ResourceLoader.sounds.length;
+            this.loadedCount++;
+            var totalResources = this.images.length + this.sounds.length;
 
-            if (ResourceLoader.loadedCount < totalResources) {
-                var progress = Math.floor((ResourceLoader.loadedCount * 100) / totalResources);
-                ResourceLoader.displayProgress(progress);
+            if (this.loadedCount < totalResources) {
+                var progress = Math.floor((this.loadedCount * 100) / totalResources);
+                this.displayProgress(progress);
             } else {
-                ResourceLoader.allResourcesLoaded();
+                this.allResourcesLoaded();
             }
         }
     };
-
-    return ResourceLoader;
 });
