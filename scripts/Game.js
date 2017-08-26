@@ -1,10 +1,10 @@
 "use strict";
 
 define("Game",
-    ["$", "Config", "Constants", "GameUI", "Target", "SoundManager", "AnimationManager", "ChordSequenceType",
-        "ResourceLoader", "Exercise", "ExerciseManager"],
-    function ($, Config, Constants, GameUI, Target, SoundManager, AnimationManager, ChordSequenceType,
-              ResourceLoader, Exercise, ExerciseManager) {
+    ["$", "EventBus", "Config", "Constants", "GameUI", "Target", "SoundManager", "AnimationManager",
+        "ChordSequenceType", "ResourceLoader", "Exercise", "ExerciseManager"],
+    function ($, EventBus, Config, Constants, GameUI, Target, SoundManager, AnimationManager,
+              ChordSequenceType, ResourceLoader, Exercise, ExerciseManager) {
 
         var Game = function () {
             this.ui = new GameUI(this);
@@ -22,6 +22,31 @@ define("Game",
 
             if (!this.soundManager.canPlayAudio())
                 throw "Cannot play audio!";
+
+            this.bindEventListeners();
+        };
+
+        Game.prototype.bindEventListeners = function () {
+            EventBus.bind("exercise:set", function (exerciseName) {
+                this.load(exerciseName)
+            }, this);
+
+            EventBus.bind("exercise:mousedown", function (e) {
+                this.exercise.mouseDown(e.clientX, e.clientY);
+            }, this);
+
+            EventBus.bind("exercise:mouseup", function (e) {
+                this.exercise.mouseUp(e.clientX, e.clientY);
+            }, this);
+
+            EventBus.bind("exercise:touchdown", function (e) {
+                var touchPoint = e.touches[0];
+                this.exercise.mouseDown(touchPoint.clientX, touchPoint.clientY);
+            }, this);
+
+            EventBus.bind("exercise:touchup", function () {
+                exercise.mouseUp();
+            }, this);
         };
 
         Game.prototype.load = function (exerciseName) {

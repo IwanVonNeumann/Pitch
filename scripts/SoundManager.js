@@ -1,8 +1,8 @@
 "use strict";
 
 define("SoundManager",
-    ["Config", "Constants", "Instrument", "ResourceLoader"],
-    function (Config, Constants, Instrument, ResourceLoader) {
+    ["EventBus", "Config", "Constants", "Instrument", "ResourceLoader"],
+    function (EventBus, Config, Constants, Instrument, ResourceLoader) {
 
         return {
             canPlayAudio: function () {
@@ -22,6 +22,10 @@ define("SoundManager",
             init: function () {
                 this.registeredSounds = [];
                 this.registerSounds();
+
+                EventBus.bind("instrument:set", function (instrumentName) {
+                    this.setInstrument(instrumentName)
+                }, this);
             },
 
             registerSounds: function () {
@@ -69,18 +73,6 @@ define("SoundManager",
             setInstrument: function (name) {
                 Config.instrument = name;
                 // TODO reload sounds
-            },
-
-            setInstrumentPiano: function () {
-                this.setInstrument(Instrument.PIANO);
-            },
-
-            setInstrumentGuitar: function () {
-                this.setInstrument(Instrument.GUITAR);
-            },
-
-            setInstrumentViolin: function () {
-                this.setInstrument(Instrument.VIOLIN);
             }
         };
     }

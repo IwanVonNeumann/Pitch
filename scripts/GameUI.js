@@ -4,230 +4,215 @@
 
 "use strict";
 
-define("GameUI", ["$", "Config", "Constants", "Target"], function ($, Config, Constants, Target) {
+define(
+    "GameUI",
+    ["$", "EventBus", "Config", "Constants", "Target", "Exercise", "Instrument"],
+    function ($, EventBus, Config, Constants, Target, Exercise, Instrument) {
 
-    var $selectExMelody;
-    var $selectExRelative;
-    var $selectExPerfect;
-    var $selectExProgressions;
-    var $selectExChords;
+        var $selectExMelody;
+        var $selectExRelative;
+        var $selectExPerfect;
+        var $selectExProgressions;
+        var $selectExChords;
 
-    var $selectInsPiano;
-    var $selectInsGuitar;
-    var $selectInsViolin;
+        var $selectInsPiano;
+        var $selectInsGuitar;
+        var $selectInsViolin;
+
+        var $EXERCISE_BUTTON = {};
+        var $INSTRUMENT_BUTTON = {};
 
 
-    var GameUI = function (game) {
-        this.game = game;
+        var GameUI = function (game) {
+            this.game = game;
 
-        var gameUI = this;
+            var gameUI = this;
 
-        $(document).ready(function () {
-            gameUI.initSelectors();
-            gameUI.bindEventListeners();
+            $(document).ready(function () {
+                gameUI.initSelectors();
+                gameUI.bindEventListeners();
 
-            // TODO read config!!!
-            gameUI.selectExMelody();
-            gameUI.selectInsViolin();
-        });
-    };
-
-    GameUI.prototype.initSelectors = function () {
-        $selectExMelody = $(".js-select-ex-melody");
-        $selectExRelative = $(".js-select-ex-relative");
-        $selectExPerfect = $(".js-select-ex-perfect");
-        $selectExProgressions = $(".js-select-ex-progressions");
-        $selectExChords = $(".js-select-ex-chords");
-
-        $selectInsPiano = $(".js-select-ins-piano");
-        $selectInsGuitar = $(".js-select-ins-guitar");
-        $selectInsViolin = $(".js-select-ins-violin");
-    };
-
-    GameUI.prototype.bindEventListeners = function () {
-        $selectExMelody.click(this.selectExMelody);
-        $selectExRelative.click(this.selectExRelative);
-        $selectExPerfect.click(this.selectExPerfect);
-        $selectExProgressions.click(this.selectExProgressions);
-        $selectExChords.click(this.selectExChords);
-
-        $selectInsPiano.click(this.selectInsPiano);
-        $selectInsGuitar.click(this.selectInsGuitar);
-        $selectInsViolin.click(this.selectInsViolin);
-
-        var game = this.game;
-
-        function touchDown(e) {
-            var ev = e.touches[0];
-            game.exercise.mouseDown(ev.clientX, ev.clientY);
-        }
-
-        function touchUp() {
-            game.exercise.mouseUp();
-        }
-
-        function mouseDown(e) {
-            game.exercise.mouseDown(e.clientX, e.clientY);
-        }
-
-        function mouseUp(e) {
-            game.exercise.mouseUp(e.clientX, e.clientY);
-        }
-
-        if (Config.target === Target.WEB) {
-            document.onmousedown = mouseDown;
-            document.onmouseup = mouseUp;
-        } else if (Config.target === Target.ANDROID) {
-            document.ontouchstart = touchDown;
-            document.ontouchend = touchUp;
-        }
-
-        window.onselectstart = function () {
-            return false;
+                EventBus.trigger("instrument:set", Config.instrument);
+                EventBus.trigger("exercise:set", Config.exercise);
+            });
         };
 
-        if (Config.target === Target.WEB)
-            window.onresize = function () {
+        GameUI.prototype.initSelectors = function () {
+            $EXERCISE_BUTTON[Exercise.MELODY] = $selectExMelody = $(".js-select-ex-melody");
+            $EXERCISE_BUTTON[Exercise.INTERVALS] = $selectExRelative = $(".js-select-ex-relative");
+            $EXERCISE_BUTTON[Exercise.PERFECT] = $selectExPerfect = $(".js-select-ex-perfect");
+            $EXERCISE_BUTTON[Exercise.CHORD_PROGRESSIONS] = $selectExProgressions = $(".js-select-ex-progressions");
+            $EXERCISE_BUTTON[Exercise.CHORD_TYPES] = $selectExChords = $(".js-select-ex-chords");
 
-                var canvas = document.getElementById("canvas");
-                var exercise = (document.getElementsByClassName("exercise"))[0];
-                if (canvas) {
-                    canvas.width = exercise.clientWidth;
-                    canvas.height = Math.floor(exercise.clientHeight * 0.5);
-                    canvas.style.width = exercise.clientWidth;
-                    canvas.style.height = Math.floor(exercise.clientHeight * 0.5);
+            $INSTRUMENT_BUTTON[Instrument.PIANO] = $selectInsPiano = $(".js-select-ins-piano");
+            $INSTRUMENT_BUTTON[Instrument.GUITAR] = $selectInsGuitar = $(".js-select-ins-guitar");
+            $INSTRUMENT_BUTTON[Instrument.VIOLIN] = $selectInsViolin = $(".js-select-ins-violin");
+        };
 
-                    // TODO write screen dimensions to Config!
-                    Constants.scr_w = canvas.clientWidth;
-                    Constants.scr_h = canvas.clientHeight;
-                } else {
-                    Constants.scr_w = exercise.clientWidth;
-                    Constants.scr_h = exercise.clientHeight;
-                }
+        GameUI.prototype.bindEventListeners = function () {
+            $selectExMelody.click(function () {
+                EventBus.trigger("exercise:set", Exercise.MELODY);
+            });
+            $selectExRelative.click(function () {
+                EventBus.trigger("exercise:set", Exercise.INTERVALS);
+            });
+            $selectExPerfect.click(function () {
+                EventBus.trigger("exercise:set", Exercise.PERFECT);
+            });
+            $selectExProgressions.click(function () {
+                EventBus.trigger("exercise:set", Exercise.CHORD_PROGRESSIONS);
+            });
+            $selectExChords.click(function () {
+                EventBus.trigger("exercise:set", Exercise.CHORD_TYPES);
+            });
 
-                if (game.exercise)
-                    game.exercise.draw();
+            $selectInsPiano.click(function () {
+                EventBus.trigger("instrument:set", Instrument.PIANO);
+            });
+            $selectInsGuitar.click(function () {
+                EventBus.trigger("instrument:set", Instrument.GUITAR);
+            });
+            $selectInsViolin.click(function () {
+                EventBus.trigger("instrument:set", Instrument.VIOLIN);
+            });
+
+
+            EventBus.bind("exercise:set", function (name) {
+                this.selectExercise(name);
+            }, this);
+
+            EventBus.bind("instrument:set", function (name) {
+                this.selectInstrument(name);
+            }, this);
+
+
+            var $document = $(document);
+
+            if (Config.target === Target.WEB) {
+                $document.mousedown(function (e) {
+                    EventBus.trigger("exercise:mousedown", e);
+                });
+                $document.mouseup(function (e) {
+                    EventBus.trigger("exercise:mouseup", e);
+                });
+
+            } else if (Config.target === Target.ANDROID) {
+                $document.on("touchstart", function (e) {
+                    EventBus.trigger("exercise:touchdown", e);
+                });
+                $document("touchend", function () {
+                    EventBus.trigger("exercise:touchup");
+                });
+            }
+
+            window.onselectstart = function () {
+                return false;
             };
-    };
 
-    GameUI.prototype.setupExercise = function () {
-        if (Config.target === Target.WEB) {
-            this.setupExerciseForWeb();
-        } else if (Config.target === Target.ANDROID) {
-            this.setupExerciseForAndroid();
-        }
+            var game = this.game;
 
-        this.removeStub();
-    };
+            if (Config.target === Target.WEB)
+                window.onresize = function () {
 
-    GameUI.prototype.setupExerciseForWeb = function () {
-        $(".exercise").css({height: "320px"});
-    };
+                    var canvas = document.getElementById("canvas");
+                    var exercise = (document.getElementsByClassName("exercise"))[0];
+                    if (canvas) {
+                        canvas.width = exercise.clientWidth;
+                        canvas.height = Math.floor(exercise.clientHeight * 0.5);
+                        canvas.style.width = exercise.clientWidth;
+                        canvas.style.height = Math.floor(exercise.clientHeight * 0.5);
 
-    GameUI.prototype.setupExerciseForAndroid = function () {
-        //for the mobile apps the height must be fullscreen
-        $(".exercise").css({
-            width: "100%",
-            borderRadius: "0"
-        });
-        $(".upper").css({borderRadius: '0'});
-        $(".playbtn").css({borderRadius: '0'});
-    };
+                        // TODO write screen dimensions to Config!
+                        Constants.scr_w = canvas.clientWidth;
+                        Constants.scr_h = canvas.clientHeight;
+                    } else {
+                        Constants.scr_w = exercise.clientWidth;
+                        Constants.scr_h = exercise.clientHeight;
+                    }
 
-    GameUI.prototype.removeStub = function () {
-        $(".exercise").find(".stub").remove();
-    };
+                    if (game.exercise)
+                        game.exercise.draw();
+                };
+        };
 
-    GameUI.prototype.displayProgress = function (percent) {
-        $(".loader").text("Loading " + percent.toString() + "%");
-    };
+        GameUI.prototype.setupExercise = function () {
+            if (Config.target === Target.WEB) {
+                this.setupExerciseForWeb();
+            } else if (Config.target === Target.ANDROID) {
+                this.setupExerciseForAndroid();
+            }
 
-    // TODO refactor using jQuery
-    GameUI.prototype.removeLoader = function () {
-        var exercise = (document.getElementsByClassName("exercise"))[0];
+            this.removeStub();
+        };
 
-        var loader = (document.getElementsByClassName("loader"));
-        if (loader.length > 0) {
-            loader = loader[0];
-            exercise.removeChild(loader);
-        }
+        GameUI.prototype.setupExerciseForWeb = function () {
+            $(".exercise").css({height: "320px"});
+        };
 
-        var canvas = document.getElementById("canvas");
-        if (canvas !== null) {
-            canvas.width = exercise.clientWidth;
-            canvas.height = Math.floor(exercise.clientHeight * 0.5);
-        } else {
-            Constants.scr_w = exercise.clientWidth;
-            Constants.scr_h = exercise.clientHeight;
-        }
-    };
+        GameUI.prototype.setupExerciseForAndroid = function () {
+            //for the mobile apps the height must be fullscreen
+            $(".exercise").css({
+                width: "100%",
+                borderRadius: "0"
+            });
+            $(".upper").css({borderRadius: '0'});
+            $(".playbtn").css({borderRadius: '0'});
+        };
 
-    GameUI.prototype.bindPlayButtonEvent = function () {
-        // TODO make sure whether unbind needed
-        var game = this.game;
-        $("#playbtn").unbind("click").click(function () {
-            game.exercise.playTask();
-        });
-    };
+        GameUI.prototype.removeStub = function () {
+            $(".exercise").find(".stub").remove();
+        };
 
-    GameUI.prototype.selectExMelody = function () {
-        this.deselectAllExercises();
-        $selectExMelody.addClass("selected");
-        this.game.loadMelody();
-    };
+        GameUI.prototype.displayProgress = function (percent) {
+            $(".loader").text("Loading " + percent.toString() + "%");
+        };
 
-    GameUI.prototype.selectExRelative = function () {
-        this.deselectAllExercises();
-        $selectExRelative.addClass("selected");
-        this.game.loadIntervals();
-    };
+        // TODO refactor using jQuery
+        GameUI.prototype.removeLoader = function () {
+            var exercise = (document.getElementsByClassName("exercise"))[0];
 
-    GameUI.prototype.selectExPerfect = function () {
-        this.deselectAllExercises();
-        $selectExPerfect.addClass("selected");
-        this.game.loadPerfect();
-    };
+            var loader = (document.getElementsByClassName("loader"));
+            if (loader.length > 0) {
+                loader = loader[0];
+                exercise.removeChild(loader);
+            }
 
-    GameUI.prototype.selectExProgressions = function () {
-        this.deselectAllExercises();
-        $selectExProgressions.addClass("selected");
-        this.game.loadChordProgressions();
-    };
+            var canvas = document.getElementById("canvas");
+            if (canvas !== null) {
+                canvas.width = exercise.clientWidth;
+                canvas.height = Math.floor(exercise.clientHeight * 0.5);
+            } else {
+                Constants.scr_w = exercise.clientWidth;
+                Constants.scr_h = exercise.clientHeight;
+            }
+        };
 
-    GameUI.prototype.selectExChords = function () {
-        this.deselectAllExercises();
-        $selectExChords.addClass("selected");
-        this.game.loadChordTypes();
-    };
+        GameUI.prototype.bindPlayButtonEvent = function () {
+            // TODO make sure whether unbind needed
+            var game = this.game;
+            $("#playbtn").unbind("click").click(function () {
+                game.exercise.playTask();
+            });
+        };
 
-    GameUI.prototype.deselectAllExercises = function () {
-        $(".js-select-ex").removeClass("selected");
-    };
+        GameUI.prototype.selectExercise = function (name) {
+            this.deselectAllExercises();
+            $EXERCISE_BUTTON[name].addClass("selected");
+        };
 
-    GameUI.prototype.selectInsPiano = function () {
-        this.deselectAllInstruments();
-        $selectInsPiano.addClass("selected");
-        this.game.soundManager.setInstrumentPiano();
-        // ExerciseLoader.reload(); // TODO reload exercise
-    };
+        GameUI.prototype.deselectAllExercises = function () {
+            $(".js-select-ex").removeClass("selected");
+        };
 
-    GameUI.prototype.selectInsGuitar = function () {
-        this.deselectAllInstruments();
-        $selectInsGuitar.addClass("selected");
-        this.game.soundManager.setInstrumentGuitar();
-        // ExerciseLoader.reload(); // TODO reload exercise
-    };
+        GameUI.prototype.selectInstrument = function (name) {
+            this.deselectAllInstruments();
+            $INSTRUMENT_BUTTON[name].addClass("selected");
+        };
 
-    GameUI.prototype.selectInsViolin = function () {
-        this.deselectAllInstruments();
-        $selectInsViolin.addClass("selected");
-        this.game.soundManager.setInstrumentViolin();
-        // ExerciseLoader.reload(); // TODO reload exercise
-    };
+        GameUI.prototype.deselectAllInstruments = function () {
+            $(".js-select-ins").removeClass("selected");
+        };
 
-    GameUI.prototype.deselectAllInstruments = function () {
-        $(".js-select-ins").removeClass("selected");
-    };
-
-    return GameUI;
-});
+        return GameUI;
+    }
+);
