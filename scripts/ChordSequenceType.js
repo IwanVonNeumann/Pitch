@@ -4,7 +4,7 @@
 
 define("ChordSequenceType", ["Constants", "RandomUtil", "ChordType"], function (Constants, RandomUtil, ChordType) {
 
-    return {
+    var ChordSequenceType = {
         cm_i: 0,
         cm_neap: 1,
         cm_III: 2,
@@ -115,4 +115,8 @@ define("ChordSequenceType", ["Constants", "RandomUtil", "ChordType"], function (
             }
         }
     };
+
+    ChordSequenceType.init();
+
+    return ChordSequenceType;
 });

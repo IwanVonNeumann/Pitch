@@ -1,8 +1,8 @@
 ﻿define("exerciseIntervals",
-    ["Constants", "Selectors", "Interval", "SequencePlayer", "exerciseFns", "exerciseStates", "SoundManager",
-        "TestingHelper", "Answers", "KbdMeasurements", "Keyboard"],
-    function (Constants, Selectors, Interval, SequencePlayer, exerciseFns, exerciseStates, SoundManager,
-              TestingHelper, Answers, KbdMeasurements, Keyboard) {
+    ["Constants", "Selectors", "Interval", "SequencePlayer", "exerciseFns", "exerciseStates", "TestingHelper",
+        "Answers", "KbdMeasurements", "Keyboard"],
+    function (Constants, Selectors, Interval, SequencePlayer, exerciseFns, exerciseStates, TestingHelper,
+              Answers, KbdMeasurements, Keyboard) {
 
         return {
             state: 0,
@@ -149,7 +149,7 @@
                 if (key_num < 0)
                     return;
 
-                SoundManager.playSound(key_num);
+                this.game.soundManager.playSound(key_num);
 
                 if (this.state === exerciseStates.waiting0 && this.isActive(key_num)) {
                     if (key_num !== this.current_interval.tone0)

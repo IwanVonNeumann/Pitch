@@ -1,6 +1,6 @@
 "use strict";
 
-define("ResourceLoader", function () {
+define("ResourceLoader", ["EventBus"], function (EventBus) {
 
     return {
         sounds: [],
@@ -8,10 +8,14 @@ define("ResourceLoader", function () {
         loadedCount: 0,
 
         // TODO create constructor
-        reset: function () {
+        init: function () {
             this.sounds = [];
             this.images = [];
             this.loadedCount = 0;
+
+            EventBus.bind("resource:load", function () {
+
+            }, this);
         },
 
         registerImage: function (path) {

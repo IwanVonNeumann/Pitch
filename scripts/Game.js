@@ -2,22 +2,24 @@
 
 define("Game",
     ["$", "EventBus", "Config", "Constants", "GameUI", "Target", "SoundManager", "AnimationManager",
-        "ChordSequenceType", "ResourceLoader", "Exercise", "ExerciseManager"],
+        "ResourceLoader", "Exercise", "ExerciseManager", "SequencePlayer"],
     function ($, EventBus, Config, Constants, GameUI, Target, SoundManager, AnimationManager,
-              ChordSequenceType, ResourceLoader, Exercise, ExerciseManager) {
+              ResourceLoader, Exercise, ExerciseManager, SequencePlayer) {
 
         var Game = function () {
             this.ui = new GameUI(this);
             this.animationManager = AnimationManager;
-            this.chordSequenceType = ChordSequenceType;
             this.resourceLoader = ResourceLoader;
+            this.sequencePlayer = SequencePlayer;
+
+            this.sequencePlayer.game = this;
 
             if ('undefined' !== typeof SoundManagerAndroid) {
                 Config.target = Target.ANDROID;
                 this.soundManager = SoundManagerAndroid; // repair if Android support needed
             } else {
                 Config.target = Target.WEB;
-                this.soundManager = SoundManager;
+                this.soundManager = new SoundManager();
             }
 
             if (!this.soundManager.canPlayAudio())
@@ -59,11 +61,10 @@ define("Game",
             // TODO move jQuery-related code to UI
             $(".exercise-container").load(exercise.template, function () {
                 game.exercise = exercise;
+                exercise.game = game;
                 ui.setupExercise();
                 // TODO probably move init() functions to constructor
-                game.soundManager.init();
                 game.animationManager.init();
-                game.chordSequenceType.init();
                 // TODO review calls: make events?
                 game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
                 ui.bindPlayButtonEvent();

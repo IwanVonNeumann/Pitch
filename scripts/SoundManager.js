@@ -1,79 +1,79 @@
 "use strict";
 
+// TODO process dependencies on "SoundManager" in Interval & Chord
 define("SoundManager",
     ["EventBus", "Config", "Constants", "Instrument", "ResourceLoader"],
     function (EventBus, Config, Constants, Instrument, ResourceLoader) {
 
-        return {
-            canPlayAudio: function () {
-                return this.canPlayOGG() || this.canPlayMP3();
-            },
+        var SoundManager = function (instrument) {
+            Config.instrument = instrument || Config.instrument;
 
-            canPlayMP3: function () {
-                var audio = document.createElement("audio");
-                return typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "";
-            },
+            // this.registeredSounds = [];
+            this.registerSounds();
 
-            canPlayOGG: function () {
-                var audio = document.createElement("audio");
-                return typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "";
-            },
+            EventBus.bind("instrument:set", function (instrumentName) {
+                this.setInstrument(instrumentName)
+            }, this);
+        };
 
-            init: function () {
-                this.registeredSounds = [];
-                this.registerSounds();
+        SoundManager.prototype.canPlayAudio = function () {
+            return this.canPlayOGG() || this.canPlayMP3();
+        };
 
-                EventBus.bind("instrument:set", function (instrumentName) {
-                    this.setInstrument(instrumentName)
-                }, this);
-            },
+        SoundManager.prototype.canPlayMP3 = function () {
+            var audio = document.createElement("audio");
+            return typeof audio.canPlayType === "function" && audio.canPlayType("audio/mpeg") !== "";
+        };
 
-            registerSounds: function () {
-                var instrument = Config.instrument || Instrument.PIANO;
+        SoundManager.prototype.canPlayOGG = function () {
+            var audio = document.createElement("audio");
+            return typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "";
+        };
 
-                var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
+        SoundManager.prototype.registerSounds = function () {
+            var instrument = Config.instrument.toLowerCase();
 
-                // TODO remove
-                // ResourceLoader.reset(); // TODO create new ResourceLoader
+            var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
-                var NOTES_PER_OCTAVE = 12;
-                var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
+            var NOTES_PER_OCTAVE = 12;
+            var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
 
-                for (var tone = 1; tone <= notesTotal; tone++) {
-                    var path = this.concatPath(instrument, tone, ext);
-                    this.registerSound(path);
-                }
-            },
-
-            concatPath: function (instrument, tone, ext) {
-                var prefix = (tone < 10) ? "0" : "";
-                var index = prefix + tone;
-                var directory = "sound/" + instrument + "/";
-                var fileName = instrument + "_silence_" + index + ext;
-                return directory + fileName;
-            },
-
-            registerSound: function (path) {
-                // this.registeredSounds.push(path);
-                ResourceLoader.registerSound(path);
-            },
-
-            playSound: function (tone, volume) {
-                volume = volume || 1.0;
-
-                var s = ResourceLoader.sounds[tone];
-                s.pause();
-                //s.ended = false;
-
-                s.volume = volume;
-                s.currentTime = 0;
-                s.play();
-            },
-
-            setInstrument: function (name) {
-                Config.instrument = name;
-                // TODO reload sounds
+            for (var tone = 1; tone <= notesTotal; tone++) {
+                var path = this.concatPath(instrument, tone, ext);
+                this.registerSound(path);
             }
         };
+
+        SoundManager.prototype.concatPath = function (instrument, tone, ext) {
+            var prefix = (tone < 10) ? "0" : "";
+            var index = prefix + tone;
+            var directory = "sound/" + instrument + "/";
+            var fileName = instrument + "_silence_" + index + ext;
+            return directory + fileName;
+        };
+
+        SoundManager.prototype.registerSound = function (path) {
+            // this.registeredSounds.push(path);
+            ResourceLoader.registerSound(path);
+        };
+
+        SoundManager.prototype.playSound = function (tone, volume) {
+            volume = volume || 1.0;
+
+            var s = ResourceLoader.sounds[tone];
+            s.pause();
+            //s.ended = false;
+
+            s.volume = volume;
+            s.currentTime = 0;
+            s.play();
+        };
+
+        SoundManager.prototype.setInstrument = function (name) {
+            Config.instrument = name;
+            // TODO reload sounds or recreate object?
+        };
+
+        return SoundManager;
     }
 );

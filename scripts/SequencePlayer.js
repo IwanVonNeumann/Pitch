@@ -1,4 +1,4 @@
-define("SequencePlayer", ["Config", "Instrument", "SoundManager"], function (Config, Instrument, SoundManager) {
+define("SequencePlayer", ["Config", "Instrument"], function (Config, Instrument) {
 
     return {
         playing: false,
@@ -14,10 +14,11 @@ define("SequencePlayer", ["Config", "Instrument", "SoundManager"], function (Con
 
             //sequencePlaySound(sequence[0]);
 
+            var game = this.game;
             var seq = sequence.slice();
             var func = function () {
                 if (seq.length === 0) return;
-                SoundManager.playSound(seq[0]);
+                game.soundManager.playSound(seq[0]);
                 seq = seq.slice(1, seq.length);
             };
 

@@ -1,8 +1,8 @@
 ﻿define("exercisePerfect",
     ["Constants", "RandomUtil", "Keyboard", "KbdMeasurements", "Selectors", "exerciseFns", "exerciseStates",
-        "SoundManager", "Answers", "TestingHelper"],
+        "Answers", "TestingHelper"],
     function (Constants, RandomUtil, Keyboard, KbdMeasurements, Selectors, exerciseFns, exerciseStates,
-              SoundManager, Answers, TestingHelper) {
+              Answers, TestingHelper) {
 
         return {
             state: 0,
@@ -155,7 +155,7 @@
                     exerciseFns.setState(this, exerciseStates.waiting);
                 }
 
-                SoundManager.playSound(this.current_tone);
+                this.game.soundManager.playSound(this.current_tone);
                 this.draw();
             },
 
@@ -176,7 +176,7 @@
                 if (key_num === -1)
                     return;
 
-                SoundManager.playSound(key_num);
+                this.game.soundManager.playSound(key_num);
 
                 if (this.state === exerciseStates.waiting && this.isActive(key_num)) {
                     ++this.num_tries;

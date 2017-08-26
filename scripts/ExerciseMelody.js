@@ -2,9 +2,9 @@
 
 define("exerciseMelody",
     ["Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements", "exerciseFns", "exerciseStates",
-        "SequencePlayer", "SoundManager", "Answers", "TestingHelper"],
+        "SequencePlayer", "Answers", "TestingHelper"],
     function (Constants, Selectors, Sequence, Keyboard, KbdMeasurements, exerciseFns, exerciseStates,
-              SequencePlayer, SoundManager, Answers, TestingHelper) {
+              SequencePlayer, Answers, TestingHelper) {
 
         return {
             root: 0,
@@ -87,7 +87,7 @@ define("exerciseMelody",
             keyPressed: function (key) {
                 if (key < 0)
                     return;
-                SoundManager.playSound(key);
+                this.game.soundManager.playSound(key);
 
                 if (this.state !== exerciseStates.waiting || !this.isActive(key))
                     return;
