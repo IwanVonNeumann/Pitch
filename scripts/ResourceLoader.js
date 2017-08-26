@@ -23,8 +23,8 @@ define("ResourceLoader", function () {
         },
 
         loadAll: function (displayProgress, allResourcesLoaded) {
-            this.allResourcesLoaded = allResourcesLoaded;
             this.displayProgress = displayProgress;
+            this.allResourcesLoaded = allResourcesLoaded;
             this.loadImages();
             this.loadSounds();
         },

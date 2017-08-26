@@ -64,6 +64,23 @@ define("SoundManager",
                 s.volume = volume;
                 s.currentTime = 0;
                 s.play();
+            },
+
+            setInstrument: function (name) {
+                Config.instrument = name;
+                // TODO reload sounds
+            },
+
+            setInstrumentPiano: function () {
+                this.setInstrument(Instrument.PIANO);
+            },
+
+            setInstrumentGuitar: function () {
+                this.setInstrument(Instrument.GUITAR);
+            },
+
+            setInstrumentViolin: function () {
+                this.setInstrument(Instrument.VIOLIN);
             }
         };
     }

@@ -15,4 +15,6 @@ require.config({
     }
 });
 
-require(["Menu"]);
+require(["Game"], function (Game) {
+    new Game();
+});
