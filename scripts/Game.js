@@ -1,14 +1,13 @@
 "use strict";
 
 define("Game",
-    ["$", "EventBus", "Config", "Constants", "GameUI", "Target", "SoundManager", "AnimationManager",
+    ["$", "EventBus", "Config", "Constants", "GameUI", "Target", "SoundManager",
         "ResourceLoader", "Exercise", "ExerciseManager", "SequencePlayer"],
-    function ($, EventBus, Config, Constants, GameUI, Target, SoundManager, AnimationManager,
+    function ($, EventBus, Config, Constants, GameUI, Target, SoundManager,
               ResourceLoader, Exercise, ExerciseManager, SequencePlayer) {
 
         var Game = function () {
             this.ui = new GameUI(this);
-            this.animationManager = AnimationManager;
             this.resourceLoader = ResourceLoader;
             this.sequencePlayer = SequencePlayer;
 
@@ -63,8 +62,6 @@ define("Game",
                 game.exercise = exercise;
                 exercise.game = game;
                 ui.setupExercise();
-                // TODO probably move init() functions to constructor
-                game.animationManager.init();
                 // TODO review calls: make events?
                 game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
                 ui.bindPlayButtonEvent();

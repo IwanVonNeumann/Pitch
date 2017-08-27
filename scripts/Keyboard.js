@@ -1,13 +1,13 @@
 define("Keyboard",
-    ["Constants", "KbdMeasurements", "AnimationManager"],
-    function (Constants, KbdMeasurements, AnimationManager) {
+    ["Constants", "KbdMeasurements", "ImageManager"],
+    function (Constants, KbdMeasurements, ImageManager) {
 
         var Keyboard = function (colored) {
 
-            this.keysactive_img = AnimationManager.CreateKeysGreenAnim();
-            this.keysdisabled_img = AnimationManager.CreateKeysDisabledAnim();
-            this.keyspressed_img = AnimationManager.CreateKeysDisabledPressedAnim();
-            this.keyspressedactive_img = AnimationManager.CreateKeysGreenPressedAnim();
+            this.keysactive_img = ImageManager.CreateKeysGreenAnim();
+            this.keysdisabled_img = ImageManager.CreateKeysDisabledAnim();
+            this.keyspressed_img = ImageManager.CreateKeysDisabledPressedAnim();
+            this.keyspressedactive_img = ImageManager.CreateKeysGreenPressedAnim();
 
             this.canvas = document.getElementById("canvas");
             //this.canvas.width = Constants.scr_w;
