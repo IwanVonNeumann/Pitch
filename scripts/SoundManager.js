@@ -2,18 +2,10 @@
 
 // TODO process dependencies on "SoundManager" in Interval & Chord
 define("SoundManager",
-    ["EventBus", "Config", "Constants", "Instrument", "ResourceLoader"],
-    function (EventBus, Config, Constants, Instrument, ResourceLoader) {
+    ["$", "EventBus", "Config", "Constants"],
+    function ($, EventBus, Config, Constants) {
 
-        var SoundManager = function (instrument) {
-            Config.instrument = instrument || Config.instrument;
-
-            // this.registeredSounds = [];
-            this.registerSounds();
-
-            EventBus.bind("instrument:set", function (instrumentName) {
-                this.setInstrument(instrumentName)
-            }, this);
+        var SoundManager = function () {
         };
 
         SoundManager.prototype.canPlayAudio = function () {
@@ -30,18 +22,34 @@ define("SoundManager",
             return typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "";
         };
 
-        SoundManager.prototype.registerSounds = function () {
-            var instrument = Config.instrument.toLowerCase();
+        SoundManager.prototype.loadSounds = function (instrument) {
+            var paths = this.getSoundPaths(instrument);
 
+            var sounds = [];
+
+            $.each(paths, function (i, path) {
+                sounds.push(new Audio(path));
+                // TODO bind event listener when known with loading progress displaying
+                // audio.addEventListener('canplaythrough', this.resourceLoaded());
+            });
+
+            return sounds;
+        };
+
+        SoundManager.prototype.getSoundPaths = function (instrument) {
             var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
             var NOTES_PER_OCTAVE = 12;
             var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
 
+            var soundPaths = [];
+
             for (var tone = 1; tone <= notesTotal; tone++) {
                 var path = this.concatPath(instrument, tone, ext);
-                this.registerSound(path);
+                soundPaths.push(path);
             }
+
+            return soundPaths;
         };
 
         SoundManager.prototype.concatPath = function (instrument, tone, ext) {
@@ -52,28 +60,6 @@ define("SoundManager",
             return directory + fileName;
         };
 
-        SoundManager.prototype.registerSound = function (path) {
-            // this.registeredSounds.push(path);
-            ResourceLoader.registerSound(path);
-        };
-
-        SoundManager.prototype.playSound = function (tone, volume) {
-            volume = volume || 1.0;
-
-            var s = ResourceLoader.sounds[tone];
-            s.pause();
-            //s.ended = false;
-
-            s.volume = volume;
-            s.currentTime = 0;
-            s.play();
-        };
-
-        SoundManager.prototype.setInstrument = function (name) {
-            Config.instrument = name;
-            // TODO reload sounds or recreate object?
-        };
-
-        return SoundManager;
+        return new SoundManager();
     }
 );

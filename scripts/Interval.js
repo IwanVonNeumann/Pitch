@@ -1,7 +1,5 @@
 define("Interval", ["Constants", "RandomUtil", "SoundManager"], function (Constants, SoundManager, RandomUtil) {
 
-    // TODO revert if necessary
-    // function Interval() {
     var Interval = function () {
         this.tone0 = 0;
         this.diff = 0;

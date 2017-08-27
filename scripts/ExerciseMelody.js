@@ -2,9 +2,9 @@
 
 define("exerciseMelody",
     ["Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements", "exerciseFns", "exerciseStates",
-        "SequencePlayer", "Answers", "TestingHelper"],
+        "Answers", "TestingHelper"],
     function (Constants, Selectors, Sequence, Keyboard, KbdMeasurements, exerciseFns, exerciseStates,
-              SequencePlayer, Answers, TestingHelper) {
+              Answers, TestingHelper) {
 
         return {
             root: 0,
@@ -30,7 +30,7 @@ define("exerciseMelody",
                 exerciseFns.resetState(this);
 
 
-                SequencePlayer.playing = false;
+                // SequencePlayer.playing = false; TODO remove
                 this.setLevel(0);
             },
 
@@ -72,7 +72,8 @@ define("exerciseMelody",
                     this.newTask();
                     exerciseFns.setState(this, exerciseStates.waiting);
                 }
-                this.current_seq.play();
+
+                this.instrument.playSequence(this.current_seq);
                 this.draw();
             },
 
@@ -87,7 +88,7 @@ define("exerciseMelody",
             keyPressed: function (key) {
                 if (key < 0)
                     return;
-                this.game.soundManager.playSound(key);
+                this.instrument.playNote(key);
 
                 if (this.state !== exerciseStates.waiting || !this.isActive(key))
                     return;
