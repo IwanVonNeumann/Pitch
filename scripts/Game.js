@@ -67,7 +67,8 @@ define("Game",
             $(".exercise-container").load(this.exercise.template, function () {
                 ui.setupExercise();
                 // TODO review calls: make events?
-                game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
+                // game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
+                game.onResourcesReady();
                 ui.bindPlayButtonEvent();
             });
         };
