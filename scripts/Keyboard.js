@@ -4,10 +4,10 @@ define("Keyboard",
 
         var Keyboard = function (colored) {
 
-            this.keysactive_img = ImageManager.CreateKeysGreenAnim();
-            this.keysdisabled_img = ImageManager.CreateKeysDisabledAnim();
-            this.keyspressed_img = ImageManager.CreateKeysDisabledPressedAnim();
-            this.keyspressedactive_img = ImageManager.CreateKeysGreenPressedAnim();
+            this.keysactive_img = ImageManager.getKeysActive();
+            this.keysdisabled_img = ImageManager.getKeysDisabled();
+            this.keyspressed_img = ImageManager.getKeysDisabledPressed();
+            this.keyspressedactive_img = ImageManager.getKeysActivePressed();
 
             this.canvas = document.getElementById("canvas");
             //this.canvas.width = Constants.scr_w;

@@ -40,19 +40,19 @@ define("ImageManager", ["$", "Config", "Target"], function ($, Config, Target) {
         this.images.push(image);
     };
 
-    AnimationManager.prototype.CreateKeysGreenAnim = function () {
+    AnimationManager.prototype.getKeysActive = function () {
         return this.images[0];
     };
 
-    AnimationManager.prototype.CreateKeysGreenPressedAnim = function () {
+    AnimationManager.prototype.getKeysActivePressed = function () {
         return this.images[1];
     };
 
-    AnimationManager.prototype.CreateKeysDisabledAnim = function () {
+    AnimationManager.prototype.getKeysDisabled = function () {
         return this.images[2];
     };
 
-    AnimationManager.prototype.CreateKeysDisabledPressedAnim = function () {
+    AnimationManager.prototype.getKeysDisabledPressed = function () {
         return this.images[3];
     };
 
