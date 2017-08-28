@@ -3,21 +3,21 @@
 define("ResourceLoader", ["EventBus"], function (EventBus) {
 
     return {
-        sounds: [],
-        images: [],
+        // sounds: [],
+        // images: [],
         loadedCount: 0,
 
         // TODO create constructor
         init: function () {
-            this.sounds = [];
-            this.images = [];
+            // this.sounds = [];
+            // this.images = [];
             this.loadedCount = 0;
 
             EventBus.bind("resource:load", function () {
 
             }, this);
         },
-
+/*
         registerImage: function (path) {
             this.images.push(path);
         },
@@ -25,14 +25,14 @@ define("ResourceLoader", ["EventBus"], function (EventBus) {
         registerSound: function (path) {
             this.sounds.push(path);
         },
-
+*/
         loadAll: function (displayProgress, allResourcesLoaded) {
             this.displayProgress = displayProgress;
             this.allResourcesLoaded = allResourcesLoaded;
-            this.loadImages();
-            this.loadSounds();
+            // this.loadImages();
+            // this.loadSounds();
         },
-
+/*
         loadImages: function () {
             function imageLoadingAborted() {
                 console.log("resource abortion");
@@ -59,7 +59,8 @@ define("ResourceLoader", ["EventBus"], function (EventBus) {
                 this.sounds[i].addEventListener('canplaythrough', this.resourceLoaded());
             }
         },
-
+*/
+        // never called now
         resourceLoaded: function () {
             this.loadedCount++;
             var totalResources = this.images.length + this.sounds.length;
@@ -67,8 +68,10 @@ define("ResourceLoader", ["EventBus"], function (EventBus) {
             if (this.loadedCount < totalResources) {
                 var progress = Math.floor((this.loadedCount * 100) / totalResources);
                 this.displayProgress(progress);
+                console.log("Something loaded:", progress);
             } else {
                 this.allResourcesLoaded();
+                console.log("Everything loaded!");
             }
         }
     };
