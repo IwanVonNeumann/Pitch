@@ -13,10 +13,6 @@ define("GameView",
               ExerciseMelody, InstrumentManager) {
 
         return Marionette.View.extend({
-            initialize: function () {
-                this.bindEventListeners();
-            },
-
             tagName: "div",
             className: "game-container",
             template: _.template(GameTemplate),
@@ -41,6 +37,10 @@ define("GameView",
                 // EventBus.trigger("exercise:set", Config.exercise);
             },
 
+            onAttach: function () {
+                this.bindEventListeners();
+            },
+
             bindEventListeners: function () {
                 // TODO go somewhere else with window events
                 window.onselectstart = function () {
@@ -49,7 +49,7 @@ define("GameView",
 
                 // var game = this.game;
 
-                if (Config.target === Target.WEB)
+                if (Config.target === Target.WEB) {
                     window.onresize = function () {
 
                         var canvas = document.getElementById("canvas");
@@ -74,6 +74,7 @@ define("GameView",
                              game.exercise.draw();
                              */
                     };
+                }
             }
         });
     }

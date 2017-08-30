@@ -8,7 +8,6 @@ define("Game",
 
         var Game = function () {
             this.ui = new GameUI(this);
-            this.resourceLoader = ResourceLoader;
             this.instrument = InstrumentManager.getInstrument(Config.instrument);
 
             if ('undefined' !== typeof SoundManagerAndroid) {
@@ -42,30 +41,6 @@ define("Game",
 
             this.exercise = ExerciseManager.getExercise(exerciseName);
             this.exercise.instrument = this.instrument;
-
-            var game = this;
-            var ui = this.ui;
-
-            // TODO move jQuery-related code to UI
-            $(".exercise-container").load(this.exercise.template, function () {
-                ui.setupExercise();
-                // TODO review calls: make events?
-                // game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
-                game.onResourcesReady();
-            });
-        };
-
-        Game.prototype.onResourcesReady = function () {
-            this.ui.removeLoader();
-
-            Constants.init();
-
-            this.exercise.init();
-            this.exercise.draw();
-        };
-
-        Game.prototype.reload = function () {
-            this.load(Config.exercise);
         };
 
         return Game;
