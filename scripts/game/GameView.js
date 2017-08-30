@@ -41,25 +41,6 @@ define("GameView",
             },
 
             bindEventListeners: function () {
-                var $document = $(document);
-
-                if (Config.target === Target.WEB) {
-                    $document.mousedown(function (e) {
-                        EventBus.trigger("exercise:mousedown", e);
-                    });
-                    $document.mouseup(function (e) {
-                        EventBus.trigger("exercise:mouseup", e);
-                    });
-
-                } else if (Config.target === Target.ANDROID) {
-                    $document.on("touchstart", function (e) {
-                        EventBus.trigger("exercise:touchdown", e);
-                    });
-                    $document("touchend", function () {
-                        EventBus.trigger("exercise:touchup");
-                    });
-                }
-
                 // TODO go somewhere else with window events
                 window.onselectstart = function () {
                     return false;

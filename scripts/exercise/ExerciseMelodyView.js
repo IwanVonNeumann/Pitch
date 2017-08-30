@@ -15,24 +15,6 @@ define("ExerciseMelodyView",
                 options = options || {};
                 this.exercise = options.exercise;
                 this.exercise.instrument = InstrumentManager.getInstrument(Config.instrument);
-
-                // TODO process events right here?
-                EventBus.bind("exercise:mousedown", function (e) {
-                    this.exercise.mouseDown(e.clientX, e.clientY);
-                }, this);
-
-                EventBus.bind("exercise:mouseup", function (e) {
-                    this.exercise.mouseUp(e.clientX, e.clientY);
-                }, this);
-
-                EventBus.bind("exercise:touchdown", function (e) {
-                    var touchPoint = e.touches[0];
-                    this.exercise.mouseDown(touchPoint.clientX, touchPoint.clientY);
-                }, this);
-
-                EventBus.bind("exercise:touchup", function () {
-                    exercise.mouseUp();
-                }, this);
             },
 
             tagName: "div",
@@ -100,11 +82,32 @@ define("ExerciseMelodyView",
             },
 
             events: {
-                "click #playbtn": "playButtonClicked"
+                "click #playbtn": "playButtonClicked",
+                "mousedown canvas": "mouseDown",
+                "mouseup canvas": "mouseUp",
+                "touchstart canvas": "touchStart",
+                "touchend canvas": "touchEnd"
             },
 
             playButtonClicked: function () {
                 this.exercise.playTask();
+            },
+
+            mouseDown: function (e) {
+                this.exercise.mouseDown(e.clientX, e.clientY);
+            },
+
+            mouseUp: function (e) {
+                this.exercise.mouseUp(e.clientX, e.clientY);
+            },
+
+            touchStart: function (e) {
+                var touchPoint = e.touches[0];
+                this.exercise.mouseDown(touchPoint.clientX, touchPoint.clientY);
+            },
+
+            touchEnd: function () {
+                this.exercise.mouseUp();
             }
         });
     }
