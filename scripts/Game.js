@@ -30,23 +30,6 @@ define("Game",
                 this.load(exerciseName)
             }, this);
 
-            EventBus.bind("exercise:mousedown", function (e) {
-                this.exercise.mouseDown(e.clientX, e.clientY);
-            }, this);
-
-            EventBus.bind("exercise:mouseup", function (e) {
-                this.exercise.mouseUp(e.clientX, e.clientY);
-            }, this);
-
-            EventBus.bind("exercise:touchdown", function (e) {
-                var touchPoint = e.touches[0];
-                this.exercise.mouseDown(touchPoint.clientX, touchPoint.clientY);
-            }, this);
-
-            EventBus.bind("exercise:touchup", function () {
-                exercise.mouseUp();
-            }, this);
-
             // TODO finish with this
             EventBus.bind("instrument:set", function (instrumentName) {
                 Config.instrument = instrumentName;
@@ -69,7 +52,6 @@ define("Game",
                 // TODO review calls: make events?
                 // game.resourceLoader.loadAll(ui.displayProgress.bind(ui), game.onResourcesReady.bind(game));
                 game.onResourcesReady();
-                ui.bindPlayButtonEvent();
             });
         };
 
@@ -80,26 +62,6 @@ define("Game",
 
             this.exercise.init();
             this.exercise.draw();
-        };
-
-        Game.prototype.loadMelody = function () {
-            this.load(Exercise.MELODY);
-        };
-
-        Game.prototype.loadIntervals = function () {
-            this.load(Exercise.INTERVALS);
-        };
-
-        Game.prototype.loadPerfect = function () {
-            this.load(Exercise.PERFECT);
-        };
-
-        Game.prototype.loadChordProgressions = function () {
-            this.load(Exercise.CHORD_PROGRESSIONS);
-        };
-
-        Game.prototype.loadChordTypes = function () {
-            this.load(Exercise.CHORD_TYPES);
         };
 
         Game.prototype.reload = function () {

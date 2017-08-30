@@ -1,7 +1,7 @@
 "use strict";
 
 // TODO process dependencies on "SoundManager" in Interval & Chord
-define("SoundManager", ["$", "Config", "Constants"], function ($, Config, Constants) {
+define("SoundManager", ["jquery", "Config", "Constants"], function ($, Config, Constants) {
 
     var SoundManager = function () {
     };
@@ -20,6 +20,7 @@ define("SoundManager", ["$", "Config", "Constants"], function ($, Config, Consta
         return typeof audio.canPlayType === "function" && audio.canPlayType("audio/ogg") !== "";
     };
 
+    // TODO load as deferred
     SoundManager.prototype.loadSounds = function (instrument) {
         var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 

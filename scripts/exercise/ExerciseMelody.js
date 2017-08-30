@@ -1,6 +1,6 @@
 "use strict";
 
-define("exerciseMelody",
+define("ExerciseMelody",
     ["Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements", "exerciseFns", "exerciseStates",
         "Answers", "TestingHelper"],
     function (Constants, Selectors, Sequence, Keyboard, KbdMeasurements, exerciseFns, exerciseStates,
@@ -17,7 +17,6 @@ define("exerciseMelody",
             current_answer: null,
             wrong_tone: null,
             kbrd: null,
-            template: "ex_Melody.html",
 
             init: function () {
                 this.num_tries = 0;
