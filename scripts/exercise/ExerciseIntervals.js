@@ -1,5 +1,5 @@
-﻿define("exerciseIntervals",
-    ["Constants", "Selectors", "Interval", "SequencePlayer", "exerciseFns", "exerciseStates", "TestingHelper",
+﻿define("ExerciseIntervals",
+    ["Constants", "Selectors", "Interval", "SequencePlayer", "ExerciseFns", "ExerciseState", "TestingHelper",
         "Answers", "KbdMeasurements", "Keyboard"],
     function (Constants, Selectors, Interval, SequencePlayer, exerciseFns, exerciseStates, TestingHelper,
               Answers, KbdMeasurements, Keyboard) {
@@ -26,7 +26,7 @@
             progress: null,
 
             root_text: null,
-            template: "ex_Intervals.html",
+            template: "ExerciseIntervals.html",
 
             init: function () {
                 this.two_intervals = false;

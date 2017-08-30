@@ -1,6 +1,6 @@
 "use strict";
 
-define("exerciseFns", ["Config", "Constants", "Target", "Selectors", "exerciseStates"],
+define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseState"],
     function (Config, Constants, Target, Selectors, exerciseStates) {
 
         return {

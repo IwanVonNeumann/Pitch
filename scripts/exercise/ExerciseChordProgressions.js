@@ -1,5 +1,5 @@
-define("exerciseChordProgressions",
-    ["Constants", "Selectors", "exerciseFns", "exerciseStates", "ChordType", "ChordSequenceType", "ChordSequence",
+define("ExerciseChordProgressions",
+    ["Constants", "Selectors", "ExerciseFns", "ExerciseState", "ChordType", "ChordSequenceType", "ChordSequence",
         "ChordSequencePlayer", "Answers", "TestingHelper"],
     function (Constants, Selectors, exerciseFns, exerciseStates, ChordType, ChordSequenceType, ChordSequence,
               ChordSequencePlayer, Answers, TestingHelper) {
@@ -18,7 +18,7 @@ define("exerciseChordProgressions",
             current_answer: null,
             chord_btns: null,
             key_selector: null,
-            template: "ex_ChordProgressions.html",
+            template: "ExerciseChordProgressions.html",
 
             init: function () {
                 // this.current_seq = new ChordSequence(this.root, 4, this.level);

@@ -1,5 +1,5 @@
-﻿define("exercisePerfect",
-    ["Constants", "RandomUtil", "Keyboard", "KbdMeasurements", "Selectors", "exerciseFns", "exerciseStates",
+﻿define("ExercisePerfect",
+    ["Constants", "RandomUtil", "Keyboard", "KbdMeasurements", "Selectors", "ExerciseFns", "ExerciseState",
         "Answers", "TestingHelper"],
     function (Constants, RandomUtil, Keyboard, KbdMeasurements, Selectors, exerciseFns, exerciseStates,
               Answers, TestingHelper) {
@@ -22,7 +22,7 @@
             keys_down: 0,
             progress: null,
             kbrd: null,
-            template: "ex_Perfect.html",
+            template: "ExercisePerfect.html",
 
             init: function () {
                 this.two_tones = false;

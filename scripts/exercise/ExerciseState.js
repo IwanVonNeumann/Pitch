@@ -1,5 +1,4 @@
-// TODO rename module
-define("exerciseStates", function () {
+define("ExerciseState", function () {
 
     return {
         pending: 0,

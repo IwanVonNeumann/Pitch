@@ -3,8 +3,8 @@
  */
 
 define("ExerciseManager",
-    ["Exercise", "ExerciseMelody", "exerciseIntervals", "exercisePerfect", "exerciseChordProgressions",
-        "exerciseChordTypes"],
+    ["Exercise", "ExerciseMelody", "ExerciseIntervals", "ExercisePerfect", "ExerciseChordProgressions",
+        "ExerciseChordTypes"],
     function (Exercise, exerciseMelody, exerciseIntervals, exercisePerfect, exerciseChordProgressions,
               exerciseChordTypes) {
 

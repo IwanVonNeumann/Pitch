@@ -1,5 +1,5 @@
-﻿define("exerciseChordTypes",
-    ["Selectors", "ChordType", "Chord", "exerciseFns", "exerciseStates", "Answers", "TestingHelper"],
+﻿define("ExerciseChordTypes",
+    ["Selectors", "ChordType", "Chord", "ExerciseFns", "ExerciseState", "Answers", "TestingHelper"],
     function (Selectors, ChordType, Chord, exerciseFns, exerciseStates, Answers, TestingHelper) {
 
         return {
@@ -18,7 +18,7 @@
             kbrd: null,
             entering_practice_mode: false,
             exiting_practice_mode: false,
-            template: "ex_ChordTypes.html",
+            template: "ExerciseChordTypes.html",
 
             init: function () {
                 this.two_chords = false;

@@ -24,8 +24,18 @@ require.config({
         "InstrumentMenuTemplate": "instrument-menu/InstrumentMenu.html",
 
         "ExerciseView": "exercise/ExerciseView",
+        "ExerciseMelody": "exercise/ExerciseMelody",
         "ExerciseMelodyTemplate": "exercise/ExerciseMelody.html",
-        "ExerciseMelody": "exercise/ExerciseMelody"
+        "ExerciseIntervals": "exercise/ExerciseIntervals",
+        "ExerciseIntervalsTemplate": "exercise/ExerciseIntervals.html",
+        "ExercisePerfect": "exercise/ExercisePerfect",
+        "ExercisePerfectTemplate": "exercise/ExercisePerfect.html",
+        "ExerciseChordProgressions": "exercise/ExerciseChordProgressions",
+        "ExerciseChordProgressionsTemplate": "exercise/ExerciseChordProgressions.html",
+        "ExerciseChordTypes": "exercise/ExerciseChordTypes",
+        "ExerciseChordTypesTemplate": "exercise/ExerciseChordTypes.html",
+        "ExerciseFns": "exercise/ExerciseFns",
+        "ExerciseState": "exercise/ExerciseState"
     },
     shim: {
         backbone: {

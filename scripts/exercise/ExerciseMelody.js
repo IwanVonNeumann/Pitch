@@ -2,7 +2,7 @@
 
 define("ExerciseMelody",
     ["text", "text!ExerciseMelodyTemplate", "Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements",
-        "exerciseFns", "exerciseStates", "Answers", "TestingHelper"],
+        "ExerciseFns", "ExerciseState", "Answers", "TestingHelper"],
     function (text, ExerciseMelodyTemplate, Constants, Selectors, Sequence, Keyboard, KbdMeasurements,
               exerciseFns, exerciseStates, Answers, TestingHelper) {
 
