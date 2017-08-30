@@ -1,10 +1,10 @@
 "use strict";
 
 define("ExerciseMelody",
-    ["Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements", "exerciseFns", "exerciseStates",
-        "Answers", "TestingHelper"],
-    function (Constants, Selectors, Sequence, Keyboard, KbdMeasurements, exerciseFns, exerciseStates,
-              Answers, TestingHelper) {
+    ["text", "text!ExerciseMelodyTemplate", "Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements",
+        "exerciseFns", "exerciseStates", "Answers", "TestingHelper"],
+    function (text, ExerciseMelodyTemplate, Constants, Selectors, Sequence, Keyboard, KbdMeasurements,
+              exerciseFns, exerciseStates, Answers, TestingHelper) {
 
         return {
             root: 0,
@@ -17,6 +17,7 @@ define("ExerciseMelody",
             current_answer: null,
             wrong_tone: null,
             kbrd: null,
+            template: ExerciseMelodyTemplate,
 
             init: function () {
                 this.num_tries = 0;

@@ -24,7 +24,6 @@ require.config({
         "InstrumentMenuTemplate": "instrument-menu/InstrumentMenu.html",
 
         "ExerciseView": "exercise/ExerciseView",
-        "ExerciseMelodyView": "exercise/ExerciseMelodyView",
         "ExerciseMelodyTemplate": "exercise/ExerciseMelody.html",
         "ExerciseMelody": "exercise/ExerciseMelody"
     },

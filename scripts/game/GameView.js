@@ -6,11 +6,11 @@
 
 define("GameView",
     ["jquery", "underscore", "backbone", "marionette", "text", "text!GameTemplate",
-        "EventBus", "ExerciseMenuView", "InstrumentMenuView", "ExerciseMelodyView", "Config", "Target", "Constants",
-        "ExerciseMelody"],
+        "ExerciseMenuView", "InstrumentMenuView", "ExerciseView", "Config", "Target", "Constants",
+        "ExerciseMelody", "InstrumentManager"],
     function ($, _, Backbone, Marionette, text, GameTemplate,
-              EventBus, ExerciseMenuView, InstrumentMenuView, ExerciseMelodyView, Config, Target, Constants,
-              ExerciseMelody) {
+              ExerciseMenuView, InstrumentMenuView, ExerciseView, Config, Target, Constants,
+              ExerciseMelody, InstrumentManager) {
 
         return Marionette.View.extend({
             initialize: function () {
@@ -31,8 +31,9 @@ define("GameView",
                 this.showChildView("exerciseMenuRegion", new ExerciseMenuView());
                 this.showChildView("instrumentMenuRegion", new InstrumentMenuView());
 
-                this.showChildView("exerciseRegion", new ExerciseMelodyView({
-                    exercise: ExerciseMelody
+                this.showChildView("exerciseRegion", new ExerciseView({
+                    exercise: ExerciseMelody,
+                    instrument: InstrumentManager.getInstrument(Config.instrument)
                 }));
 
                 // TODO verify whether this placing is correct
