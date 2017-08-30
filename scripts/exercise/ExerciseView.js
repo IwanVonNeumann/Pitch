@@ -51,15 +51,17 @@ define("ExerciseView",
             },
 
             setupCanvas: function () {
-                var exercise = (document.getElementsByClassName("exercise"))[0];
+                var $exercise = this.$el[0];
+                var $canvas = this.$el.find("#canvas");
 
-                var canvas = document.getElementById("canvas");
-                if (canvas !== null) {
-                    canvas.width = exercise.clientWidth;
-                    canvas.height = Math.floor(exercise.clientHeight * 0.5);
-                } else {
-                    Constants.scr_w = exercise.clientWidth;
-                    Constants.scr_h = exercise.clientHeight;
+                if ($canvas.length) {
+                    $canvas.attr({
+                        width: $exercise.clientWidth,
+                        height: Math.floor($exercise.clientHeight * 0.5)
+                    });
+                } else { // TODO make sure whether this is actually needed
+                    Constants.scr_w = $exercise.clientWidth;
+                    Constants.scr_h = $exercise.clientHeight;
                 }
             },
 

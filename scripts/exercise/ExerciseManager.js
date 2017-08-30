@@ -5,15 +5,15 @@
 define("ExerciseManager",
     ["Exercise", "ExerciseMelody", "ExerciseIntervals", "ExercisePerfect", "ExerciseChordProgressions",
         "ExerciseChordTypes"],
-    function (Exercise, exerciseMelody, exerciseIntervals, exercisePerfect, exerciseChordProgressions,
-              exerciseChordTypes) {
+    function (Exercise, ExerciseMelody, ExerciseIntervals, ExercisePerfect, ExerciseChordProgressions,
+              ExerciseChordTypes) {
 
         var EXERCISE = {};
-        EXERCISE[Exercise.MELODY] = exerciseMelody;
-        EXERCISE[Exercise.INTERVALS] = exerciseIntervals;
-        EXERCISE[Exercise.PERFECT] = exercisePerfect;
-        EXERCISE[Exercise.CHORD_PROGRESSIONS] = exerciseChordProgressions;
-        EXERCISE[Exercise.CHORD_TYPES] = exerciseChordTypes;
+        EXERCISE[Exercise.MELODY] = ExerciseMelody;
+        EXERCISE[Exercise.INTERVALS] = ExerciseIntervals;
+        EXERCISE[Exercise.PERFECT] = ExercisePerfect;
+        EXERCISE[Exercise.CHORD_PROGRESSIONS] = ExerciseChordProgressions;
+        EXERCISE[Exercise.CHORD_TYPES] = ExerciseChordTypes;
 
         return {
             getExercise: function (name) {
