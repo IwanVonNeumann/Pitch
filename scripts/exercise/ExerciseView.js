@@ -27,13 +27,10 @@ define("ExerciseView",
                 } else if (Config.target === Target.ANDROID) {
                     this.setupExerciseForAndroid();
                 }
-
-                this.removeStub();
             },
 
             onAttach: function () {
-                this.removeLoader(); // TODO do this normally
-
+                this.setupCanvas();
                 Constants.init();
                 this.exercise.init();
                 this.exercise.draw(); // TODO fix: keyboard drawn 3 times
@@ -53,23 +50,8 @@ define("ExerciseView",
                 this.$el.find(".playbtn").css({borderRadius: '0'});
             },
 
-            removeStub: function () {
-                this.$el.find(".stub").remove();
-            },
-
-            displayProgress: function (percent) {
-                this.$el.find(".loader").text("Loading " + percent.toString() + "%");
-            },
-
-            // TODO refactor using jQuery
-            removeLoader: function () {
+            setupCanvas: function () {
                 var exercise = (document.getElementsByClassName("exercise"))[0];
-
-                var loader = (document.getElementsByClassName("loader"));
-                if (loader.length > 0) {
-                    loader = loader[0];
-                    exercise.removeChild(loader);
-                }
 
                 var canvas = document.getElementById("canvas");
                 if (canvas !== null) {
