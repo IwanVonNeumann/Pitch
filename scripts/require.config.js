@@ -23,6 +23,12 @@ require.config({
         "InstrumentMenuView": "instrument-menu/InstrumentMenuView",
         "InstrumentMenuTemplate": "instrument-menu/InstrumentMenu.html",
 
+        "InstrumentManager": "instrument/InstrumentManager",
+        "AbstractInstrument": "instrument/AbstractInstrument",
+        "Guitar": "instrument/Guitar",
+        "Piano": "instrument/Piano",
+        "Violin": "instrument/Violin",
+
         "ExerciseView": "exercise/ExerciseView",
         "ExerciseMelody": "exercise/ExerciseMelody",
         "ExerciseMelodyTemplate": "exercise/ExerciseMelody.html",

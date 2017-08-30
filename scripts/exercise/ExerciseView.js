@@ -6,9 +6,9 @@
 
 define("ExerciseView",
     ["jquery", "underscore", "backbone", "marionette",
-        "Config", "Target", "Constants"],
+        "EventBus", "Config", "Target", "Constants", "InstrumentManager"],
     function ($, _, Backbone, Marionette,
-              Config, Target, Constants) {
+              EventBus, Config, Target, Constants, InstrumentManager) {
 
         return Marionette.View.extend({
             initialize: function (options) {
@@ -16,6 +16,10 @@ define("ExerciseView",
                 this.exercise = options.exercise; // TODO load exercise here?
                 this.exercise.instrument = options.instrument; // TODO and instrument?
                 this.template = _.template(this.exercise.template);
+
+                EventBus.bind("instrument:set", function (name) {
+                    this.exercise.instrument = InstrumentManager.getInstrument(name);
+                }, this);
             },
 
             tagName: "div",
@@ -46,8 +50,8 @@ define("ExerciseView",
                     width: "100%",
                     borderRadius: "0"
                 });
-                this.$el.find(".upper").css({borderRadius: '0'});
-                this.$el.find(".playbtn").css({borderRadius: '0'});
+                this.$el.find(".upper").css({borderRadius: "0"});
+                this.$el.find(".playbtn").css({borderRadius: "0"});
             },
 
             setupCanvas: function () {
