@@ -1,6 +1,6 @@
 "use strict";
 
-define("ImageManager", ["$", "Config", "Target"], function ($, Config, Target) {
+define("ImageManager", ["jquery", "Config", "Target"], function ($, Config, Target) {
 
     var IMAGE_DIRECTORY = {};
     IMAGE_DIRECTORY[Target.WEB] = "img/";
@@ -15,46 +15,81 @@ define("ImageManager", ["$", "Config", "Target"], function ($, Config, Target) {
         directory + 'keys_disabled_pressed.png'
     ];
 
-    var AnimationManager = function () {
+    var ImageManager = function () {
         this.images = [];
-        this.loadImages(IMAGE_PATHS);
     };
 
-    AnimationManager.prototype.loadImages = function (paths) {
-        var loadImage = this.loadImage.bind(this);
-        $.each(paths, function (i, path) {
-            loadImage(path);
-        });
+    ImageManager.prototype.loadImages = function () {
+        var paths = IMAGE_PATHS;
+        var images = this.images;
+        var deferredMap = {};
+        var deferredArray = [];
+
+        for (var i = 0; i < paths.length; i++) {
+            var deferred = new $.Deferred();
+            var path = paths[i];
+            deferredMap[path] = deferred;
+            deferredArray.push(deferred);
+
+            this.loadImage(path).then(function (image) {
+                images.push(image);
+                var src = $(image).attr("src");
+                deferredMap[src].resolve();
+            });
+        }
+
+        return $.when.apply($, deferredArray);
     };
 
-    AnimationManager.prototype.loadImage = function (path) {
-        var image = new Image();
-        image.src = path;
-        // image.onload = this.resourceLoaded.bind(this);
-        image.onerror = function () {
-            throw "Image loading error: " + path;
+    ImageManager.prototype.loadImage = function (url) {
+
+        var loadImage = function (deferred) {
+            var image = new Image();
+
+            image.onload = function () {
+                unbindEvents();
+                deferred.resolve(image);
+            };
+
+            image.onerror = function () {
+                unbindEvents();
+                deferred.reject(image);
+                throw "Image loading error: " + path;
+            };
+
+            image.onabort = function () {
+                unbindEvents();
+                deferred.reject(image);
+                throw "Image loading aborted: " + path;
+            };
+
+            function unbindEvents() {
+                image.onload = null;
+                image.onerror = null;
+                image.onabort = null;
+            }
+
+            image.src = url;
         };
-        image.onabort = function () {
-            throw "Image loading aborted: " + path;
-        };
-        this.images.push(image);
+
+        return $.Deferred(loadImage).promise();
     };
 
-    AnimationManager.prototype.getKeysActive = function () {
+    ImageManager.prototype.getKeysActive = function () {
         return this.images[0];
     };
 
-    AnimationManager.prototype.getKeysActivePressed = function () {
+    ImageManager.prototype.getKeysActivePressed = function () {
         return this.images[1];
     };
 
-    AnimationManager.prototype.getKeysDisabled = function () {
+    ImageManager.prototype.getKeysDisabled = function () {
         return this.images[2];
     };
 
-    AnimationManager.prototype.getKeysDisabledPressed = function () {
+    ImageManager.prototype.getKeysDisabledPressed = function () {
         return this.images[3];
     };
 
-    return new AnimationManager();
+    return new ImageManager();
 });
