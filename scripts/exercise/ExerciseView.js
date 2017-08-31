@@ -18,6 +18,7 @@ define("ExerciseView",
                 this.template = _.template(this.exercise.template);
 
                 EventBus.bind("instrument:set", function (name) {
+                    Config.instrument = name;
                     this.exercise.instrument = InstrumentManager.getInstrument(name);
                 }, this);
             },

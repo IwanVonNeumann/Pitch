@@ -6,13 +6,20 @@
 
 define("GameView",
     ["jquery", "underscore", "backbone", "marionette", "text", "text!GameTemplate",
-        "ExerciseMenuView", "InstrumentMenuView", "ExerciseView", "Config", "Target", "Constants",
-        "ExerciseMelody", "InstrumentManager"],
+        "EventBus", "ExerciseMenuView", "InstrumentMenuView", "ExerciseView", "Config", "Target", "Constants",
+        "ExerciseMelody", "ExerciseManager", "InstrumentManager"],
     function ($, _, Backbone, Marionette, text, GameTemplate,
-              ExerciseMenuView, InstrumentMenuView, ExerciseView, Config, Target, Constants,
-              ExerciseMelody, InstrumentManager) {
+              EventBus, ExerciseMenuView, InstrumentMenuView, ExerciseView, Config, Target, Constants,
+              ExerciseMelody, ExerciseManager, InstrumentManager) {
 
         return Marionette.View.extend({
+            initialize: function () {
+                EventBus.bind("exercise:set", function (name) {
+                    Config.exercise = name;
+                    this.loadExercise()
+                }, this);
+            },
+
             tagName: "div",
             className: "game-container",
             template: _.template(GameTemplate),
@@ -26,11 +33,7 @@ define("GameView",
             onRender: function () {
                 this.showChildView("exerciseMenuRegion", new ExerciseMenuView());
                 this.showChildView("instrumentMenuRegion", new InstrumentMenuView());
-
-                this.showChildView("exerciseRegion", new ExerciseView({
-                    exercise: ExerciseMelody,
-                    instrument: InstrumentManager.getInstrument(Config.instrument)
-                }));
+                this.loadExercise();
 
                 // TODO verify whether this placing is correct
                 // EventBus.trigger("instrument:set", Config.instrument);
@@ -39,6 +42,13 @@ define("GameView",
 
             onAttach: function () {
                 this.bindEventListeners();
+            },
+
+            loadExercise: function () {
+                this.showChildView("exerciseRegion", new ExerciseView({
+                    exercise: ExerciseManager.getExercise(Config.exercise),
+                    instrument: InstrumentManager.getInstrument(Config.instrument)
+                }));
             },
 
             bindEventListeners: function () {

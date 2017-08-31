@@ -41,7 +41,8 @@ require.config({
         "ExerciseChordTypes": "exercise/ExerciseChordTypes",
         "ExerciseChordTypesTemplate": "exercise/ExerciseChordTypes.html",
         "ExerciseFns": "exercise/ExerciseFns",
-        "ExerciseState": "exercise/ExerciseState"
+        "ExerciseState": "exercise/ExerciseState",
+        "ExerciseManager": "exercise/ExerciseManager"
     },
     shim: {
         backbone: {
