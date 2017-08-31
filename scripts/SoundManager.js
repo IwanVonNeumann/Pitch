@@ -24,8 +24,7 @@ define("SoundManager", ["jquery", "Config", "Constants"], function ($, Config, C
     SoundManager.prototype.loadSounds = function (instrument) {
         var ext = this.canPlayOGG() ? ".ogg" : ".mp3";
 
-        var NOTES_PER_OCTAVE = 12;
-        var notesTotal = Constants.num_octaves * NOTES_PER_OCTAVE;
+        var notesTotal = Constants.num_octaves * Constants.num_tones_in_octave;
 
         var sounds = [];
 
