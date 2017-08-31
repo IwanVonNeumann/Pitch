@@ -1,9 +1,9 @@
 "use strict";
 
 define("ExerciseMelody",
-    ["text", "text!ExerciseMelodyTemplate", "Constants", "Selectors", "Sequence", "Keyboard", "KbdMeasurements",
+    ["text", "text!ExerciseMelodyTemplate", "Constants", "Sequence", "Keyboard", "KbdMeasurements",
         "ExerciseFns", "ExerciseState", "Answers", "TestingHelper"],
-    function (text, ExerciseMelodyTemplate, Constants, Selectors, Sequence, Keyboard, KbdMeasurements,
+    function (text, ExerciseMelodyTemplate, Constants, Sequence, Keyboard, KbdMeasurements,
               exerciseFns, ExerciseState, Answers, TestingHelper) {
 
         return {
@@ -23,7 +23,6 @@ define("ExerciseMelody",
                 this.num_tries = 0;
                 this.root = 0;
                 this.length = 5;
-                this.selectors = new Selectors(this);
                 this.kbrd = new Keyboard(false);
 
                 exerciseFns.init(this);
@@ -36,9 +35,18 @@ define("ExerciseMelody",
                 return 'exercisemelody';
             },
 
+            setState: function (state) {
+                exerciseFns.setState(this, state);
+                this.view.updateLevel();
+            },
+
+            enableKeySelection: function (b) {
+                this.view.enableKeySelection(b);
+            },
+
             setRoot: function (i_root) {
                 this.root = i_root;
-                exerciseFns.setState(this, ExerciseState.PENDING);
+                this.setState(ExerciseState.PENDING);
             },
 
             getRoot: function () {
@@ -47,8 +55,7 @@ define("ExerciseMelody",
 
             setLevel: function (i_lvl) {
                 this.level = i_lvl;
-
-                exerciseFns.setState(this, ExerciseState.PENDING);
+                this.setState(ExerciseState.PENDING);
             },
 
             getLevelName: function () {
@@ -64,11 +71,11 @@ define("ExerciseMelody",
 
             playTask: function () {
                 if (this.state === ExerciseState.ANSWERED)
-                    exerciseFns.setState(this, ExerciseState.PENDING);
+                    this.setState(ExerciseState.PENDING);
 
                 if (this.state === ExerciseState.PENDING || this.state === ExerciseState.LEVEL_COMPLETED || this.state === ExerciseState.GAME_OVER) {
                     this.newTask();
-                    exerciseFns.setState(this, ExerciseState.WAITING);
+                    this.setState(ExerciseState.WAITING);
                 }
 
                 this.instrument.playSequence(this.current_seq);
@@ -103,7 +110,7 @@ define("ExerciseMelody",
                 if (this.wrong_tone === null)
                     this.current_answer.add(key);
 
-                exerciseFns.setState(this, ExerciseState.WAITING);
+                this.setState(ExerciseState.WAITING);
 
                 if (this.current_answer.len() !== this.current_seq.len())
                     return;
@@ -112,7 +119,7 @@ define("ExerciseMelody",
                     ++this.correct_in_row[this.getLevel()];
                 exerciseFns.updateProgress(this);
 
-                exerciseFns.setState(this, ExerciseState.ANSWERED);
+                this.setState(ExerciseState.ANSWERED);
                 exerciseFns.checkLevelComplete(this);
             },
 

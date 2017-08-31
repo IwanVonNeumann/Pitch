@@ -15,6 +15,7 @@ define("ExerciseView",
                 options = options || {};
                 this.exercise = options.exercise; // TODO load exercise here?
                 this.exercise.instrument = options.instrument; // TODO and instrument?
+                this.exercise.view = this;
                 this.template = _.template(this.exercise.template);
 
                 EventBus.bind("instrument:set", function (name) {
@@ -39,6 +40,9 @@ define("ExerciseView",
                 Constants.init();
                 this.exercise.init();
                 this.exercise.draw(); // TODO fix: keyboard drawn 3 times
+
+                this.updateKey();
+                this.updateLevel();
             },
 
             setupExerciseForWeb: function () {
@@ -75,7 +79,11 @@ define("ExerciseView",
                 "mousedown canvas": "mouseDown",
                 "mouseup canvas": "mouseUp",
                 "touchstart canvas": "touchStart",
-                "touchend canvas": "touchEnd"
+                "touchend canvas": "touchEnd",
+                "click #leveldec": "decreaseLevel",
+                "click #levelinc": "increaseLevel",
+                "click #keydec": "decreaseKey",
+                "click #keyinc": "increaseKey"
             },
 
             playButtonClicked: function () {
@@ -97,6 +105,51 @@ define("ExerciseView",
 
             touchEnd: function () {
                 this.exercise.mouseUp();
+            },
+
+            decreaseLevel: function () {
+                this.updateLevel();
+                this.exercise.setLevel((this.exercise.getLevel() + this.exercise.getNumLevels() - 1) % this.exercise.getNumLevels());
+                this.exercise.draw();
+            },
+
+            increaseLevel: function () {
+                this.updateLevel();
+                this.exercise.setLevel((this.exercise.getLevel() + 1) % this.exercise.getNumLevels());
+                this.exercise.draw();
+            },
+
+            updateLevel: function () {
+                this.$el.find("#levelname").text(this.exercise.getLevelName());
+                this.$el.find("#levelselectorvalue").text(this.exercise.getLevel() + 1);
+            },
+
+            decreaseKey: function () {
+                this.exercise.setRoot((this.exercise.getRoot() + Constants.tone_names.length - 1) % Constants.tone_names.length);
+                this.exercise.draw();
+                this.updateKey();
+            },
+
+            increaseKey: function () {
+                this.exercise.setRoot((this.exercise.getRoot() + 1) % Constants.tone_names.length);
+                this.exercise.draw();
+                this.updateKey();
+            },
+
+            updateKey: function () {
+                this.$el.find("#keyselectorvalue").text(Constants.tone_names[this.exercise.getRoot()]);
+            },
+
+            enableKeySelection: function (enable) {
+                this.$el.find("#keyinc, #keydec").attr({
+                   disabled: !enable
+                });
+            },
+
+            enableLevelSelection: function (enable) {
+                this.$el.find("#levelinc, #leveldec").attr({
+                    disabled: !enable
+                });
             }
         });
     }

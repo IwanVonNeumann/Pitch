@@ -5,7 +5,7 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
 
         return {
             init: function (ex) {
-                this.selectors = ex.selectors;
+                this.exercise = ex;
                 this.initHiscores(ex);
                 this.resetState(ex);
             },
@@ -114,8 +114,6 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
                 btn.textContent = this.playOrRepeat(ex) ? "Play" : "Repeat";
                 btn.disabled = false;
 
-                this.selectors.updateLevel();
-
                 var text = null;
                 switch (ex.state) {
                     case ExerciseState.PENDING:
@@ -144,8 +142,8 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
                         break;
                 }
 
+                this.exercise.enableKeySelection(ex.state === ExerciseState.PENDING || ex.state === ExerciseState.ANSWERED);
 
-                this.selectors.enableKeySelection(ex.state === ExerciseState.PENDING || ex.state === ExerciseState.ANSWERED);
                 var textfield = document.getElementsByClassName("infozone");
                 textfield[0].innerHTML = text;
                 ex.draw();
