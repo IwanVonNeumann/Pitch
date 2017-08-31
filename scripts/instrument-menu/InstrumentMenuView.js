@@ -6,8 +6,8 @@
 
 define("InstrumentMenuView",
     ["jquery", "underscore", "backbone", "marionette",
-        "text", "text!InstrumentMenuTemplate", "EventBus", "Instrument"],
-    function ($, _, Backbone, Marionette, text, InstrumentMenuTemplate, EventBus, Instrument) {
+        "text", "text!InstrumentMenuTemplate", "EventBus", "Config", "Instrument"],
+    function ($, _, Backbone, Marionette, text, InstrumentMenuTemplate, EventBus, Config, Instrument) {
 
         return Marionette.View.extend({
 
@@ -20,6 +20,10 @@ define("InstrumentMenuView",
             tagName: "ul",
             className: "instrument-menu",
             template: _.template(InstrumentMenuTemplate),
+
+            onRender: function () {
+                this.selectInstrument(Config.instrument);
+            },
 
             events: {
                 "click .js-select-ins-piano": "selectInsPiano",

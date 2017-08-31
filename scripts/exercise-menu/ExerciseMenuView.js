@@ -6,8 +6,8 @@
 
 define("ExerciseMenuView",
     ["jquery", "underscore", "backbone", "marionette",
-        "text", "text!ExerciseMenuTemplate", "EventBus", "Exercise"],
-    function ($, _, Backbone, Marionette, text, ExerciseMenuTemplate, EventBus, Exercise) {
+        "text", "text!ExerciseMenuTemplate", "EventBus", "Config", "Exercise"],
+    function ($, _, Backbone, Marionette, text, ExerciseMenuTemplate, EventBus, Config, Exercise) {
 
         return Marionette.View.extend({
 
@@ -20,6 +20,10 @@ define("ExerciseMenuView",
             tagName: "ul",
             className: "exercise-menu",
             template: _.template(ExerciseMenuTemplate),
+
+            onRender: function () {
+                this.selectExercise(Config.exercise);
+            },
 
             events: {
                 "click .js-select-ex-melody": "selectExMelodyClick",

@@ -34,10 +34,6 @@ define("GameView",
                 this.showChildView("exerciseMenuRegion", new ExerciseMenuView());
                 this.showChildView("instrumentMenuRegion", new InstrumentMenuView());
                 this.loadExercise();
-
-                // TODO verify whether this placing is correct
-                // EventBus.trigger("instrument:set", Config.instrument);
-                // EventBus.trigger("exercise:set", Config.exercise);
             },
 
             onAttach: function () {
