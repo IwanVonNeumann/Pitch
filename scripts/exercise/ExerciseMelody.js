@@ -23,12 +23,10 @@ define("ExerciseMelody",
                 this.num_tries = 0;
                 this.root = 0;
                 this.length = 5;
-                Selectors.init(this);
+                this.selectors = new Selectors(this);
                 this.kbrd = new Keyboard(false);
 
-                exerciseFns.initHiscores(this);
-                exerciseFns.resetState(this);
-
+                exerciseFns.init(this);
 
                 // SequencePlayer.playing = false; TODO remove
                 this.setLevel(0);

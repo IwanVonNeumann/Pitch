@@ -1,9 +1,15 @@
 "use strict";
 
-define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseState"],
-    function (Config, Constants, Target, Selectors, exerciseStates) {
+define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
+    function (Config, Constants, Target, ExerciseState) {
 
         return {
+            init: function (ex) {
+                this.selectors = ex.selectors;
+                this.initHiscores(ex);
+                this.resetState(ex);
+            },
+
             initHiscores: function (ex) {
                 ex.hiscores = new Array(ex.getNumLevels());
                 for (var ind = 0; ind < ex.hiscores.length; ++ind)
@@ -26,11 +32,11 @@ define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseSt
             },
 
             resetState: function (ex) {
-                this.setState(ex, exerciseStates.pending);
+                this.setState(ex, ExerciseState.pending);
             },
 
             clickedAnywhere: function (ex) {
-                if (ex.state === exerciseStates.answered || ex.state === exerciseStates.level_complete || ex.state === exerciseStates.game_over)
+                if (ex.state === ExerciseState.answered || ex.state === ExerciseState.level_complete || ex.state === ExerciseState.game_over)
                     this.resetState(ex);
             },
 
@@ -84,10 +90,10 @@ define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseSt
 
                 if (ex.level < ex.getNumLevels() - 1) {
                     ++ex.level;
-                    this.setState(ex, exerciseStates.level_complete);
+                    this.setState(ex, ExerciseState.level_complete);
                 }
                 else
-                    this.setState(ex, exerciseStates.game_over);
+                    this.setState(ex, ExerciseState.game_over);
             },
 
             getCorrectInRow: function (ex) {
@@ -99,7 +105,7 @@ define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseSt
             },
 
             playOrRepeat: function (ex) {
-                return ex.state !== exerciseStates.waiting && ex.state !== exerciseStates.waiting0 && ex.state !== exerciseStates.waiting1;
+                return ex.state !== ExerciseState.waiting && ex.state !== ExerciseState.waiting0 && ex.state !== ExerciseState.waiting1;
             },
 
             setState: function (ex, i_state) {
@@ -108,31 +114,29 @@ define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseSt
                 btn.textContent = this.playOrRepeat(ex) ? "Play" : "Repeat";
                 btn.disabled = false;
 
-                Selectors.updateLevel();
-
+                this.selectors.updateLevel();
 
                 var text = null;
                 switch (ex.state) {
-                    case exerciseStates.pending: {
+                    case ExerciseState.pending:
                         text = ex.getPendingText();
                         break;
-                    }
-                    case exerciseStates.waiting:
+                    case ExerciseState.waiting:
                         text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                         break;
-                    case exerciseStates.waiting0:
+                    case ExerciseState.waiting0:
                         text = ex.getPromptText();
                         break;
-                    case exerciseStates.waiting1:
+                    case ExerciseState.waiting1:
                         text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                         break;
-                    case exerciseStates.answered:
+                    case ExerciseState.answered:
                         text = ex.getAnsweredText();
                         break;
-                    case exerciseStates.level_complete:
+                    case ExerciseState.level_complete:
                         text = ex.getLevelCompleteText();
                         break;
-                    case exerciseStates.game_over:
+                    case ExerciseState.game_over:
                         text = ex.getGameOverText();
                         break;
                     default:
@@ -141,7 +145,7 @@ define("ExerciseFns", ["Config", "Constants", "Target", "Selectors", "ExerciseSt
                 }
 
 
-                Selectors.enableKeySelection(ex.state === exerciseStates.pending || ex.state === exerciseStates.answered);
+                this.selectors.enableKeySelection(ex.state === ExerciseState.pending || ex.state === ExerciseState.answered);
                 var textfield = document.getElementsByClassName("infozone");
                 textfield[0].innerHTML = text;
                 ex.draw();
