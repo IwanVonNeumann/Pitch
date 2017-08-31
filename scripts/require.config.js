@@ -41,7 +41,6 @@ require.config({
         "ExerciseChordTypes": "exercise/ExerciseChordTypes",
         "ExerciseChordTypesTemplate": "exercise/ExerciseChordTypes.html",
         "ExerciseFns": "exercise/ExerciseFns",
-        "ExerciseState": "exercise/ExerciseState",
         "ExerciseManager": "exercise/ExerciseManager"
     },
     shim: {
@@ -55,7 +54,7 @@ require.config({
         }
     },
     bundles: {
-        "enum": ["Instrument", "Target", "Exercise"]
+        "enum": ["Instrument", "Target", "Exercise", "ExerciseState"]
     }
 });
 

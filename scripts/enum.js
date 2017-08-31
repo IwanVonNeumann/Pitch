@@ -26,3 +26,15 @@ define("Exercise", function () {
         CHORD_TYPES: "CHORD_TYPES"
     };
 });
+
+define("ExerciseState", function () {
+    return {
+        PENDING: "PENDING",
+        WAITING: "WAITING",
+        WAITING_0: "WAITING_0",
+        WAITING_1: "WAITING_1",
+        ANSWERED: "ANSWERED",
+        LEVEL_COMPLETED: "LEVEL_COMPLETED",
+        GAME_OVER: "GAME_OVER"
+    };
+});

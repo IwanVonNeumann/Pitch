@@ -1,11 +1,11 @@
 ﻿define("ExercisePerfect",
     ["Constants", "RandomUtil", "Keyboard", "KbdMeasurements", "Selectors", "ExerciseFns", "ExerciseState",
         "Answers", "TestingHelper"],
-    function (Constants, RandomUtil, Keyboard, KbdMeasurements, Selectors, exerciseFns, exerciseStates,
+    function (Constants, RandomUtil, Keyboard, KbdMeasurements, Selectors, exerciseFns, ExerciseState,
               Answers, TestingHelper) {
 
         return {
-            state: 0,
+            state: ExerciseState.PENDING,
             level: 0,
             two_tones: null,
 
@@ -53,7 +53,7 @@
                     this.correct_in_row[this.level] = 0;
                 }
 
-                exerciseFns.setState(this, exerciseStates.pending);
+                exerciseFns.setState(this, ExerciseState.PENDING);
             },
 
             getLevel: function () {
@@ -142,17 +142,17 @@
             },
 
             clickedAnywhere: function () {
-                if (this.state === exerciseStates.answered || this.state === exerciseStates.level_complete)
-                    exerciseFns.setState(this, exerciseStates.pending);
+                if (this.state === ExerciseState.ANSWERED || this.state === ExerciseState.LEVEL_COMPLETED)
+                    exerciseFns.setState(this, ExerciseState.PENDING);
             },
 
             playTask: function () {
-                if (this.state === exerciseStates.answered)
-                    exerciseFns.setState(this, exerciseStates.pending);
+                if (this.state === ExerciseState.ANSWERED)
+                    exerciseFns.setState(this, ExerciseState.PENDING);
 
-                if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
+                if (this.state === ExerciseState.PENDING || this.state === ExerciseState.LEVEL_COMPLETED || this.state === ExerciseState.GAME_OVER) {
                     this.newTask();
-                    exerciseFns.setState(this, exerciseStates.waiting);
+                    exerciseFns.setState(this, ExerciseState.WAITING);
                 }
 
                 this.game.soundManager.playSound(this.current_tone);
@@ -178,7 +178,7 @@
 
                 this.game.soundManager.playSound(key_num);
 
-                if (this.state === exerciseStates.waiting && this.isActive(key_num)) {
+                if (this.state === ExerciseState.WAITING && this.isActive(key_num)) {
                     ++this.num_tries;
                     this.current_answer = key_num;
                     var correct = TestingHelper.always_true ? true : ( this.current_answer === this.current_tone);// % Constants.num_tones_in_octave);
@@ -205,10 +205,10 @@
                             this.two_tones = false;
                             this.exiting_practice_mode = true;
                         }
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                     }
                     else {
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                         exerciseFns.checkLevelComplete(this);
                     }
                 }

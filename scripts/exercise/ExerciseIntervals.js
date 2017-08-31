@@ -1,11 +1,11 @@
 ﻿define("ExerciseIntervals",
     ["Constants", "Selectors", "Interval", "SequencePlayer", "ExerciseFns", "ExerciseState", "TestingHelper",
         "Answers", "KbdMeasurements", "Keyboard"],
-    function (Constants, Selectors, Interval, SequencePlayer, exerciseFns, exerciseStates, TestingHelper,
+    function (Constants, Selectors, Interval, SequencePlayer, exerciseFns, ExerciseState, TestingHelper,
               Answers, KbdMeasurements, Keyboard) {
 
         return {
-            state: 0,
+            state: ExerciseState.PENDING,
             two_intervals: null,
             correct_in_row: null,
             level: 0,
@@ -56,7 +56,7 @@
                     this.correct_in_row[this.level] = 0;
                 }
 
-                exerciseFns.setState(this, exerciseStates.pending);
+                exerciseFns.setState(this, ExerciseState.PENDING);
             },
 
             getLevel: function () {
@@ -110,12 +110,12 @@
             },
 
             playTask: function () {
-                if (this.state === exerciseStates.answered)
-                    exerciseFns.setState(this, exerciseStates.pending);
+                if (this.state === ExerciseState.ANSWERED)
+                    exerciseFns.setState(this, ExerciseState.PENDING);
 
-                if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
+                if (this.state === ExerciseState.PENDING || this.state === ExerciseState.LEVEL_COMPLETED || this.state === ExerciseState.GAME_OVER) {
                     this.newTask();
-                    exerciseFns.setState(this, exerciseStates.waiting0);
+                    exerciseFns.setState(this, ExerciseState.WAITING_0);
                 }
 
                 this.current_interval.play();
@@ -126,7 +126,7 @@
                 if (this.getLevel() === this.getNumLevels())
                     return true;
 
-                if (this.state === exerciseStates.pending)
+                if (this.state === ExerciseState.PENDING)
                     return false;
 
                 var root = this.current_interval.tone0;
@@ -151,17 +151,17 @@
 
                 this.game.soundManager.playSound(key_num);
 
-                if (this.state === exerciseStates.waiting0 && this.isActive(key_num)) {
+                if (this.state === ExerciseState.WAITING_0 && this.isActive(key_num)) {
                     if (key_num !== this.current_interval.tone0)
                         return;
 
                     ++this.num_tries;
                     this.current_answer.tone0 = key_num;
-                    exerciseFns.setState(this, exerciseStates.waiting1);
+                    exerciseFns.setState(this, ExerciseState.WAITING_1);
                     return;
                 }
 
-                if (this.state === exerciseStates.waiting1 && this.isActive(key_num)) {
+                if (this.state === ExerciseState.WAITING_1 && this.isActive(key_num)) {
                     if (key_num === this.current_interval.tone0)
                         return;
 
@@ -191,10 +191,10 @@
                             this.two_intervals = false;
                             this.exiting_practice_mode = true;
                         }
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                     }
                     else {
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                         exerciseFns.checkLevelComplete(this);
                     }
 
@@ -227,7 +227,7 @@
 
             getPromptText: function () {
                 var s = Constants.toneName(this.current_interval.tone0) + " - ?";
-                if (this.state === exerciseStates.waiting0)
+                if (this.state === ExerciseState.WAITING_0)
                     s += "<br> Play the two tones on the keyboard.";
                 return s;
             },
@@ -310,7 +310,7 @@
                 var key_states = this.getKeyStates();
 
                 this.kbrd.draw(keyboard_x, y, key_states);
-                if (this.state === exerciseStates.waiting0 || this.state === exerciseStates.waiting1) {
+                if (this.state === ExerciseState.WAITING_0 || this.state === ExerciseState.WAITING_1) {
                     this.kbrd.subscribeKey(this.current_interval.tone0, this.getKeyboardFocusX());
                 } else {
                     this.kbrd.hideSubscribeKey();

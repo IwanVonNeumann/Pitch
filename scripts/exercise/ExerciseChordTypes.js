@@ -1,9 +1,9 @@
 ﻿define("ExerciseChordTypes",
     ["Selectors", "ChordType", "Chord", "ExerciseFns", "ExerciseState", "Answers", "TestingHelper"],
-    function (Selectors, ChordType, Chord, exerciseFns, exerciseStates, Answers, TestingHelper) {
+    function (Selectors, ChordType, Chord, exerciseFns, ExerciseState, Answers, TestingHelper) {
 
         return {
-            state: 0,
+            state: ExerciseState.PENDING,
             two_chords: null,
             correct_in_row: null,
             level: 0,
@@ -60,7 +60,7 @@
                     this.correct_in_row[this.level] = 0;
                 }
 
-                exerciseFns.setState(this, exerciseStates.pending);
+                exerciseFns.setState(this, ExerciseState.PENDING);
 
                 this.updateBtnEnabling();
             },
@@ -77,12 +77,12 @@
             },
 
             playTask: function () {
-                if (this.state === exerciseStates.answered)
-                    exerciseFns.setState(this, exerciseStates.pending);
+                if (this.state === ExerciseState.ANSWERED)
+                    exerciseFns.setState(this, ExerciseState.PENDING);
 
-                if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
+                if (this.state === ExerciseState.PENDING || this.state === ExerciseState.LEVEL_COMPLETED || this.state === ExerciseState.GAME_OVER) {
                     this.newTask();
-                    exerciseFns.setState(this, exerciseStates.waiting);
+                    exerciseFns.setState(this, ExerciseState.WAITING);
                 }
 
                 this.current_chord.play();
@@ -103,7 +103,7 @@
                 var chord = new Chord(this.current_chord.root, this.current_chord.root, ind);
                 chord.play();
                 //   if (this.chord_btns[i].isEnabled() && this.chord_btns[i].hitTestPoint(x, y))
-                if (this.state === exerciseStates.waiting) {
+                if (this.state === ExerciseState.WAITING) {
                     this.current_answer = chord;
 
                     var correct = TestingHelper.always_true ? true : (this.current_answer.type === this.current_chord.type);
@@ -129,10 +129,10 @@
                             this.two_chords = false;
                             this.exiting_practice_mode = true;
                         }
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                     }
                     else {
-                        exerciseFns.setState(this, exerciseStates.answered);
+                        exerciseFns.setState(this, ExerciseState.ANSWERED);
                         exerciseFns.checkLevelComplete(this);
                     }
 

@@ -32,11 +32,11 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
             },
 
             resetState: function (ex) {
-                this.setState(ex, ExerciseState.pending);
+                this.setState(ex, ExerciseState.PENDING);
             },
 
             clickedAnywhere: function (ex) {
-                if (ex.state === ExerciseState.answered || ex.state === ExerciseState.level_complete || ex.state === ExerciseState.game_over)
+                if (ex.state === ExerciseState.ANSWERED || ex.state === ExerciseState.LEVEL_COMPLETED || ex.state === ExerciseState.GAME_OVER)
                     this.resetState(ex);
             },
 
@@ -90,10 +90,10 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
 
                 if (ex.level < ex.getNumLevels() - 1) {
                     ++ex.level;
-                    this.setState(ex, ExerciseState.level_complete);
+                    this.setState(ex, ExerciseState.LEVEL_COMPLETED);
                 }
                 else
-                    this.setState(ex, ExerciseState.game_over);
+                    this.setState(ex, ExerciseState.GAME_OVER);
             },
 
             getCorrectInRow: function (ex) {
@@ -105,7 +105,7 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
             },
 
             playOrRepeat: function (ex) {
-                return ex.state !== ExerciseState.waiting && ex.state !== ExerciseState.waiting0 && ex.state !== ExerciseState.waiting1;
+                return ex.state !== ExerciseState.WAITING && ex.state !== ExerciseState.WAITING_0 && ex.state !== ExerciseState.WAITING_1;
             },
 
             setState: function (ex, i_state) {
@@ -118,25 +118,25 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
 
                 var text = null;
                 switch (ex.state) {
-                    case ExerciseState.pending:
+                    case ExerciseState.PENDING:
                         text = ex.getPendingText();
                         break;
-                    case ExerciseState.waiting:
+                    case ExerciseState.WAITING:
                         text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                         break;
-                    case ExerciseState.waiting0:
+                    case ExerciseState.WAITING_0:
                         text = ex.getPromptText();
                         break;
-                    case ExerciseState.waiting1:
+                    case ExerciseState.WAITING_1:
                         text = ex.getPromptText() + "<br>" + ex.getAnswerText();
                         break;
-                    case ExerciseState.answered:
+                    case ExerciseState.ANSWERED:
                         text = ex.getAnsweredText();
                         break;
-                    case ExerciseState.level_complete:
+                    case ExerciseState.LEVEL_COMPLETED:
                         text = ex.getLevelCompleteText();
                         break;
-                    case ExerciseState.game_over:
+                    case ExerciseState.GAME_OVER:
                         text = ex.getGameOverText();
                         break;
                     default:
@@ -145,7 +145,7 @@ define("ExerciseFns", ["Config", "Constants", "Target", "ExerciseState"],
                 }
 
 
-                this.selectors.enableKeySelection(ex.state === ExerciseState.pending || ex.state === ExerciseState.answered);
+                this.selectors.enableKeySelection(ex.state === ExerciseState.PENDING || ex.state === ExerciseState.ANSWERED);
                 var textfield = document.getElementsByClassName("infozone");
                 textfield[0].innerHTML = text;
                 ex.draw();

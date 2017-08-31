@@ -1,11 +1,11 @@
 define("ExerciseChordProgressions",
     ["Constants", "Selectors", "ExerciseFns", "ExerciseState", "ChordType", "ChordSequenceType", "ChordSequence",
         "ChordSequencePlayer", "Answers", "TestingHelper"],
-    function (Constants, Selectors, exerciseFns, exerciseStates, ChordType, ChordSequenceType, ChordSequence,
+    function (Constants, Selectors, exerciseFns, ExerciseState, ChordType, ChordSequenceType, ChordSequence,
               ChordSequencePlayer, Answers, TestingHelper) {
 
         return {
-            state: 0,
+            state: ExerciseState.PENDING,
             level: 0,
             correct_in_row: 0,
             mistaken: 0,
@@ -128,7 +128,7 @@ define("ExerciseChordProgressions",
             setLevel: function (i_lvl) {
                 this.level = i_lvl;
                 this.resetButtonLabels();
-                exerciseFns.setState(this, exerciseStates.pending);
+                exerciseFns.setState(this, ExerciseState.PENDING);
             },
 
             newTask: function () {
@@ -139,12 +139,12 @@ define("ExerciseChordProgressions",
             },
 
             playTask: function () {
-                if (this.state === exerciseStates.answered)
-                    exerciseFns.setState(this, exerciseStates.pending);
+                if (this.state === ExerciseState.ANSWERED)
+                    exerciseFns.setState(this, ExerciseState.PENDING);
 
-                if (this.state === exerciseStates.pending || this.state === exerciseStates.level_complete || this.state === exerciseStates.game_over) {
+                if (this.state === ExerciseState.PENDING || this.state === ExerciseState.LEVEL_COMPLETED || this.state === ExerciseState.GAME_OVER) {
                     this.newTask();
-                    exerciseFns.setState(this, exerciseStates.waiting);
+                    exerciseFns.setState(this, ExerciseState.WAITING);
                 }
 
                 this.current_seq.play();
@@ -180,7 +180,7 @@ define("ExerciseChordProgressions",
                 var chrd = ChordSequenceType.createChord(this.current_seq.tone0, chn, this.root);
                 chrd.play();
 
-                if (this.state !== exerciseStates.waiting)
+                if (this.state !== ExerciseState.WAITING)
                     return;
 
                 ++this.num_tries;
@@ -195,7 +195,7 @@ define("ExerciseChordProgressions",
                     this.wrong_chord = null;
                 }
 
-                exerciseFns.setState(this, exerciseStates.waiting);
+                exerciseFns.setState(this, ExerciseState.WAITING);
 
 
                 if (this.current_answer.len() !== this.current_seq.len())
@@ -205,7 +205,7 @@ define("ExerciseChordProgressions",
                     ++this.correct_in_row[this.level];
 
                 exerciseFns.updateProgress(this);
-                exerciseFns.setState(this, exerciseStates.answered);
+                exerciseFns.setState(this, ExerciseState.ANSWERED);
                 exerciseFns.checkLevelComplete(this);
             },
 
@@ -318,7 +318,7 @@ define("ExerciseChordProgressions",
             },
 
             playOrRepeat: function () {
-                return !(this.state === exerciseStates.waiting);
+                return !(this.state === ExerciseState.WAITING);
             }
         };
 
